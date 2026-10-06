@@ -52,6 +52,7 @@
   <button type="button" role="tab" id="t-timp" aria-controls="p-timp" data-tab="timp" data-i18n="tabTime"></button>
   <button type="button" role="tab" id="t-data" aria-controls="p-data" data-tab="data" data-i18n="tabDate"></button>
   <button type="button" role="tab" id="t-calendar" aria-controls="p-calendar" data-tab="calendar" data-i18n="tabCal"></button>
+  <button type="button" role="tab" id="t-zodiac" aria-controls="p-zodiac" data-tab="zodiac" data-i18n="tabZod"></button>
   <button type="button" role="tab" id="t-convertor" aria-controls="p-convertor" data-tab="convertor" data-i18n="tabConv"></button>
 </nav>
 
@@ -113,7 +114,10 @@
   <div class="months" id="cal-months"></div>
   <p class="legend" id="cal-legend" style="margin:12px 0 0"></p>
 </section>
-<section id="celsec" class="noprint" aria-labelledby="celH" style="margin-top:44px">
+</div>
+
+<div class="panel" id="p-zodiac" role="tabpanel" aria-labelledby="t-zodiac" hidden>
+<section id="celsec" class="noprint" aria-labelledby="celH">
   <h2 id="celH" style="font:400 2rem/1.1 var(--f-display);margin:0 0 6px" data-i18n="celH"></h2>
   <p class="note" style="margin-bottom:14px" data-i18n="celP"></p>
   <div class="cal-ctl">

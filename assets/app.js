@@ -296,7 +296,7 @@ ro: {
  celGap: (z, c, same) => same ? `Aici zodia și constelația poartă același nume.` : `Zodia (${z}) și constelația (${c}) diferă: zodiacul modern își numără sectoarele de la echinocțiul de primăvară, iar constelațiile sunt grupuri reale de stele, de lățimi inegale.`,
  celAns: (g, z, za, zb, c, ca, cb, same, cusp, oph) => `<div><small>Semnul tău în zodiacul tradițional</small><b><i>${g}</i>${z}</b><span>${za} – ${zb}</span></div><div><small>Constelația prin care trecea Soarele</small><b>${c}</b><span>${ca} – ${cb}</span></div><p>${same ? "În cazul acesta, semnul și constelația poartă același nume." : "Cele două răspunsuri diferă, și e normal: zodiacul tradițional a fost fixat acum aproape două mii de ani (în vremea lui Ptolemeu), când echinocțiul de primăvară se afla în Berbec, și își numără cele 12 sectoare egale de 30° de la acest punct. Din cauza precesiei, echinocțiul s-a mutat între timp în Pești, iar sectoarele nu mai coincid cu stelele din spatele lor."}${oph ? " Ophiuchus (Șarpar) este o constelație reală pe care Soarele o străbate, dar nu face parte din zodiacul tradițional." : ""}${cusp ? " Atenție: ești aproape de limita dintre două zodii; în astfel de zile semnul depinde de anul, ora și locul nașterii." : ""}</p>`,
  wk:["Lu","Ma","Mi","Jo","Vi","Sâ","Du"],
- tabTime:"Timp", tabDate:"Dată", tabCal:"Calendar", tabConv:"Convertor",
+ tabTime:"Timp", tabDate:"Dată", tabCal:"Calendar", tabZod:"Ce semn sunt?", tabConv:"Convertor",
  nameT:"Timpul precesional uman", nameC:"Calendarul precesional uman", tabAbout:"Despre", aboutH:"Despre sistem",
  ab1:"<b>Timpul precesional uman și calendarul precesional uman.</b> Un sistem de timp și de dată construit numai pe ce poate observa orice om de pe Pământ, fără nicio doctrină. „Precesional” vine de la precesia echinocțiilor, iar „uman” înseamnă la scara perceperii umane.",
  ab2:"<b>Timpul.</b> Ziua este o rotație completă a Pământului, de 360° și 36 de ore. O oră nouă are 10°, un minut nou 1°, o secundă nouă 0,1°, iar o subsecundă este o secundă SI.",
@@ -360,7 +360,7 @@ en: {
  celGap: (z, c, same) => same ? `Here the sign and the constellation share the same name.` : `The sign (${z}) and the constellation (${c}) differ: the modern zodiac counts its sectors from the vernal equinox, while constellations are real groups of stars of unequal widths.`,
  celAns: (g, z, za, zb, c, ca, cb, same, cusp, oph) => `<div><small>Your sign in the traditional zodiac</small><b><i>${g}</i>${z}</b><span>${za} – ${zb}</span></div><div><small>The constellation the Sun was crossing</small><b>${c}</b><span>${ca} – ${cb}</span></div><p>${same ? "In this case the sign and the constellation share the same name." : "The two answers differ, and that is normal: the traditional zodiac was fixed almost two thousand years ago (in Ptolemy’s time), when the vernal equinox lay in Aries, and it counts its 12 equal 30° sectors from that point. Because of precession the equinox has since moved into Pisces, so the sectors no longer line up with the stars behind them."}${oph ? " Ophiuchus (the Serpent Bearer) is a real constellation the Sun crosses, but it is not part of the traditional zodiac." : ""}${cusp ? " Note: you are close to the boundary between two signs; on such days the sign depends on the year, time and place of birth." : ""}</p>`,
  wk:["Mo","Tu","We","Th","Fr","Sa","Su"],
- tabTime:"Time", tabDate:"Date", tabCal:"Calendar", tabConv:"Converter",
+ tabTime:"Time", tabDate:"Date", tabCal:"Calendar", tabZod:"My sign?", tabConv:"Converter",
  nameT:"Human precessional time", nameC:"Human precessional calendar", tabAbout:"About", aboutH:"About the system",
  ab1:"<b>Human precessional time and the human precessional calendar.</b> A system of time and date built only on what any person on Earth can observe, with no doctrine. “Precessional” comes from the precession of the equinoxes, and “human” means at the scale of human perception.",
  ab2:"<b>Time.</b> The day is one full rotation of the Earth, 360° and 36 hours. A new hour is 10°, a new minute 1°, a new second 0.1°, and a subsecond is one SI second.",
@@ -424,7 +424,7 @@ fr: {
  celGap: (z, c, same) => same ? `Ici le signe et la constellation portent le même nom.` : `Le signe (${z}) et la constellation (${c}) diffèrent : le zodiaque moderne compte ses secteurs depuis l'équinoxe de printemps, tandis que les constellations sont de vrais groupes d'étoiles, de largeurs inégales.`,
  celAns: (g, z, za, zb, c, ca, cb, same, cusp, oph) => `<div><small>Votre signe dans le zodiaque traditionnel</small><b><i>${g}</i>${z}</b><span>${za} – ${zb}</span></div><div><small>La constellation que traversait le Soleil</small><b>${c}</b><span>${ca} – ${cb}</span></div><p>${same ? "Ici, le signe et la constellation portent le même nom." : "Les deux réponses diffèrent, et c’est normal : le zodiaque traditionnel a été fixé il y a près de deux mille ans (à l’époque de Ptolémée), quand l’équinoxe de printemps se trouvait dans le Bélier, et il compte ses 12 secteurs égaux de 30° à partir de ce point. À cause de la précession, l’équinoxe est passé depuis dans les Poissons, et les secteurs ne coïncident plus avec les étoiles situées derrière."}${oph ? " Ophiuchus (le Serpentaire) est une vraie constellation que traverse le Soleil, mais elle ne fait pas partie du zodiaque traditionnel." : ""}${cusp ? " Attention : vous êtes proche de la limite entre deux signes ; ces jours-là, le signe dépend de l’année, de l’heure et du lieu de naissance." : ""}</p>`,
  wk:["lu","ma","me","je","ve","sa","di"],
- tabTime:"Heure", tabDate:"Date", tabCal:"Calendrier", tabConv:"Convertisseur",
+ tabTime:"Heure", tabDate:"Date", tabCal:"Calendrier", tabZod:"Mon signe ?", tabConv:"Convertisseur",
  nameT:"Temps précessionnel humain", nameC:"Calendrier précessionnel humain", tabAbout:"À propos", aboutH:"À propos du système",
  ab1:"<b>Le temps précessionnel humain et le calendrier précessionnel humain.</b> Un système de temps et de date fondé uniquement sur ce que toute personne peut observer sur Terre, sans aucune doctrine. « Précessionnel » vient de la précession des équinoxes, et « humain » signifie à l'échelle de la perception humaine.",
  ab2:"<b>Le temps.</b> Le jour est une rotation complète de la Terre, 360° et 36 heures. Une heure nouvelle vaut 10°, une minute nouvelle 1°, une seconde nouvelle 0,1° et une sous-seconde est une seconde SI.",
@@ -1063,7 +1063,7 @@ document.querySelectorAll("[data-lang]").forEach(b => b.addEventListener("click"
 csRender(false);
 
 /* ---------- meniu cu file ---------- */
-const TABS = ["timp", "data", "calendar", "convertor"];
+const TABS = ["timp", "data", "calendar", "zodiac", "convertor"];
 function showTab(name, focus) {
   if (!TABS.includes(name)) name = "timp";
   for (const n of TABS) {
