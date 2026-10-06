@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Step-by-step tutorial: how to read and compute a date in the precessional system</title>
+<meta name="description" content="One worked example from start to finish (5 October 2026, 12:00 UTC, Bucharest): the 36-hour clock, day of year, 28-day month, solar arc, era and the full code.">
+<link rel="canonical" href="https://carstian-git.github.io/precessional-time-date-system/en/tutorial/">
+<link rel="alternate" hreflang="ro" href="https://carstian-git.github.io/precessional-time-date-system/ro/tutorial/">
+<link rel="alternate" hreflang="en" href="https://carstian-git.github.io/precessional-time-date-system/en/tutorial/">
+<link rel="alternate" hreflang="fr" href="https://carstian-git.github.io/precessional-time-date-system/fr/tutorial/">
+<link rel="alternate" hreflang="x-default" href="https://carstian-git.github.io/precessional-time-date-system/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Human precessional time · Human precessional calendar">
+<meta property="og:title" content="Step-by-step tutorial: how to read and compute a date in the precessional system">
+<meta property="og:description" content="One worked example from start to finish (5 October 2026, 12:00 UTC, Bucharest): the 36-hour clock, day of year, 28-day month, solar arc, era and the full code.">
+<meta property="og:url" content="https://carstian-git.github.io/precessional-time-date-system/en/tutorial/">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://carstian-git.github.io/precessional-time-date-system/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Human precessional time · Human precessional calendar", "url": "https://carstian-git.github.io/precessional-time-date-system/en/", "inLanguage": "en", "description": "One worked example from start to finish (5 October 2026, 12:00 UTC, Bucharest): the 36-hour clock, day of year, 28-day month, solar arc, era and the full code."}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="sitehead">
+<a class="brand" href="../">Human precessional time</a>
+<nav class="sitenav" aria-label="Main menu"><a href="../">Home</a><a href="../sistem/">The system</a><a href="./" aria-current="page">Tutorial</a><a href="../precesia/">Precession</a><a href="../aplicatie/">Tools</a><a href="../despre/">About</a></nav>
+<div class="langsw" role="group" aria-label="Language"><a href="../../ro/tutorial/" hreflang="ro" lang="ro">RO</a><a href="../../en/tutorial/" hreflang="en" lang="en" aria-current="true">EN</a><a href="../../fr/tutorial/" hreflang="fr" lang="fr">FR</a></div>
+</header>
+<main id="main" class="wrap">
+<h1 class="page">Step-by-step tutorial</h1>
+
+<p class="lead">One example, followed from start to finish: <b>5 October 2026, 12:00 UTC, in Bucharest</b> (26.1° east, zone +3). At the end we get the code <code>12-1734-4-58.4-25-11-09 21:00:00:00 F+03</code>. Every step can be checked in the <a href="../aplicatie/">tools</a> or with the downloadable scripts.</p>
+<nav class="toc" aria-label="Steps"><a href="#p1">1. Time</a><a href="#p2">2. Zone</a><a href="#p3">3. Day of year</a><a href="#p4">4. Month</a><a href="#p5">5. Solar arc</a><a href="#p6">6. Lunar day</a><a href="#p7">7. Era</a><a href="#p8">8. The code</a><a href="#bisect">Leap year</a><a href="#ruleaza">Run it yourself</a></nav>
+
+<section class="prose" id="p1">
+ <h2>1. Standard time becomes 36-hour time</h2>
+ <p>Quick rule: <b>standard hours × 1.5 = new hours</b>. For exactness, count the seconds since midnight and divide in turn by 2,400 (new hour), 240 (new minute), 24 (new second); what is left are subseconds, that is SI seconds.</p>
+ <p>Example with 15:30:45:</p>
+ <ol class="steps">
+  <li>15 × 3,600 + 30 × 60 + 45 = <b>55,845 s</b> since midnight.</li>
+  <li>55,845 ÷ 2,400 = 23, remainder 645 → <b>new hour 23</b>.</li>
+  <li>645 ÷ 240 = 2, remainder 165 → <b>minute 2</b>.</li>
+  <li>165 ÷ 24 = 6, remainder 21 → <b>second 6</b> and <b>subsecond 21</b>.</li>
+ </ol>
+ <p>Result: <code>23:02:06:21</code>. The angle is 55,845 ÷ 86,400 × 360° = 232.6875°: the new time is the position on the circle itself.</p>
+</section>
+
+<section class="prose" id="p2">
+ <h2>2. The zone: from UTC to local time</h2>
+ <p>One degree of longitude is one new minute, and a zone is a 10° band (40 standard minutes). Bucharest is at 26.1° east, so in <b>zone +3</b> (3 bands × 40 min = 2 h).</p>
+ <p>12:00 UTC + 2 h = 14:00 local standard time; 14 × 1.5 = <b>21:00:00:00</b>. There is no daylight saving time: the zone stays the same all year.</p>
+</section>
+
+<section class="prose" id="p3">
+ <h2>3. Day of year</h2>
+ <p>The year begins on the day of the December solstice. The year 2026 began on 21 December 2025. From 21 to 31 December there are 11 days; January to September have 273 days; 5 more days of October: 11 + 273 + 5 = <b>day 289</b>.</p>
+</section>
+
+<section class="prose" id="p4">
+ <h2>4. The 28-day month and the weekday</h2>
+ <p>289 ÷ 28 = 10 whole months (280 days), remainder 9 → <b>month 11, day 9</b>. Every month starts on a Monday, so the weekday is ((9 − 1) mod 7) + 1 = 2: <b>Tuesday</b>. In the Gregorian calendar, 5 October 2026 is a Monday; the two calendars do not share the same weekday.</p>
+</section>
+
+<section class="prose" id="p5">
+ <h2>5. Solar arc and quadrant</h2>
+ <p>The year has 73 arcs of 5 days. 289 ÷ 5 = 57 whole arcs (285 days), remainder 4 → <b>arc 58, day 4</b>. The solar quadrant is bounded by the real solstices and equinoxes: after the September equinox begins <b>quadrant 4</b>.</p>
+</section>
+
+<section class="prose" id="p6">
+ <h2>6. The lunar day</h2>
+ <p>The Moon's phase is not computed with a simple paper rule but astronomically. Lunar day 1 is the local day of the real new moon; on 5 October 2026 it is <b>lunar day 25</b> (waning crescent). Read the value in the converter or in the script.</p>
+</section>
+
+<section class="prose" id="p7">
+ <h2>7. The era and the year within it</h2>
+ <p>The precessional cycle of about 25,772 years is split into 12 eras. The current era, <b>ER 12 (Pisces)</b>, began in the year 293. The year within the era (AE) counts from 1, with no year zero: 2026 − 293 + 1 = <b>AE 1734</b>.</p>
+ <p>The same calculation works for the past: 785 BCE falls in ER 11, AE 1072. The order around the circle is the reverse of the one in horoscopes (the Age of Pisces follows that of Aries), as expected for a precession motion.</p>
+</section>
+
+<section class="prose" id="p8">
+ <h2>8. The full code</h2>
+ <p>We put the fields end to end, in the order <code>ER-AE-CS-AS.ZA-CL-LC-ZN HN:MN:SN:SS suffix</code>:</p>
+ <pre>12-1734-4-58.4-25-11-09 21:00:00:00 F+03</pre>
+ <div class="scroll"><table class="grid"><thead><tr><th>Field</th><th>Value</th><th>Meaning</th></tr></thead><tbody>
+  <tr><td>ER</td><td>12</td><td>era of Pisces</td></tr>
+  <tr><td>AE</td><td>1734</td><td>year within the era</td></tr>
+  <tr><td>CS</td><td>4</td><td>solar quadrant</td></tr>
+  <tr><td>AS.ZA</td><td>58.4</td><td>arc 58, day 4 of the arc</td></tr>
+  <tr><td>CL</td><td>25</td><td>lunar day</td></tr>
+  <tr><td>LC</td><td>11</td><td>month 11 of 13</td></tr>
+  <tr><td>ZN</td><td>09</td><td>day 9 of the month (Tuesday)</td></tr>
+  <tr><td>HN:MN:SN:SS</td><td>21:00:00:00</td><td>new time</td></tr>
+  <tr><td>suffix</td><td>F+03</td><td>zone +3</td></tr></tbody></table></div>
+ <p>For everyday use the short form is enough: <code>ER 12 · AE 1734 · month 11 · day 9 · 21:00:00</code>.</p>
+</section>
+
+<section class="prose" id="bisect">
+ <h2>Year Day and Leap Day</h2>
+ <p>The 13 months of 28 days make 364 days. Day 365 is the <b>Year Day</b>, outside the week (month 00, day 01). A year is a leap year if its number k (Gregorian year minus 2011) is a multiple of 4 but not of 128; then a <b>Leap Day</b> appears (month 00, day 02). Example: the year 2027 (k = 16) has 366 days. The mean year is 365 + 1/4 − 1/128 = 365.2421875 days, very close to the tropical year.</p>
+</section>
+
+<section class="prose" id="idei">
+ <h2>One idea for organising the day</h2>
+ <p>The 36 hours can be grouped into 4 blocks of 9 hours (6 standard hours each) or into 6 blocks of 6 hours (4 standard hours each). These are organising ideas, not results of the system: everyone chooses whether they suit them.</p>
+</section>
+
+<section class="prose" id="ruleaza">
+ <h2>Run it yourself</h2>
+ <p>The scripts can be downloaded from the <a href="../despre/">About</a> page and need only Python. The examples above are reproduced like this:</p>
+ <pre>python sistem_timp.py g2t 2026-10-05T12:00:00 26.1 F
+python sistem_timp.py t2g "12-1734-4-58.4-25-11-09 21:00:00:00 F+03"
+python sistem_timp.py istoric 785BCE
+python sistem_timp.py evenimente 2026</pre>
+ <p>The first command gives the code above, the second turns it back into the UTC date, the third gives the era and year for 785 BCE, and the fourth lists the 2026 solstices, equinoxes and Moon phases. Without Python, the same operations can be done in the <a href="../aplicatie/">converter</a>. For precession, see also the <a href="../precesia/">visual tutorial</a>.</p>
+</section>
+
+</main>
+<footer class="sitefoot">
+<p><b>Human precessional time · Human precessional calendar</b></p>
+<p>A personal, dogma-independent way of measuring time: the hour as an angle, the year anchored to the solstice, eras from precession. It does not replace civil time or official standards.</p>
+<p>Updated: 5 October 2026</p>
+<p class="license">Texts: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" rel="license">CC BY-SA 4.0</a> · Code: <a href="https://www.gnu.org/licenses/gpl-3.0.html" rel="license">GNU GPLv3</a></p>
+<p class="visitors">Visitors: <span id="gc-total">·</span></p>
+<script data-goatcounter="https://carstian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>(function(){var el=document.getElementById("gc-total");function g(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}var p=encodeURIComponent(location.pathname);setTimeout(function(){g("https://carstian.goatcounter.com/counter/"+p+".json").then(function(d){el.textContent=d.count}).catch(function(){el.textContent="0"})},2500)})();</script>
+</footer>
+</body>
+</html>

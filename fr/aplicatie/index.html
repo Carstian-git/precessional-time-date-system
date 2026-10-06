@@ -28,7 +28,7 @@
 <a class="skip" href="#main">Aller au contenu</a>
 <header class="sitehead">
 <a class="brand" href="../">Temps précessionnel humain</a>
-<nav class="sitenav" aria-label="Menu principal"><a href="../">Accueil</a><a href="../sistem/">Le système</a><a href="../precesia/">Précession</a><a href="./" aria-current="page">Outils</a><a href="../despre/">À propos</a></nav>
+<nav class="sitenav" aria-label="Menu principal"><a href="../">Accueil</a><a href="../sistem/">Le système</a><a href="../tutorial/">Tutoriel</a><a href="../precesia/">Précession</a><a href="./" aria-current="page">Outils</a><a href="../despre/">À propos</a></nav>
 <div class="langsw" role="group" aria-label="Langue"><a href="../../ro/aplicatie/" hreflang="ro" lang="ro">RO</a><a href="../../en/aplicatie/" hreflang="en" lang="en">EN</a><a href="../../fr/aplicatie/" hreflang="fr" lang="fr" aria-current="true">FR</a></div>
 </header>
 <main id="main" class="wrap">
@@ -112,6 +112,29 @@
   <div class="cal-head" id="cal-head"></div>
   <div class="months" id="cal-months"></div>
   <p class="legend" id="cal-legend" style="margin:12px 0 0"></p>
+</section>
+<section id="celsec" class="noprint" aria-labelledby="celH" style="margin-top:44px">
+  <h2 id="celH" style="font:400 2rem/1.1 var(--f-display);margin:0 0 6px" data-i18n="celH"></h2>
+  <p class="note" style="margin-bottom:14px" data-i18n="celP"></p>
+  <div class="cal-ctl">
+    <div class="field"><label for="cs-dt" data-i18n="celDt"></label><input id="cs-dt" type="datetime-local" step="60"></div>
+    <div class="field" style="flex:1 1 320px"><label for="cs-code" data-i18n="celCode"></label><input id="cs-code" type="text" spellcheck="false" autocomplete="off" style="width:100%" placeholder="12-1734-4-58.4-25-11-09 21:00:00:00 F+03"></div>
+    <div class="field"><span class="lbl">&nbsp;</span><button type="button" id="cs-now" data-i18n="nowB"></button></div>
+  </div>
+  <div class="out" id="cs-msg" aria-live="polite" style="min-height:1.4em;margin-bottom:10px"></div>
+  <div class="cs-ans" id="cs-ans" aria-live="polite"></div>
+  <section class="dials">
+    <figure>
+      <svg id="dc" viewBox="0 0 440 440" role="img" aria-label="Constellation"></svg>
+      <figcaption><h2 data-i18n="celConstH"></h2><p data-i18n="celConstP"></p></figcaption>
+      <div class="readout" id="rc"></div>
+    </figure>
+    <figure>
+      <svg id="dz" viewBox="0 0 440 440" role="img" aria-label="Zodiac"></svg>
+      <figcaption><h2 data-i18n="celZodH"></h2><p data-i18n="celZodP"></p></figcaption>
+      <div class="readout" id="rz"></div>
+    </figure>
+  </section>
 </section>
 </div>
 

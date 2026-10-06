@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Tutoriel pas à pas : lire et calculer une date dans le système précessionnel</title>
+<meta name="description" content="Un exemple suivi de bout en bout (5 octobre 2026, 12:00 UTC, Bucarest) : l&#x27;horloge de 36 heures, le jour de l&#x27;année, le mois de 28 jours, l&#x27;arc solaire, l&#x27;ère et le code complet.">
+<link rel="canonical" href="https://carstian-git.github.io/precessional-time-date-system/fr/tutorial/">
+<link rel="alternate" hreflang="ro" href="https://carstian-git.github.io/precessional-time-date-system/ro/tutorial/">
+<link rel="alternate" hreflang="en" href="https://carstian-git.github.io/precessional-time-date-system/en/tutorial/">
+<link rel="alternate" hreflang="fr" href="https://carstian-git.github.io/precessional-time-date-system/fr/tutorial/">
+<link rel="alternate" hreflang="x-default" href="https://carstian-git.github.io/precessional-time-date-system/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Temps précessionnel humain · Calendrier précessionnel humain">
+<meta property="og:title" content="Tutoriel pas à pas : lire et calculer une date dans le système précessionnel">
+<meta property="og:description" content="Un exemple suivi de bout en bout (5 octobre 2026, 12:00 UTC, Bucarest) : l&#x27;horloge de 36 heures, le jour de l&#x27;année, le mois de 28 jours, l&#x27;arc solaire, l&#x27;ère et le code complet.">
+<meta property="og:url" content="https://carstian-git.github.io/precessional-time-date-system/fr/tutorial/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://carstian-git.github.io/precessional-time-date-system/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Temps précessionnel humain · Calendrier précessionnel humain", "url": "https://carstian-git.github.io/precessional-time-date-system/fr/", "inLanguage": "fr", "description": "Un exemple suivi de bout en bout (5 octobre 2026, 12:00 UTC, Bucarest) : l'horloge de 36 heures, le jour de l'année, le mois de 28 jours, l'arc solaire, l'ère et le code complet."}</script>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+<header class="sitehead">
+<a class="brand" href="../">Temps précessionnel humain</a>
+<nav class="sitenav" aria-label="Menu principal"><a href="../">Accueil</a><a href="../sistem/">Le système</a><a href="./" aria-current="page">Tutoriel</a><a href="../precesia/">Précession</a><a href="../aplicatie/">Outils</a><a href="../despre/">À propos</a></nav>
+<div class="langsw" role="group" aria-label="Langue"><a href="../../ro/tutorial/" hreflang="ro" lang="ro">RO</a><a href="../../en/tutorial/" hreflang="en" lang="en">EN</a><a href="../../fr/tutorial/" hreflang="fr" lang="fr" aria-current="true">FR</a></div>
+</header>
+<main id="main" class="wrap">
+<h1 class="page">Tutoriel pas à pas</h1>
+
+<p class="lead">Un seul exemple, suivi de bout en bout : <b>5 octobre 2026, 12:00 UTC, à Bucarest</b> (26,1° est, fuseau +3). À la fin, on obtient le code <code>12-1734-4-58.4-25-11-09 21:00:00:00 F+03</code>. Chaque étape peut être vérifiée dans les <a href="../aplicatie/">outils</a> ou avec les scripts à télécharger.</p>
+<nav class="toc" aria-label="Étapes"><a href="#p1">1. L'heure</a><a href="#p2">2. Le fuseau</a><a href="#p3">3. Jour de l'année</a><a href="#p4">4. Le mois</a><a href="#p5">5. L'arc solaire</a><a href="#p6">6. Jour lunaire</a><a href="#p7">7. L'ère</a><a href="#p8">8. Le code</a><a href="#bisect">Année bissextile</a><a href="#ruleaza">À vous de jouer</a></nav>
+
+<section class="prose" id="p1">
+ <h2>1. L'heure standard devient l'heure de 36 heures</h2>
+ <p>Règle rapide : <b>heure standard × 1,5 = heure nouvelle</b>. Pour être exact, on compte les secondes depuis minuit et on divise tour à tour par 2 400 (heure nouvelle), 240 (minute nouvelle), 24 (seconde nouvelle) ; le reste donne les sous-secondes, c'est-à-dire des secondes SI.</p>
+ <p>Exemple avec 15:30:45 :</p>
+ <ol class="steps">
+  <li>15 × 3 600 + 30 × 60 + 45 = <b>55 845 s</b> depuis minuit.</li>
+  <li>55 845 ÷ 2 400 = 23, reste 645 → <b>heure nouvelle 23</b>.</li>
+  <li>645 ÷ 240 = 2, reste 165 → <b>minute 2</b>.</li>
+  <li>165 ÷ 24 = 6, reste 21 → <b>seconde 6</b> et <b>sous-seconde 21</b>.</li>
+ </ol>
+ <p>Résultat : <code>23:02:06:21</code>. L'angle est 55 845 ÷ 86 400 × 360° = 232,6875° : l'heure nouvelle est la position sur le cercle elle-même.</p>
+</section>
+
+<section class="prose" id="p2">
+ <h2>2. Le fuseau : de l'UTC à l'heure locale</h2>
+ <p>Un degré de longitude vaut une minute nouvelle, et un fuseau est une bande de 10° (40 minutes standard). Bucarest est à 26,1° est, donc dans le <b>fuseau +3</b> (3 bandes × 40 min = 2 h).</p>
+ <p>12:00 UTC + 2 h = 14:00 heure standard locale ; 14 × 1,5 = <b>21:00:00:00</b>. Il n'y a pas d'heure d'été : le fuseau reste le même toute l'année.</p>
+</section>
+
+<section class="prose" id="p3">
+ <h2>3. Le jour de l'année</h2>
+ <p>L'année commence le jour du solstice de décembre. L'année 2026 a commencé le 21 décembre 2025. Du 21 au 31 décembre il y a 11 jours ; de janvier à septembre, 273 jours ; encore 5 jours d'octobre : 11 + 273 + 5 = <b>jour 289</b>.</p>
+</section>
+
+<section class="prose" id="p4">
+ <h2>4. Le mois de 28 jours et le jour de la semaine</h2>
+ <p>289 ÷ 28 = 10 mois entiers (280 jours), reste 9 → <b>mois 11, jour 9</b>. Chaque mois commence un lundi, donc le jour de la semaine est ((9 − 1) mod 7) + 1 = 2 : <b>mardi</b>. Dans le calendrier grégorien, le 5 octobre 2026 est un lundi ; les deux calendriers n'ont pas le même jour de la semaine.</p>
+</section>
+
+<section class="prose" id="p5">
+ <h2>5. L'arc solaire et le quadrant</h2>
+ <p>L'année compte 73 arcs de 5 jours. 289 ÷ 5 = 57 arcs entiers (285 jours), reste 4 → <b>arc 58, jour 4</b>. Le quadrant solaire est délimité par les vrais solstices et équinoxes : après l'équinoxe de septembre commence le <b>quadrant 4</b>.</p>
+</section>
+
+<section class="prose" id="p6">
+ <h2>6. Le jour lunaire</h2>
+ <p>La phase de la Lune ne se calcule pas avec une règle simple sur papier, mais astronomiquement. Le jour lunaire 1 est le jour local de la vraie nouvelle lune ; le 5 octobre 2026 nous sommes au <b>jour lunaire 25</b> (dernier croissant). La valeur se lit dans le convertisseur ou dans le script.</p>
+</section>
+
+<section class="prose" id="p7">
+ <h2>7. L'ère et l'année dans l'ère</h2>
+ <p>Le cycle précessionnel d'environ 25 772 ans se divise en 12 ères. L'ère actuelle, <b>ER 12 (Poissons)</b>, a commencé en l'an 293. L'année dans l'ère (AE) se compte à partir de 1, sans année zéro : 2026 − 293 + 1 = <b>AE 1734</b>.</p>
+ <p>Le même calcul vaut pour le passé : 785 av. J.-C. tombe dans ER 11, AE 1072. L'ordre sur le cercle est l'inverse de celui des horoscopes (l'ère des Poissons suit celle du Bélier), ce qui est normal pour un mouvement de précession.</p>
+</section>
+
+<section class="prose" id="p8">
+ <h2>8. Le code complet</h2>
+ <p>On met les champs bout à bout, dans l'ordre <code>ER-AE-CS-AS.ZA-CL-LC-ZN HN:MN:SN:SS suffixe</code> :</p>
+ <pre>12-1734-4-58.4-25-11-09 21:00:00:00 F+03</pre>
+ <div class="scroll"><table class="grid"><thead><tr><th>Champ</th><th>Valeur</th><th>Sens</th></tr></thead><tbody>
+  <tr><td>ER</td><td>12</td><td>ère des Poissons</td></tr>
+  <tr><td>AE</td><td>1734</td><td>année dans l'ère</td></tr>
+  <tr><td>CS</td><td>4</td><td>quadrant solaire</td></tr>
+  <tr><td>AS.ZA</td><td>58.4</td><td>arc 58, jour 4 de l'arc</td></tr>
+  <tr><td>CL</td><td>25</td><td>jour lunaire</td></tr>
+  <tr><td>LC</td><td>11</td><td>mois 11 sur 13</td></tr>
+  <tr><td>ZN</td><td>09</td><td>jour 9 du mois (mardi)</td></tr>
+  <tr><td>HN:MN:SN:SS</td><td>21:00:00:00</td><td>heure nouvelle</td></tr>
+  <tr><td>suffixe</td><td>F+03</td><td>fuseau +3</td></tr></tbody></table></div>
+ <p>Pour l'usage courant, la forme courte suffit : <code>ER 12 · AE 1734 · mois 11 · jour 9 · 21:00:00</code>.</p>
+</section>
+
+<section class="prose" id="bisect">
+ <h2>Jour de l'an et jour bissextile</h2>
+ <p>Les 13 mois de 28 jours font 364 jours. Le 365<sup>e</sup> jour est le <b>Jour de l'an</b>, hors semaine (mois 00, jour 01). Une année est bissextile si son numéro k (année grégorienne moins 2011) est multiple de 4 mais pas de 128 ; apparaît alors le <b>Jour bissextile</b> (mois 00, jour 02). Exemple : l'année 2027 (k = 16) compte 366 jours. L'année moyenne vaut 365 + 1/4 − 1/128 = 365,2421875 jours, très proche de l'année tropique.</p>
+</section>
+
+<section class="prose" id="idei">
+ <h2>Une idée pour organiser la journée</h2>
+ <p>Les 36 heures peuvent se regrouper en 4 blocs de 9 heures (6 heures standard chacun) ou en 6 blocs de 6 heures (4 heures standard chacun). Ce sont des idées d'organisation, non des résultats du système : chacun choisit si elles lui conviennent.</p>
+</section>
+
+<section class="prose" id="ruleaza">
+ <h2>À vous de jouer</h2>
+ <p>Les scripts se téléchargent depuis la page <a href="../despre/">À propos</a> et n'exigent que Python. Les exemples ci-dessus se reproduisent ainsi :</p>
+ <pre>python sistem_timp.py g2t 2026-10-05T12:00:00 26.1 F
+python sistem_timp.py t2g "12-1734-4-58.4-25-11-09 21:00:00:00 F+03"
+python sistem_timp.py istoric 785BCE
+python sistem_timp.py evenimente 2026</pre>
+ <p>La première commande donne le code ci-dessus, la deuxième le retransforme en date UTC, la troisième donne l'ère et l'année pour 785 av. J.-C., et la quatrième liste les solstices, équinoxes et phases de la Lune de 2026. Sans Python, les mêmes opérations se font dans le <a href="../aplicatie/">convertisseur</a>. Sur la précession, voir aussi le <a href="../precesia/">tutoriel visuel</a>.</p>
+</section>
+
+</main>
+<footer class="sitefoot">
+<p><b>Temps précessionnel humain · Calendrier précessionnel humain</b></p>
+<p>Un système personnel de mesure du temps, indépendant des dogmes : l'heure comme angle, l'année ancrée au solstice, les ères selon la précession. Il ne remplace ni l'heure civile ni les normes officielles.</p>
+<p>Mis à jour: 5 octobre 2026</p>
+<p class="license">Textes : <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr" rel="license">CC BY-SA 4.0</a> · Code : <a href="https://www.gnu.org/licenses/gpl-3.0.html" rel="license">GNU GPLv3</a></p>
+<p class="visitors">Visiteurs: <span id="gc-total">·</span></p>
+<script data-goatcounter="https://carstian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>(function(){var el=document.getElementById("gc-total");function g(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}var p=encodeURIComponent(location.pathname);setTimeout(function(){g("https://carstian.goatcounter.com/counter/"+p+".json").then(function(d){el.textContent=d.count}).catch(function(){el.textContent="0"})},2500)})();</script>
+</footer>
+</body>
+</html>

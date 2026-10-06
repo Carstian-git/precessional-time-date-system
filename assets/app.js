@@ -280,11 +280,21 @@ ro: {
  cvDt:"Data și ora (24 h)", cvRefU:"Este UTC", cvRefL:z=>`Este ora locală a zonei ${z}`,
  cvNewH:"Din sistemul precesional uman în calendarul gregorian", cvNewP:"Lipește un cod complet sau completează câmpurile. Zilele exacte sunt acceptate pentru anii 1–9999 e.n.",
  cvCode:"Cod complet", cvCyc:"Ciclul de precesie (0 = cel curent)", cvUtc:"UTC", cvLoc:"Ora locală 24 h",
- err:{era:"ER trebuie să fie între 1 și 12.",ae:(e,n)=>`AE trebuie să fie între 1 și ${n} pentru ER ${e}.`,time:"Valori întregi: HN 0–35, MN 0–9, SN 0–9, SS 0–23.",lc:"LC 1–13 și ZN 1–28; pentru LC 00, ZN este 01 (Ziua anului) sau 02 (Ziua bisectă).",leap:"Acest an nu este bisect și nu are Ziua bisectă.",range:"Zilele exacte sunt acceptate doar pentru anii 1–9999 e.n.",code:"Cod nerecunoscut. Exemplu: 12-1734-4-57.3-19-11-03 26:2:6:21 F+03",date:"Alege o dată validă."},
+ err:{era:"ER trebuie să fie între 1 și 12.",ae:(e,n)=>`AE trebuie să fie între 1 și ${n} pentru ER ${e}.`,time:"Valori întregi: HN 0–35, MN 0–9, SN 0–9, SS 0–23.",lc:"LC 1–13 și ZN 1–28; pentru LC 00, ZN este 01 (Ziua anului) sau 02 (Ziua bisectă).",leap:"Acest an nu este bisect și nu are Ziua bisectă.",range:"Zilele exacte sunt acceptate doar pentru anii 1–9999 e.n.",code:"Cod nerecunoscut. Exemplu: 12-1734-4-58.4-25-11-09 21:0:0:0 F+03",date:"Alege o dată validă."},
  calH:"Calendarul anului", calP:"Alege orice an. Anul începe la solstițiul din decembrie și are 13 luni de câte 28 de zile, de luni până duminică. Fazele Lunii și fenomenele Soarelui sunt cele reale, după zona aleasă sus. Pentru imprimare, folosește funcția de imprimare a browserului pe această pagină: se tipărește doar calendarul, pe o pagină A4 orizontală.",
  calYear:"Anul-etichetă", calPrev:"‹ Anterior", calNext:"Următorul ›", calToday:"Anul curent", calPrint:"Tipărește",
  calYearLine:(a,e,s,f,b)=>`AN ${a} · ER ${e[0]} · AE ${e[1]} · ${s} – ${f} · ${b?"an bisect (366 de zile)":"an obișnuit (365 de zile)"}`,
  calLegend:"● lună nouă · ◐ primul pătrar · ○ lună plină · ◑ ultimul pătrar · ☀ solstițiu sau echinocțiu. Cifrele mici sunt zilele gregoriene. Zilele din afara lunilor nu fac parte din săptămână.",
+ celH: "Ce semn zodiacal ești?", celP: "Alege data nașterii (sau orice altă dată), în format SI sau uman. Răspunsul are două părți: semnul din zodiacul tradițional și constelația prin care trecea de fapt Soarele în ziua aceea. Dedesubt sunt cele două cadrane.",
+ celDt: "Data (format SI, UTC)", celCode: "Data în format uman (cod complet)",
+ celConstH: "Constelația străbătută de Soare", celConstP: "Cele 13 constelații de pe ecliptică, cu lățimile lor reale (granițele IAU din 1930, longitudine față de echinocțiul J2000). Ophiuchus se află între Scorpion și Săgetător. γ marchează echinocțiul de primăvară al datei alese, care s-a mutat din Berbec în Pești.",
+ celZodH: "Zodia modernă (tropicală)", celZodP: "12 sectoare egale de 30°, numărate de la echinocțiul de primăvară. Zodia urmează anotimpurile, nu stelele din spate.",
+ constN: ["Berbec", "Taur", "Gemeni", "Rac", "Leu", "Fecioară", "Balanță", "Scorpion", "Ophiuchus", "Săgetător", "Capricorn", "Vărsător", "Pești"],
+ zodN: ["Berbec", "Taur", "Gemeni", "Rac", "Leu", "Fecioară", "Balanță", "Scorpion", "Săgetător", "Capricorn", "Vărsător", "Pești"],
+ celConstOut: (n, a, b, lam, lj, p) => `Soarele este în constelația <b>${n}</b>, de la ${a} până la ${b} (UTC). Longitudine ecliptică: ${lam}° față de echinocțiul datei și ${lj}° față de J2000; între ele, precesia a mutat echinocțiul cu ${p}°.`,
+ celZodOut: (n, a, b, lam, g) => `Soarele este în zodia <b>${g} ${n}</b>, de la ${a} până la ${b} (UTC), la longitudinea ${lam}°.`,
+ celGap: (z, c, same) => same ? `Aici zodia și constelația poartă același nume.` : `Zodia (${z}) și constelația (${c}) diferă: zodiacul modern își numără sectoarele de la echinocțiul de primăvară, iar constelațiile sunt grupuri reale de stele, de lățimi inegale.`,
+ celAns: (g, z, za, zb, c, ca, cb, same, cusp, oph) => `<div><small>Semnul tău în zodiacul tradițional</small><b><i>${g}</i>${z}</b><span>${za} – ${zb}</span></div><div><small>Constelația prin care trecea Soarele</small><b>${c}</b><span>${ca} – ${cb}</span></div><p>${same ? "În cazul acesta, semnul și constelația poartă același nume." : "Cele două răspunsuri diferă, și e normal: zodiacul tradițional a fost fixat acum aproape două mii de ani (în vremea lui Ptolemeu), când echinocțiul de primăvară se afla în Berbec, și își numără cele 12 sectoare egale de 30° de la acest punct. Din cauza precesiei, echinocțiul s-a mutat între timp în Pești, iar sectoarele nu mai coincid cu stelele din spatele lor."}${oph ? " Ophiuchus (Șarpar) este o constelație reală pe care Soarele o străbate, dar nu face parte din zodiacul tradițional." : ""}${cusp ? " Atenție: ești aproape de limita dintre două zodii; în astfel de zile semnul depinde de anul, ora și locul nașterii." : ""}</p>`,
  wk:["Lu","Ma","Mi","Jo","Vi","Sâ","Du"],
  tabTime:"Timp", tabDate:"Dată", tabCal:"Calendar", tabConv:"Convertor",
  nameT:"Timpul precesional uman", nameC:"Calendarul precesional uman", tabAbout:"Despre", aboutH:"Despre sistem",
@@ -334,11 +344,21 @@ en: {
  cvDt:"Date and time (24 h)", cvRefU:"It is UTC", cvRefL:z=>`It is local time of zone ${z}`,
  cvNewH:"From the human precessional system to the Gregorian calendar", cvNewP:"Paste a full code or fill in the fields. Exact days are accepted for years 1–9999 CE.",
  cvCode:"Full code", cvCyc:"Precession cycle (0 = current)", cvUtc:"UTC", cvLoc:"Local time 24 h",
- err:{era:"ER must be between 1 and 12.",ae:(e,n)=>`AE must be between 1 and ${n} for ER ${e}.`,time:"Whole numbers: HN 0–35, MN 0–9, SN 0–9, SS 0–23.",lc:"LC 1–13 and ZN 1–28; for LC 00, ZN is 01 (Year Day) or 02 (Leap Day).",leap:"This year is not a leap year and has no Leap Day.",range:"Exact days are accepted only for years 1–9999 CE.",code:"Unrecognised code. Example: 12-1734-4-57.3-19-11-03 26:2:6:21 F+03",date:"Pick a valid date."},
+ err:{era:"ER must be between 1 and 12.",ae:(e,n)=>`AE must be between 1 and ${n} for ER ${e}.`,time:"Whole numbers: HN 0–35, MN 0–9, SN 0–9, SS 0–23.",lc:"LC 1–13 and ZN 1–28; for LC 00, ZN is 01 (Year Day) or 02 (Leap Day).",leap:"This year is not a leap year and has no Leap Day.",range:"Exact days are accepted only for years 1–9999 CE.",code:"Unrecognised code. Example: 12-1734-4-58.4-25-11-09 21:0:0:0 F+03",date:"Pick a valid date."},
  calH:"Calendar of the year", calP:"Pick any year. The year starts at the December solstice and has 13 months of 28 days, Monday to Sunday. Moon phases and Sun events are the real ones, for the zone chosen above. To print, use your browser's print function on this page: only the calendar is printed, on one landscape A4 page.",
  calYear:"Label year", calPrev:"‹ Previous", calNext:"Next ›", calToday:"Current year", calPrint:"Print",
  calYearLine:(a,e,s,f,b)=>`YEAR ${a} · ER ${e[0]} · AE ${e[1]} · ${s} – ${f} · ${b?"leap year (366 days)":"common year (365 days)"}`,
  calLegend:"● new moon · ◐ first quarter · ○ full moon · ◑ last quarter · ☀ solstice or equinox. Small numbers are Gregorian days. Days outside the months are not part of the week.",
+ celH: "What is your zodiac sign?", celP: "Pick your birth date (or any other date), in SI or human format. The answer has two parts: your sign in the traditional zodiac and the constellation the Sun was actually crossing that day. The two dials are below.",
+ celDt: "Date (SI format, UTC)", celCode: "Date in human format (full code)",
+ celConstH: "The constellation the Sun is crossing", celConstP: "The 13 constellations on the ecliptic with their real widths (IAU boundaries of 1930, longitude measured from the J2000 equinox). Ophiuchus lies between Scorpius and Sagittarius. γ marks the vernal equinox of the chosen date, which has moved from Aries into Pisces.",
+ celZodH: "The modern (tropical) zodiac", celZodP: "12 equal sectors of 30°, counted from the vernal equinox. The sign follows the seasons, not the stars behind it.",
+ constN: ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpius", "Ophiuchus", "Sagittarius", "Capricornus", "Aquarius", "Pisces"],
+ zodN: ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"],
+ celConstOut: (n, a, b, lam, lj, p) => `The Sun is in the constellation <b>${n}</b>, from ${a} to ${b} (UTC). Ecliptic longitude: ${lam}° from the equinox of the date and ${lj}° from J2000; between the two, precession has moved the equinox by ${p}°.`,
+ celZodOut: (n, a, b, lam, g) => `The Sun is in the sign <b>${g} ${n}</b>, from ${a} to ${b} (UTC), at longitude ${lam}°.`,
+ celGap: (z, c, same) => same ? `Here the sign and the constellation share the same name.` : `The sign (${z}) and the constellation (${c}) differ: the modern zodiac counts its sectors from the vernal equinox, while constellations are real groups of stars of unequal widths.`,
+ celAns: (g, z, za, zb, c, ca, cb, same, cusp, oph) => `<div><small>Your sign in the traditional zodiac</small><b><i>${g}</i>${z}</b><span>${za} – ${zb}</span></div><div><small>The constellation the Sun was crossing</small><b>${c}</b><span>${ca} – ${cb}</span></div><p>${same ? "In this case the sign and the constellation share the same name." : "The two answers differ, and that is normal: the traditional zodiac was fixed almost two thousand years ago (in Ptolemy’s time), when the vernal equinox lay in Aries, and it counts its 12 equal 30° sectors from that point. Because of precession the equinox has since moved into Pisces, so the sectors no longer line up with the stars behind them."}${oph ? " Ophiuchus (the Serpent Bearer) is a real constellation the Sun crosses, but it is not part of the traditional zodiac." : ""}${cusp ? " Note: you are close to the boundary between two signs; on such days the sign depends on the year, time and place of birth." : ""}</p>`,
  wk:["Mo","Tu","We","Th","Fr","Sa","Su"],
  tabTime:"Time", tabDate:"Date", tabCal:"Calendar", tabConv:"Converter",
  nameT:"Human precessional time", nameC:"Human precessional calendar", tabAbout:"About", aboutH:"About the system",
@@ -388,11 +408,21 @@ fr: {
  cvDt:"Date et heure (24 h)", cvRefU:"C'est l'UTC", cvRefL:z=>`C'est l'heure locale du fuseau ${z}`,
  cvNewH:"Du système précessionnel humain vers le calendrier grégorien", cvNewP:"Collez un code complet ou remplissez les champs. Les jours exacts sont acceptés pour les années 1–9999 apr. J.-C.",
  cvCode:"Code complet", cvCyc:"Cycle de précession (0 = actuel)", cvUtc:"UTC", cvLoc:"Heure locale 24 h",
- err:{era:"ER doit être entre 1 et 12.",ae:(e,n)=>`AE doit être entre 1 et ${n} pour ER ${e}.`,time:"Nombres entiers : HN 0–35, MN 0–9, SN 0–9, SS 0–23.",lc:"LC 1–13 et ZN 1–28 ; pour LC 00, ZN vaut 01 (Jour de l'année) ou 02 (Jour bissextile).",leap:"Cette année n'est pas bissextile et n'a pas de Jour bissextile.",range:"Les jours exacts ne sont acceptés que pour les années 1–9999 apr. J.-C.",code:"Code non reconnu. Exemple : 12-1734-4-57.3-19-11-03 26:2:6:21 F+03",date:"Choisissez une date valide."},
+ err:{era:"ER doit être entre 1 et 12.",ae:(e,n)=>`AE doit être entre 1 et ${n} pour ER ${e}.`,time:"Nombres entiers : HN 0–35, MN 0–9, SN 0–9, SS 0–23.",lc:"LC 1–13 et ZN 1–28 ; pour LC 00, ZN vaut 01 (Jour de l'année) ou 02 (Jour bissextile).",leap:"Cette année n'est pas bissextile et n'a pas de Jour bissextile.",range:"Les jours exacts ne sont acceptés que pour les années 1–9999 apr. J.-C.",code:"Code non reconnu. Exemple : 12-1734-4-58.4-25-11-09 21:0:0:0 F+03",date:"Choisissez une date valide."},
  calH:"Calendrier de l'année", calP:"Choisissez n'importe quelle année. L'année commence au solstice de décembre et compte 13 mois de 28 jours, du lundi au dimanche. Les phases de la Lune et les événements du Soleil sont réels, pour le fuseau choisi plus haut. Pour imprimer, utilisez la fonction d'impression du navigateur sur cette page : seul le calendrier est imprimé, sur une page A4 paysage.",
  calYear:"Année-étiquette", calPrev:"‹ Précédente", calNext:"Suivante ›", calToday:"Année en cours", calPrint:"Imprimer",
  calYearLine:(a,e,s,f,b)=>`ANNÉE ${a} · ER ${e[0]} · AE ${e[1]} · ${s} – ${f} · ${b?"année bissextile (366 jours)":"année commune (365 jours)"}`,
  calLegend:"● nouvelle lune · ◐ premier quartier · ○ pleine lune · ◑ dernier quartier · ☀ solstice ou équinoxe. Les petits nombres sont les jours grégoriens. Les jours hors des mois ne font pas partie de la semaine.",
+ celH: "Quel est votre signe du zodiaque ?", celP: "Choisissez votre date de naissance (ou toute autre date), au format SI ou humain. La réponse comporte deux parties : votre signe dans le zodiaque traditionnel et la constellation que le Soleil traversait réellement ce jour-là. Les deux cadrans sont en dessous.",
+ celDt: "Date (format SI, UTC)", celCode: "Date au format humain (code complet)",
+ celConstH: "La constellation traversée par le Soleil", celConstP: "Les 13 constellations de l'écliptique avec leurs largeurs réelles (limites de l'UAI de 1930, longitude comptée depuis l'équinoxe J2000). Ophiuchus se trouve entre le Scorpion et le Sagittaire. γ marque l'équinoxe de printemps de la date choisie, passé du Bélier aux Poissons.",
+ celZodH: "Le zodiaque moderne (tropical)", celZodP: "12 secteurs égaux de 30°, comptés depuis l'équinoxe de printemps. Le signe suit les saisons, non les étoiles situées derrière.",
+ constN: ["Bélier", "Taureau", "Gémeaux", "Cancer", "Lion", "Vierge", "Balance", "Scorpion", "Ophiuchus", "Sagittaire", "Capricorne", "Verseau", "Poissons"],
+ zodN: ["Bélier", "Taureau", "Gémeaux", "Cancer", "Lion", "Vierge", "Balance", "Scorpion", "Sagittaire", "Capricorne", "Verseau", "Poissons"],
+ celConstOut: (n, a, b, lam, lj, p) => `Le Soleil est dans la constellation <b>${n}</b>, du ${a} au ${b} (UTC). Longitude écliptique : ${lam}° depuis l'équinoxe de la date et ${lj}° depuis J2000 ; entre les deux, la précession a déplacé l'équinoxe de ${p}°.`,
+ celZodOut: (n, a, b, lam, g) => `Le Soleil est dans le signe <b>${g} ${n}</b>, du ${a} au ${b} (UTC), à la longitude ${lam}°.`,
+ celGap: (z, c, same) => same ? `Ici le signe et la constellation portent le même nom.` : `Le signe (${z}) et la constellation (${c}) diffèrent : le zodiaque moderne compte ses secteurs depuis l'équinoxe de printemps, tandis que les constellations sont de vrais groupes d'étoiles, de largeurs inégales.`,
+ celAns: (g, z, za, zb, c, ca, cb, same, cusp, oph) => `<div><small>Votre signe dans le zodiaque traditionnel</small><b><i>${g}</i>${z}</b><span>${za} – ${zb}</span></div><div><small>La constellation que traversait le Soleil</small><b>${c}</b><span>${ca} – ${cb}</span></div><p>${same ? "Ici, le signe et la constellation portent le même nom." : "Les deux réponses diffèrent, et c’est normal : le zodiaque traditionnel a été fixé il y a près de deux mille ans (à l’époque de Ptolémée), quand l’équinoxe de printemps se trouvait dans le Bélier, et il compte ses 12 secteurs égaux de 30° à partir de ce point. À cause de la précession, l’équinoxe est passé depuis dans les Poissons, et les secteurs ne coïncident plus avec les étoiles situées derrière."}${oph ? " Ophiuchus (le Serpentaire) est une vraie constellation que traverse le Soleil, mais elle ne fait pas partie du zodiaque traditionnel." : ""}${cusp ? " Attention : vous êtes proche de la limite entre deux signes ; ces jours-là, le signe dépend de l’année, de l’heure et du lieu de naissance." : ""}</p>`,
  wk:["lu","ma","me","je","ve","sa","di"],
  tabTime:"Heure", tabDate:"Date", tabCal:"Calendrier", tabConv:"Convertisseur",
  nameT:"Temps précessionnel humain", nameC:"Calendrier précessionnel humain", tabAbout:"À propos", aboutH:"À propos du système",
@@ -920,6 +950,117 @@ for (const id of ["lon", "preset"]) { $(id).addEventListener("input", buildCalen
 $("mF").addEventListener("click", buildCalendar); $("mL").addEventListener("click", buildCalendar);
 document.querySelectorAll("[data-lang]").forEach(b => b.addEventListener("click", buildCalendar));
 calSet(dinUtc(Date.now(), st.lon, st.mode).k + 2011);
+
+/* ---------- cadrane cerești: constelația străbătută de Soare și zodia modernă ---------- */
+// Limitele constelațiilor de pe ecliptică, în longitudine ecliptică J2000 (grade). Calculate din granițele IAU (Delporte 1930,
+// tabelul Roman 1987) cu astropy 8.0; ordinea: Ari Tau Gem Cnc Leo Vir Lib Sco Oph Sgr Cap Aqr Psc (Psc începe la ultima limită).
+const CONST_BND = [28.69, 53.42, 90.14, 117.99, 138.04, 173.855, 217.81, 241.05, 247.64, 266.24, 299.66, 327.49, 351.65];
+const precesLon = ms => { const T = Tcen(ms); return 1.396971278 * T + 0.000308637 * T * T; };   // precesia generală în longitudine față de J2000, grade
+const lonSoareJ = ms => mod(longitudineSoare(ms) - precesLon(ms), 360);                          // longitudinea Soarelui față de echinocțiul J2000
+function constIdx(lj) { for (let i = 12; i >= 0; i--) if (lj >= CONST_BND[i]) return i; return 12; }
+const constA1 = i => CONST_BND[i], constA2 = i => i === 12 ? CONST_BND[0] + 360 : CONST_BND[i + 1];
+// momentul cel mai apropiat (dir = −1 înainte, +1 după ms) în care longitudinea f(ms) trece prin b
+function sunCross(f, ms, b, dir) {
+  const h = x => mod(f(x) - b + 180, 360) - 180, S = 12 * 3600e3;
+  let x0 = ms, x1 = ms;
+  if (dir < 0) { for (let i = 0; i < 800 && h(x1) >= 0; i++) { x0 = x1; x1 -= S; } [x0, x1] = [x1, x0]; }
+  else { for (let i = 0; i < 800 && h(x1) < 0; i++) { x0 = x1; x1 += S; } }
+  for (let i = 0; i < 40; i++) { const m = (x0 + x1) / 2; if (h(m) < 0) x0 = m; else x1 = m; }
+  return x1;
+}
+const ZOD_GLYPH = ["♈", "♉", "♊", "♋", "♌", "♍", "♎", "♏", "♐", "♑", "♒", "♓"].map(g => g + "︎");
+const csDate = ms => { const d = new Date(ms); return t("gdate")(d.getUTCDate(), d.getUTCMonth() + 1, d.getUTCFullYear()); };
+const csDeg = x => x.toFixed(2).replace(".", t("dec"));
+let csMs = Math.floor(Date.now() / 60000) * 60000;
+
+function csFrame(cx, cy, r1, labels) {
+  let s = `<circle cx="${cx}" cy="${cy}" r="216" fill="var(--face)" stroke="var(--ink)" stroke-width="2"/>`;
+  for (let d = 0; d < 360; d += 10) s += tick(cx, cy, r1, d % 30 === 0 ? r1 - 9 : r1 - 5, d, d % 30 === 0 ? 1.4 : .8, "var(--mute)");
+  if (labels) for (let d = 0; d < 360; d += 30) s += txt(cx, cy, r1 - 20, d, d + "°", 9, "mute");
+  return s;
+}
+function csSun(cx, cy, r, a) {
+  const [x, y] = P(cx, cy, r, a);
+  const [x0, y0] = P(cx, cy, 40, a);
+  let s = `<line x1="${f1(x0)}" y1="${f1(y0)}" x2="${f1(x)}" y2="${f1(y)}" stroke="var(--sun)" stroke-width="1.4" stroke-dasharray="3 3"/>`;
+  for (let k = 0; k < 8; k++) s += tick(x, y, 10.5, 15, k * 45, 1.6, "var(--sun)");
+  return s + `<circle cx="${f1(x)}" cy="${f1(y)}" r="8" fill="var(--sun)" stroke="var(--ink)" stroke-width="1.2"/>`;
+}
+
+function drawConst(ms) {
+  const cx = 220, cy = 220, r1 = 100, r2 = 142, lj = lonSoareJ(ms), idx = constIdx(lj), N = t("constN");
+  let s = csFrame(cx, cy, r1, true);
+  for (let i = 0; i < 13; i++) {
+    const a1 = constA1(i), a2 = constA2(i), cur = i === idx;
+    const fill = cur ? "color-mix(in srgb,var(--sun) 34%,var(--face))" : (i % 2 ? "var(--face)" : "color-mix(in srgb,var(--moon) 10%,var(--face))");
+    s += `<path d="${arcPath(cx, cy, r1, r2, a1, a2)}" fill="${fill}" stroke="var(--ink)" stroke-width="${cur ? 1.8 : 1}"/>`;
+    const mid = (a1 + a2) / 2, lr = i === 7 ? 202 : 178;
+    s += txt(cx, cy, lr, mid, N[i], 10.5, "", cur ? 'font-weight="700" style="fill:var(--sun)"' : "");
+  }
+  // punctul vernal al datei (echinocțiul de primăvară): se mută lent înapoi prin constelații
+  const vp = mod(-precesLon(ms), 360), [vx, vy] = P(cx, cy, 58, vp);
+  s += tick(cx, cy, r1 - 1, r1 - 8, vp, 2.4, "var(--moon)") + tick(cx, cy, r1 - 8, r1 - 34, vp, 1, "var(--moon)") + `<text x="${f1(vx)}" y="${f1(vy)}" font-size="13" text-anchor="middle" dominant-baseline="central" style="fill:var(--moon)" font-weight="700">γ</text>`;
+  s += csSun(cx, cy, (r1 + r2) / 2, lj);
+  s += `<text x="${cx}" y="${cy - 8}" font-size="16" text-anchor="middle" font-weight="600">${N[idx]}</text><text x="${cx}" y="${cy + 12}" font-size="10" text-anchor="middle" class="mute">${csDeg(lj)}° J2000</text>`;
+  $("dc").innerHTML = s;
+  $("dc").setAttribute("aria-label", t("celConstH") + ": " + N[idx]);
+  const a = sunCross(lonSoareJ, ms, constA1(idx), -1), b = sunCross(lonSoareJ, ms, constA2(idx) % 360, +1);
+  $("rc").innerHTML = t("celConstOut")(N[idx], csDate(a), csDate(b), csDeg(longitudineSoare(ms)), csDeg(lj), csDeg(precesLon(ms)));
+  return {idx, a, b, edge: Math.min(lj - constA1(idx), constA2(idx) - (lj < constA1(idx) ? lj + 360 : lj))};
+}
+
+function drawZod(ms) {
+  const cx = 220, cy = 220, r1 = 100, r2 = 142, lam = longitudineSoare(ms), j = Math.floor(lam / 30), Z = t("zodN");
+  let s = csFrame(cx, cy, r1, false);
+  for (let i = 0; i < 12; i++) {
+    const cur = i === j, a1 = i * 30, a2 = a1 + 30;
+    const fill = cur ? "color-mix(in srgb,var(--sun) 34%,var(--face))" : (i % 2 ? "var(--face)" : "color-mix(in srgb,var(--moon) 10%,var(--face))");
+    s += `<path d="${arcPath(cx, cy, r1, r2, a1, a2)}" fill="${fill}" stroke="var(--ink)" stroke-width="${cur ? 1.8 : 1}"/>`;
+    s += txt(cx, cy, 124, a1 + 15, ZOD_GLYPH[i], 21, "", cur ? 'style="fill:var(--sun)"' : "");
+    s += txt(cx, cy, 178, a1 + 15, Z[i], 10.5, "", cur ? 'font-weight="700" style="fill:var(--sun)"' : "");
+  }
+  s += csSun(cx, cy, 84, lam);
+  s += `<text x="${cx}" y="${cy - 8}" font-size="16" text-anchor="middle" font-weight="600">${Z[j]}</text><text x="${cx}" y="${cy + 12}" font-size="10" text-anchor="middle" class="mute">${csDeg(lam)}°</text>`;
+  $("dz").innerHTML = s;
+  $("dz").setAttribute("aria-label", t("celZodH") + ": " + Z[j]);
+  const a = sunCross(longitudineSoare, ms, j * 30, -1), b = sunCross(longitudineSoare, ms, ((j + 1) * 30) % 360, +1);
+  $("rz").innerHTML = t("celZodOut")(Z[j], csDate(a), csDate(b), csDeg(lam), ZOD_GLYPH[j]);
+  return {j, a, b, edge: Math.min(lam - j * 30, (j + 1) * 30 - lam)};
+}
+
+function csRender(fromCode) {
+  const r = dinUtc(csMs, st.lon, st.mode);
+  if (!fromCode) $("cs-code").value = cod(r);
+  $("cs-dt").value = new Date(csMs).toISOString().slice(0, 16);
+  $("cs-msg").classList.remove("err"); $("cs-msg").textContent = "";
+  const C = drawConst(csMs), Zd = drawZod(csMs), N = t("constN"), Z = t("zodN"), co = zodOfConst(C.idx) === Zd.j;
+  $("cs-ans").innerHTML = t("celAns")(ZOD_GLYPH[Zd.j], Z[Zd.j], csDate(Zd.a), csDate(Zd.b), N[C.idx], csDate(C.a), csDate(C.b), co, Zd.edge < 1.5, C.idx === 8);
+}
+// zodia „firească” a unei constelații (Ophiuchus nu are zodie)
+function zodOfConst(ci) { return ci === 8 ? -1 : ci < 8 ? ci : ci - 1; }
+function csFromSI() {
+  const v = $("cs-dt").value, ms = Date.parse(v + (v.length === 16 ? ":00" : "") + "Z");
+  if (!v || !isFinite(ms)) { $("cs-msg").classList.add("err"); $("cs-msg").textContent = t("err").date; return; }
+  csMs = ms; csRender(false);
+}
+function csFromCode() {
+  const p = parseCod($("cs-code").value), m = $("cs-msg");
+  if (!p) { m.classList.add("err"); m.textContent = t("err").code; return; }
+  try {
+    const cyc = parseInt($("cv-cyc").value, 10);
+    csMs = inUtc(p.er, p.ae, p.lc, p.zn, p.hn, p.mn, p.sn, p.ss, p.lon, p.mod, cyc);
+    csRender(true);
+  } catch (e) {
+    m.classList.add("err"); const x = t("err")[e.e]; m.textContent = typeof x === "function" ? x(...e.a) : (x || t("err").time);
+  }
+}
+$("cs-dt").addEventListener("input", csFromSI);
+$("cs-code").addEventListener("input", csFromCode);
+$("cs-now").onclick = () => { csMs = Math.floor(Date.now() / 60000) * 60000; csRender(false); };
+for (const id of ["lon", "preset"]) { $(id).addEventListener("input", () => csRender(false)); $(id).addEventListener("change", () => csRender(false)); }
+$("mF").addEventListener("click", () => csRender(false)); $("mL").addEventListener("click", () => csRender(false));
+document.querySelectorAll("[data-lang]").forEach(b => b.addEventListener("click", () => csRender(false)));
+csRender(false);
 
 /* ---------- meniu cu file ---------- */
 const TABS = ["timp", "data", "calendar", "convertor"];

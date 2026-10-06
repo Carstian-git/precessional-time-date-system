@@ -154,8 +154,8 @@ def _an_nou(text):
 
 
 def test():
-    # 1. inceputul anului = ziua UTC a solstitiului din decembrie (tabele 2011-2019, 2021-2031)
-    sol = {2011: 22, 2012: 21, 2013: 21, 2014: 21, 2015: 22, 2016: 21, 2017: 21, 2018: 21, 2019: 22,
+    # 1. inceputul anului = ziua UTC a solstitiului din decembrie (2011-2031, verificat cu biblioteca ephem)
+    sol = {2011: 22, 2012: 21, 2013: 21, 2014: 21, 2015: 22, 2016: 21, 2017: 21, 2018: 21, 2019: 22, 2020: 21,
            2021: 21, 2022: 21, 2023: 22, 2024: 21, 2025: 21, 2026: 21, 2027: 22, 2028: 21, 2029: 21, 2030: 21, 2031: 22}
     for y, dd in sol.items():
         assert inceput_an(y - 2010) == date(y, 12, dd), y

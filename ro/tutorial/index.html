@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Tutorial pas cu pas: cum citești și cum calculezi o dată în sistemul precesional</title>
+<meta name="description" content="Un exemplu urmărit de la un capăt la altul (5 octombrie 2026, 12:00 UTC, București): ora de 36 de ore, ziua din an, luna de 28 de zile, arcul solar, era și codul complet.">
+<link rel="canonical" href="https://carstian-git.github.io/precessional-time-date-system/ro/tutorial/">
+<link rel="alternate" hreflang="ro" href="https://carstian-git.github.io/precessional-time-date-system/ro/tutorial/">
+<link rel="alternate" hreflang="en" href="https://carstian-git.github.io/precessional-time-date-system/en/tutorial/">
+<link rel="alternate" hreflang="fr" href="https://carstian-git.github.io/precessional-time-date-system/fr/tutorial/">
+<link rel="alternate" hreflang="x-default" href="https://carstian-git.github.io/precessional-time-date-system/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Timpul precesional uman · Calendarul precesional uman">
+<meta property="og:title" content="Tutorial pas cu pas: cum citești și cum calculezi o dată în sistemul precesional">
+<meta property="og:description" content="Un exemplu urmărit de la un capăt la altul (5 octombrie 2026, 12:00 UTC, București): ora de 36 de ore, ziua din an, luna de 28 de zile, arcul solar, era și codul complet.">
+<meta property="og:url" content="https://carstian-git.github.io/precessional-time-date-system/ro/tutorial/">
+<meta property="og:locale" content="ro_RO">
+<meta property="og:image" content="https://carstian-git.github.io/precessional-time-date-system/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Timpul precesional uman · Calendarul precesional uman", "url": "https://carstian-git.github.io/precessional-time-date-system/ro/", "inLanguage": "ro", "description": "Un exemplu urmărit de la un capăt la altul (5 octombrie 2026, 12:00 UTC, București): ora de 36 de ore, ziua din an, luna de 28 de zile, arcul solar, era și codul complet."}</script>
+</head>
+<body>
+<a class="skip" href="#main">Salt la conținut</a>
+<header class="sitehead">
+<a class="brand" href="../">Timpul precesional uman</a>
+<nav class="sitenav" aria-label="Meniu principal"><a href="../">Acasă</a><a href="../sistem/">Sistemul</a><a href="./" aria-current="page">Tutorial</a><a href="../precesia/">Precesia</a><a href="../aplicatie/">Instrumente</a><a href="../despre/">Despre</a></nav>
+<div class="langsw" role="group" aria-label="Limba"><a href="../../ro/tutorial/" hreflang="ro" lang="ro" aria-current="true">RO</a><a href="../../en/tutorial/" hreflang="en" lang="en">EN</a><a href="../../fr/tutorial/" hreflang="fr" lang="fr">FR</a></div>
+</header>
+<main id="main" class="wrap">
+<h1 class="page">Tutorial pas cu pas</h1>
+
+<p class="lead">Un singur exemplu, urmărit de la început până la sfârșit: <b>5 octombrie 2026, ora 12:00 UTC, la București</b> (26,1° est, fusul +3). La sfârșit obținem codul <code>12-1734-4-58.4-25-11-09 21:00:00:00 F+03</code>. Fiecare pas poate fi verificat în <a href="../aplicatie/">instrumente</a> sau cu scripturile de descărcat.</p>
+<nav class="toc" aria-label="Pașii"><a href="#p1">1. Ora</a><a href="#p2">2. Fusul</a><a href="#p3">3. Ziua din an</a><a href="#p4">4. Luna</a><a href="#p5">5. Arcul solar</a><a href="#p6">6. Luna cerească</a><a href="#p7">7. Era</a><a href="#p8">8. Codul</a><a href="#bisect">Anul bisect</a><a href="#ruleaza">Rulează singur</a></nav>
+
+<section class="prose" id="p1">
+ <h2>1. Ora standard devine ora de 36 de ore</h2>
+ <p>Regula rapidă: <b>ora standard × 1,5 = ora nouă</b>. Pentru exactitate se numără secundele de la miezul nopții și se împart pe rând la 2.400 (ora nouă), 240 (minutul nou), 24 (secunda nouă); restul sunt subsecunde, adică secunde SI.</p>
+ <p>Exemplu cu 15:30:45:</p>
+ <ol class="steps">
+  <li>15 × 3.600 + 30 × 60 + 45 = <b>55.845 s</b> de la miezul nopții.</li>
+  <li>55.845 ÷ 2.400 = 23, rest 645 → <b>ora nouă 23</b>.</li>
+  <li>645 ÷ 240 = 2, rest 165 → <b>minutul 2</b>.</li>
+  <li>165 ÷ 24 = 6, rest 21 → <b>secunda 6</b> și <b>subsecunda 21</b>.</li>
+ </ol>
+ <p>Rezultat: <code>23:02:06:21</code>. Unghiul este 55.845 ÷ 86.400 × 360° = 232,6875°: ora nouă este chiar poziția de pe cerc.</p>
+</section>
+
+<section class="prose" id="p2">
+ <h2>2. Fusul: de la UTC la ora locală</h2>
+ <p>Un grad de longitudine este un minut nou, iar un fus este o bandă de 10° (40 de minute standard). București este la 26,1° est, deci în <b>fusul +3</b> (3 benzi × 40 min = 2 h).</p>
+ <p>12:00 UTC + 2 h = 14:00 ora standard locală; 14 × 1,5 = <b>21:00:00:00</b>. Nu există oră de vară: fusul rămâne același tot anul.</p>
+</section>
+
+<section class="prose" id="p3">
+ <h2>3. Ziua din an</h2>
+ <p>Anul începe în ziua solstițiului din decembrie. Anul 2026 a început la 21 decembrie 2025. De la 21 decembrie până la 31 decembrie sunt 11 zile; ianuarie–septembrie au 273 de zile; mai sunt 5 zile din octombrie: 11 + 273 + 5 = <b>ziua 289</b>.</p>
+</section>
+
+<section class="prose" id="p4">
+ <h2>4. Luna de 28 de zile și ziua săptămânii</h2>
+ <p>289 ÷ 28 = 10 luni întregi (280 de zile), rest 9 → <b>luna 11, ziua 9</b>. Fiecare lună începe luni, deci ziua săptămânii este ((9 − 1) mod 7) + 1 = 2: <b>marți</b>. În calendarul gregorian, 5 octombrie 2026 este luni; cele două calendare nu au aceeași zi a săptămânii.</p>
+</section>
+
+<section class="prose" id="p5">
+ <h2>5. Arcul solar și cadranul</h2>
+ <p>Anul are 73 de arcuri de 5 zile. 289 ÷ 5 = 57 de arcuri complete (285 de zile), rest 4 → <b>arcul 58, ziua 4</b>. Cadranul solar este delimitat de solstițiile și echinocțiile reale: după echinocțiul din septembrie începe <b>cadranul 4</b>.</p>
+</section>
+
+<section class="prose" id="p6">
+ <h2>6. Ziua lunară</h2>
+ <p>Faza Lunii nu se calculează cu o regulă simplă pe hârtie, ci astronomic. Ziua lunară 1 este ziua locală a lunii noi reale; pe 5 octombrie 2026 ne aflăm în <b>ziua lunară 25</b> (semilună descrescătoare). Valoarea se citește în convertor sau în script.</p>
+</section>
+
+<section class="prose" id="p7">
+ <h2>7. Era și anul din eră</h2>
+ <p>Ciclul precesional de circa 25.772 de ani se împarte în 12 ere. Era curentă, <b>ER 12 (Pești)</b>, a început în anul 293. Anul din eră (AE) se numără de la 1, fără an zero: 2026 − 293 + 1 = <b>AE 1734</b>.</p>
+ <p>Același calcul pentru trecut: 785 î.e.n. cade în ER 11, AE 1072. Ordinea pe cerc este inversă față de cea din horoscoape (era Peștilor urmează Berbecului), ceea ce este firesc pentru o mișcare de precesie.</p>
+</section>
+
+<section class="prose" id="p8">
+ <h2>8. Codul complet</h2>
+ <p>Punem câmpurile cap la cap, în ordinea <code>ER-AE-CS-AS.ZA-CL-LC-ZN HN:MN:SN:SS sufix</code>:</p>
+ <pre>12-1734-4-58.4-25-11-09 21:00:00:00 F+03</pre>
+ <div class="scroll"><table class="grid"><thead><tr><th>Câmp</th><th>Valoare</th><th>Sens</th></tr></thead><tbody>
+  <tr><td>ER</td><td>12</td><td>era Peștilor</td></tr>
+  <tr><td>AE</td><td>1734</td><td>anul din eră</td></tr>
+  <tr><td>CS</td><td>4</td><td>cadranul solar</td></tr>
+  <tr><td>AS.ZA</td><td>58.4</td><td>arcul 58, ziua 4 din arc</td></tr>
+  <tr><td>CL</td><td>25</td><td>ziua lunară</td></tr>
+  <tr><td>LC</td><td>11</td><td>luna 11 din 13</td></tr>
+  <tr><td>ZN</td><td>09</td><td>ziua 9 a lunii (marți)</td></tr>
+  <tr><td>HN:MN:SN:SS</td><td>21:00:00:00</td><td>ora nouă</td></tr>
+  <tr><td>sufix</td><td>F+03</td><td>fusul +3</td></tr></tbody></table></div>
+ <p>Pentru uz zilnic ajunge forma scurtă: <code>ER 12 · AE 1734 · luna 11 · ziua 9 · 21:00:00</code>.</p>
+</section>
+
+<section class="prose" id="bisect">
+ <h2>Ziua anului și ziua bisectă</h2>
+ <p>Cele 13 luni de 28 de zile fac 364 de zile. A 365-a zi este <b>Ziua anului</b>, în afara săptămânii (luna 00, ziua 01). Un an este bisect dacă numărul lui k (anul gregorian minus 2011) este multiplu de 4 dar nu de 128; atunci apare <b>Ziua bisectă</b> (luna 00, ziua 02). Exemplu: anul 2027 (k = 16) are 366 de zile. Anul mediu este 365 + 1/4 − 1/128 = 365,2421875 de zile, foarte aproape de anul tropic.</p>
+</section>
+
+<section class="prose" id="idei">
+ <h2>O idee de organizare a zilei</h2>
+ <p>Cele 36 de ore se pot grupa în 4 blocuri de 9 ore (câte 6 ore standard) sau în 6 blocuri de 6 ore (câte 4 ore standard). Sunt idei de organizare, nu rezultate ale sistemului: fiecare își alege dacă i se potrivesc.</p>
+</section>
+
+<section class="prose" id="ruleaza">
+ <h2>Rulează singur</h2>
+ <p>Scripturile se descarcă din pagina <a href="../despre/">Despre</a> și au nevoie doar de Python. Exemplele de mai sus se reproduc astfel:</p>
+ <pre>python sistem_timp.py g2t 2026-10-05T12:00:00 26.1 F
+python sistem_timp.py t2g "12-1734-4-58.4-25-11-09 21:00:00:00 F+03"
+python sistem_timp.py istoric 785BCE
+python sistem_timp.py evenimente 2026</pre>
+ <p>Prima comandă dă codul de mai sus, a doua îl transformă înapoi în data UTC, a treia dă era și anul pentru 785 î.e.n., iar a patra listează solstițiile, echinocțiile și fazele Lunii din 2026. Fără Python, aceleași operații se fac în <a href="../aplicatie/">convertor</a>. Despre precesie, vezi și <a href="../precesia/">tutorialul vizual</a>.</p>
+</section>
+
+</main>
+<footer class="sitefoot">
+<p><b>Timpul precesional uman · Calendarul precesional uman</b></p>
+<p>Un sistem personal de măsurare a timpului, independent de dogme: ora ca unghi, anul ancorat în solstițiu, erele după precesie. Nu înlocuiește timpul civil sau standardele oficiale.</p>
+<p>Actualizat: 5 octombrie 2026</p>
+<p class="license">Texte: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ro" rel="license">CC BY-SA 4.0</a> · Cod: <a href="https://www.gnu.org/licenses/gpl-3.0.html" rel="license">GNU GPLv3</a></p>
+<p class="visitors">Vizitatori: <span id="gc-total">·</span></p>
+<script data-goatcounter="https://carstian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>(function(){var el=document.getElementById("gc-total");function g(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}var p=encodeURIComponent(location.pathname);setTimeout(function(){g("https://carstian.goatcounter.com/counter/"+p+".json").then(function(d){el.textContent=d.count}).catch(function(){el.textContent="0"})},2500)})();</script>
+</footer>
+</body>
+</html>
