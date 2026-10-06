@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The system: the 36-hour clock, the 13-month year and the eras</title>
+<meta name="description" content="How the 36-hour clock (360°), the solstice-anchored year with 13 months of 28 days, the 12 precessional eras and the full ER-AE code work.">
+<link rel="canonical" href="https://DOMENIUL-TAU.ro/en/sistem/">
+<link rel="alternate" hreflang="ro" href="https://DOMENIUL-TAU.ro/ro/sistem/">
+<link rel="alternate" hreflang="en" href="https://DOMENIUL-TAU.ro/en/sistem/">
+<link rel="alternate" hreflang="fr" href="https://DOMENIUL-TAU.ro/fr/sistem/">
+<link rel="alternate" hreflang="x-default" href="https://DOMENIUL-TAU.ro/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Human precessional time · Human precessional calendar">
+<meta property="og:title" content="The system: the 36-hour clock, the 13-month year and the eras">
+<meta property="og:description" content="How the 36-hour clock (360°), the solstice-anchored year with 13 months of 28 days, the 12 precessional eras and the full ER-AE code work.">
+<meta property="og:url" content="https://DOMENIUL-TAU.ro/en/sistem/">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://DOMENIUL-TAU.ro/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Human precessional time · Human precessional calendar", "url": "https://DOMENIUL-TAU.ro/en/", "inLanguage": "en", "description": "How the 36-hour clock (360°), the solstice-anchored year with 13 months of 28 days, the 12 precessional eras and the full ER-AE code work."}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="sitehead">
+<a class="brand" href="../">Human precessional time</a>
+<nav class="sitenav" aria-label="Main menu"><a href="../">Home</a><a href="./" aria-current="page">The system</a><a href="../precesia/">Precession</a><a href="../aplicatie/">Tools</a><a href="../despre/">About</a></nav>
+<div class="langsw" role="group" aria-label="Language"><a href="../../ro/sistem/" hreflang="ro" lang="ro">RO</a><a href="../../en/sistem/" hreflang="en" lang="en" aria-current="true">EN</a><a href="../../fr/sistem/" hreflang="fr" lang="fr">FR</a></div>
+</header>
+<main id="main" class="wrap">
+<h1 class="page">How the system works</h1>
+
+<p class="lead">The system measures time as an angle and anchors the year and the eras to the real motions of the Sun, the Moon and the Earth's axis. The rules below come with examples. You can try them in the <a href="../aplicatie/">tools</a>.</p>
+<nav class="toc" aria-label="Contents"><a href="#ceas">The clock</a><a href="#an">Year and calendar</a><a href="#ere">The eras</a><a href="#cod">Full code</a></nav>
+
+<section class="prose" id="ceas">
+ <h2>The 36-hour clock</h2>
+ <p>The day has 36 new hours and equals one full 360° rotation. Solar noon is at hour 18, like “12” on a classic clock, and midnight is hour 0. One subsecond is exactly one SI second, so conversion with standard time is exact.</p>
+ <div class="scroll"><table class="grid"><thead><tr><th>New unit</th><th>Made of</th><th>Angle</th><th>In standard time</th></tr></thead><tbody>
+  <tr><td>Day</td><td>36 hours</td><td>360°</td><td>24 h = 86,400 s</td></tr>
+  <tr><td>New hour (HN)</td><td>10 minutes</td><td>10°</td><td>40 min = 2,400 s</td></tr>
+  <tr><td>New minute (MN)</td><td>10 seconds</td><td>1°</td><td>4 min = 240 s</td></tr>
+  <tr><td>New second (SN)</td><td>24 subseconds</td><td>0.1°</td><td>24 s</td></tr>
+  <tr><td>Subsecond (SS)</td><td>–</td><td>0.004167°</td><td>1 s (SI second)</td></tr></tbody></table></div>
+ <p>Quick rule: standard hours × 1.5 = new hours. Example: 15:30:45 is 55,845 seconds after midnight, so new hour 23, minute 2, second 6, subsecond 21, which is 232.6875°. It is written <code>23:02:06:21</code>.</p>
+ <p>One degree of longitude is one new minute, so local mean time is UTC plus the longitude in new minutes. The 36 zones are 10° bands, and the offset from mean solar time is at most ±5 new minutes. There is no daylight saving time.</p>
+</section>
+
+<section class="prose" id="an">
+ <h2>The year and the 13-month calendar</h2>
+ <ul>
+  <li><b>The year begins on the day of the December solstice.</b> It has 365 days, or 366 in leap years (the year number is a multiple of 4 but not of 128). The mean year is 365.2421875 days, very close to the tropical year.</li>
+  <li><b>13 months of 28 days</b>, that is 364 days and exactly 52 weeks. Each month starts on Monday and ends on Sunday. Day 365 is the <b>Year Day</b> and in leap years day 366 is the <b>Leap Day</b>; both sit outside the week.</li>
+  <li><b>73 solar arcs</b> of 5 days each form a second count of the year.</li>
+  <li><b>Solar quadrants</b> (1–4) are bounded by the real solstices and equinoxes, computed astronomically to better than a minute.</li>
+  <li><b>Moon phases</b> are the real ones. Lunar day 1 is the local day of the astronomical new moon.</li>
+ </ul>
+ <p>A year is named after the Gregorian year that contains 1 July of the new year. For example, year 2026 begins on 21.12.2025 and ends on 20.12.2026. The weekday in this calendar usually differs from the Gregorian one: 29 September 2026 is a Tuesday in the Gregorian calendar but a Wednesday (day 3 of month 11) in this one.</p>
+</section>
+
+<section class="prose" id="ere">
+ <h2>The 12 precessional eras</h2>
+ <p>The Earth's axis traces a cycle of about 25,772 years, split into 12 precessional eras (ER 1–12) of 2,147 or 2,148 years. The year within an era is called AE and there is no year zero. The reference is the star Spica. With them all of history can be dated: <b>785 BCE = ER 11, AE 1072</b>, and <b>2026 CE = ER 12, AE 1734</b>. The eras are units of time and have nothing to do with astrology. <a href="../precesia/">See the precession tutorial</a>.</p>
+ <div class="scroll"><table class="grid"><thead><tr><th>ER</th><th>Sanskrit</th><th>Romanian</th><th>English</th><th>French</th><th>Starts in year</th></tr></thead><tbody>
+ <tr><td>1</td><td>Kumbha</td><td>Vărsător</td><td>Aquarius</td><td>Verseau</td><td>23332 BCE</td></tr>
+<tr><td>2</td><td>Makara</td><td>Capricorn</td><td>Capricorn</td><td>Capricorne</td><td>21185 BCE</td></tr>
+<tr><td>3</td><td>Dhanus</td><td>Săgetător</td><td>Sagittarius</td><td>Sagittaire</td><td>19037 BCE</td></tr>
+<tr><td>4</td><td>Vṛścika</td><td>Scorpion</td><td>Scorpio</td><td>Scorpion</td><td>16889 BCE</td></tr>
+<tr><td>5</td><td>Tulā</td><td>Balanță</td><td>Libra</td><td>Balance</td><td>14742 BCE</td></tr>
+<tr><td>6</td><td>Kanyā</td><td>Fecioară</td><td>Virgo</td><td>Vierge</td><td>12594 BCE</td></tr>
+<tr><td>7</td><td>Siṃha</td><td>Leu</td><td>Leo</td><td>Lion</td><td>10446 BCE</td></tr>
+<tr><td>8</td><td>Karkaṭa</td><td>Rac</td><td>Cancer</td><td>Cancer</td><td>8299 BCE</td></tr>
+<tr><td>9</td><td>Mithuna</td><td>Gemeni</td><td>Gemini</td><td>Gémeaux</td><td>6151 BCE</td></tr>
+<tr><td>10</td><td>Vṛṣabha</td><td>Taur</td><td>Taurus</td><td>Taureau</td><td>4003 BCE</td></tr>
+<tr><td>11</td><td>Meṣa</td><td>Berbec</td><td>Aries</td><td>Bélier</td><td>1856 BCE</td></tr>
+<tr><td>12</td><td>Mīna</td><td>Pești</td><td>Pisces</td><td>Poissons</td><td>293 CE</td></tr>
+ </tbody></table></div>
+ <p class="note">The current cycle (23332 BCE – 2440 CE) covers all known history. The next cycle starts with ER 1 in the year 2441. An ER-AE code is unique only within one cycle.</p>
+</section>
+
+<section class="prose" id="cod">
+ <h2>The full code</h2>
+ <p>The format is <code>ER-AE-CS-AS.ZA-CL-LC-ZN HN:MN:SN:SS suffix</code>. Example: <code>12-1734-4-57.3-19-11-03 26:02:06:21 F+03</code> means era 12 (Pisces), year 1734 of the era; solar quadrant 4, arc 57 day 3; lunar day 19; month 11, day 3; new time 26:02:06:21; zone +3.</p>
+ <div class="scroll"><table class="grid"><thead><tr><th>Field</th><th>Meaning</th><th>Values</th></tr></thead><tbody>
+  <tr><td>ER</td><td>Precessional era</td><td>1–12</td></tr>
+  <tr><td>AE</td><td>Year of the era, no year zero</td><td>0001–2148</td></tr>
+  <tr><td>CS</td><td>Solar quadrant</td><td>1–4</td></tr>
+  <tr><td>AS.ZA</td><td>Solar arc and day within the arc</td><td>01–73 and 1–5 (6)</td></tr>
+  <tr><td>CL</td><td>Lunar day</td><td>01–30</td></tr>
+  <tr><td>LC</td><td>Calendar month</td><td>00–13</td></tr>
+  <tr><td>ZN</td><td>Day of the month</td><td>01–28</td></tr>
+  <tr><td>HN:MN:SN:SS</td><td>New time</td><td>00–35 : 00–09 : 00–09 : 00–23</td></tr>
+  <tr><td>suffix</td><td>Zone or local solar time</td><td><code>F+03</code> or <code>L+26.1</code></td></tr></tbody></table></div>
+ <p>For everyday use the short form is enough, for example <code>ER 12 · AE 1734 · month 11 · day 3 · 26:02:06</code>. Hour, minute and second are written with two digits, although minutes and seconds only run from 0 to 9.</p>
+</section>
+
+</main>
+<footer class="sitefoot">
+<p><b>Human precessional time · Human precessional calendar</b></p>
+<p>A personal, dogma-independent way of measuring time: the hour as an angle, the year anchored to the solstice, eras from precession. It does not replace civil time or official standards.</p>
+<p>Updated: 5 October 2026</p>
+<p class="visitors">Visitors: <span id="gc-total">·</span></p>
+<script data-goatcounter="https://timp-precesional.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>fetch("https://timp-precesional.goatcounter.com/counter//TOTAL.json").then(function(r){return r.json()}).then(function(d){document.getElementById("gc-total").textContent=d.count}).catch(function(){});</script>
+</footer>
+</body>
+</html>

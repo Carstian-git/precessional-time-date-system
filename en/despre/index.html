@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>About: the name, FAQ, limits and downloads</title>
+<meta name="description" content="Why “precessional” and “human”, frequently asked questions, accuracy, the limits of the equal-era model, and the Excel and Python files.">
+<link rel="canonical" href="https://DOMENIUL-TAU.ro/en/despre/">
+<link rel="alternate" hreflang="ro" href="https://DOMENIUL-TAU.ro/ro/despre/">
+<link rel="alternate" hreflang="en" href="https://DOMENIUL-TAU.ro/en/despre/">
+<link rel="alternate" hreflang="fr" href="https://DOMENIUL-TAU.ro/fr/despre/">
+<link rel="alternate" hreflang="x-default" href="https://DOMENIUL-TAU.ro/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Human precessional time · Human precessional calendar">
+<meta property="og:title" content="About: the name, FAQ, limits and downloads">
+<meta property="og:description" content="Why “precessional” and “human”, frequently asked questions, accuracy, the limits of the equal-era model, and the Excel and Python files.">
+<meta property="og:url" content="https://DOMENIUL-TAU.ro/en/despre/">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://DOMENIUL-TAU.ro/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Human precessional time · Human precessional calendar", "url": "https://DOMENIUL-TAU.ro/en/", "inLanguage": "en", "description": "Why “precessional” and “human”, frequently asked questions, accuracy, the limits of the equal-era model, and the Excel and Python files."}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="sitehead">
+<a class="brand" href="../">Human precessional time</a>
+<nav class="sitenav" aria-label="Main menu"><a href="../">Home</a><a href="../sistem/">The system</a><a href="../precesia/">Precession</a><a href="../aplicatie/">Tools</a><a href="./" aria-current="page">About</a></nav>
+<div class="langsw" role="group" aria-label="Language"><a href="../../ro/despre/" hreflang="ro" lang="ro">RO</a><a href="../../en/despre/" hreflang="en" lang="en" aria-current="true">EN</a><a href="../../fr/despre/" hreflang="fr" lang="fr">FR</a></div>
+</header>
+<main id="main" class="wrap">
+<h1 class="page">About the system</h1>
+<section class="prose"><h2>The name</h2>
+<p><b>Human precessional time and the human precessional calendar.</b> A system of time and date built only on what any person on Earth can observe, with no doctrine. “Precessional” comes from the precession of the equinoxes, and “human” means at the scale of human perception.</p><p><b>Time.</b> The day is one full rotation of the Earth, 360° and 36 hours. A new hour is 10°, a new minute 1°, a new second 0.1°, and a subsecond is one SI second.</p><p><b>The calendar.</b> The year starts at the December solstice and has 13 months of 28 days. The Sun and Moon are computed from their real positions in the sky.</p><p><b>The eras.</b> The slowest motion, the precession of the equinoxes (25,772 years), divides time into 12 eras. A single cycle, the current one (from 23332 BCE to 2440 CE), holds all of recorded human history, from cave art to today, so any date in the past has a unique code. After 2440 the next cycle begins.</p></section>
+<section class="prose"><h2>Frequently asked questions</h2><div class="faq"><details><summary>Why 36 hours?</summary><p>So that the day is an angle: 36 hours × 10° = 360°. An hour is 10°, a minute 1° and a second 0.1°, and any position of the hand directly shows the Earth's rotation angle. One subsecond is exactly one standard second, so conversion with ordinary time is exact.</p></details><details><summary>Why does the year start at the December solstice?</summary><p>Because it is an astronomical landmark anyone can observe: the day the Sun is lowest in the sky in the northern hemisphere. It depends on no convention or tradition.</p></details><details><summary>Is it related to astrology?</summary><p>No. The eras are units of time defined geometrically from the precession of the equinoxes. The constellation names (in Sanskrit, English and French) are only labels.</p></details><details><summary>Can it be used in everyday life?</summary><p>It is a personal, experimental system. It does not replace civil time or the official calendar, but conversion is exact, so you can switch between them at any time.</p></details><details><summary>How accurate are the calculations?</summary><p>Positions of the Sun and Moon, solstices, equinoxes and new moons use Jean Meeus's series, with accuracy better than a minute. The tested range is 1900–2200. For distant years accuracy decreases.</p></details><details><summary>What are ER-AE codes?</summary><p>ER is the precessional era (1–12) and AE is the year within the era, with no year zero. For example 2026 CE is ER 12, AE 1734. An ER-AE code is unique within a 25,772-year cycle, and the current cycle covers all known history.</p></details></div></section>
+<section class="prose"><h2>Limits and variants</h2><p>The eras in the system are equal (variant C), to keep them simple to compute. Real precession accelerates slightly, so the real era boundaries are not equally spaced: for example ER 12 really begins in the year 287 while the model has 293 (a 6.5-year deviation), and ER 11 begins 33 years earlier than in the model. On the scale of history these deviations are small. Variants A (real boundaries computed from precession, more exact but with eras of different lengths) and B (equal eras with a cycle tuned to about 25,760 years) were also evaluated; they are documented in the manual and could be adopted later by changing only the boundary table.</p></section>
+<section class="prose wide"><h2>Downloads</h2><p>The same rules are available as files. The manual explains every sheet and function.</p><div class="dl"><div><a href="../../files/timp_36_ore_rotatie.xlsx" download>timp_36_ore_rotatie.xlsx</a><span>Excel workbook (13 sheets): conversions, calendars, eras, full code</span></div><div><a href="../../files/sistem_timp.py" download>sistem_timp.py</a><span>Python: exact UTC ↔ full code conversion, eras, real Sun and Moon positions</span></div><div><a href="../../files/calendar_13_luni.py" download>calendar_13_luni.py</a><span>Python: Gregorian ↔ 13-month calendar conversion</span></div><div><a href="../../files/conversie_timp.py" download>conversie_timp.py</a><span>Python: simple 24 h ↔ 36 h conversion</span></div><div><a href="../../files/manual_utilizare_sistem_timp.docx" download>manual_utilizare_sistem_timp.docx</a><span>User manual (Word, in Romanian)</span></div><div><a href="../../files/manual_utilizare_sistem_timp.md" download>manual_utilizare_sistem_timp.md</a><span>User manual (Markdown, in Romanian)</span></div></div></section>
+</main>
+<footer class="sitefoot">
+<p><b>Human precessional time · Human precessional calendar</b></p>
+<p>A personal, dogma-independent way of measuring time: the hour as an angle, the year anchored to the solstice, eras from precession. It does not replace civil time or official standards.</p>
+<p>Updated: 5 October 2026</p>
+<p class="visitors">Visitors: <span id="gc-total">·</span></p>
+<script data-goatcounter="https://timp-precesional.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>fetch("https://timp-precesional.goatcounter.com/counter//TOTAL.json").then(function(r){return r.json()}).then(function(d){document.getElementById("gc-total").textContent=d.count}).catch(function(){});</script>
+</footer>
+</body>
+</html>
