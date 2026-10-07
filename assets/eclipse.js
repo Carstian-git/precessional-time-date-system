@@ -325,7 +325,7 @@ function lunarGeom(ms) {
   const [ml, mb] = lunaLonLat(ms), dl = delta(ml, lonSoare(ms) + 180), dist = distLuna(ms), r = rSoareAU(ms);
   const dd = Math.hypot(dl * Math.cos(rad(mb)), mb), pm = Math.asin(R_ECHIV / dist) * 180 / Math.PI, ps = 8.794 / 3600 / r, ss = 0.26656 / r, sm = Math.asin(R_LUNA / dist) * 180 / Math.PI;
   const ru = 1.02 * (pm + ps - ss), rp = 1.02 * (pm + ps + ss);
-  return {dd, gamma: dd / pm, magU: (ru + sm - dd) / (2 * sm), magP: (rp + sm - dd) / (2 * sm), dist};
+  return {dd, gamma: dd / pm, magU: (ru + sm - dd) / (2 * sm), magP: (rp + sm - dd) / (2 * sm), dist, ru, rp, sm, dx: dl * Math.cos(rad(mb)), dy: mb};
 }
 function minimize(f, t0, span, step) { let best = t0, bv = Infinity; for (let q = t0 - span; q <= t0 + span; q += step) { const v = f(q); if (v < bv) { bv = v; best = q; } } return best; }
 function eclipseAt(t0, tinta) {
@@ -526,11 +526,46 @@ function fund(ms) {
   const C = sub3(Mv, d.map(x => x * b)), yv = nrm3(sub3([0, 0, 1], d.map(x => x * d[2]))), xv = cross3(d, yv), Lu = R_LUNA * Dn / (R_SOARE - R_LUNA);
   return {x: dot3(C, xv) / R_ECHIV, y: dot3(C, yv) / R_ECHIV, rP: (R_LUNA + tt * (R_SOARE + R_LUNA) / Dn) / R_ECHIV, rU: R_LUNA * (1 - tt / Lu) / R_ECHIV};
 }
+function skyAt(ms, obs) {
+  const th = rad(obs.lon) + gmstR(ms), la = rad(obs.lat), O = [R_ECHIV * Math.cos(la) * Math.cos(th), R_ECHIV * Math.cos(la) * Math.sin(th), R_ECHIV * Math.sin(la)];
+  const {Mv, Sv} = solVecs(ms), rs = sub3(Sv, O), rm = sub3(Mv, O), us = nrm3(rs), um = nrm3(rm);
+  return {ss: Math.asin(R_SOARE / Math.hypot(...rs)) * 180 / Math.PI, sm: Math.asin(R_LUNA / Math.hypot(...rm)) * 180 / Math.PI, sep: Math.acos(Math.min(1, dot3(us, um))) * 180 / Math.PI};
+}
+/* momentele de început și de sfârșit: pentru eclipsa de Soare, din locul maximului; pentru cea de Lună, valabile pentru toată emisfera de unde se vede */
+function bisect(f, a, b) { let fa = f(a); for (let k = 0; k < 16; k++) { const m = (a + b) / 2, fm = f(m); if ((fm < 0) === (fa < 0)) { a = m; fa = fm; } else b = m; } return (a + b) / 2; }
+function contacts(f, t0, key1, key2, out) {
+  let prev = f(t0 - 420 * 6e4), pq = -420;
+  for (let q = -418; q <= 420; q += 2) { const v = f(t0 + q * 6e4); if (prev >= 0 && v < 0) out.push([key1, bisect(f, t0 + pq * 6e4, t0 + q * 6e4)]); if (prev < 0 && v >= 0) out.push([key2, bisect(f, t0 + pq * 6e4, t0 + q * 6e4)]); prev = v; pq = q; }
+}
+function phases(ev) {
+  if (ev._ph) return ev._ph;
+  const out = [];
+  if (ev.sol) {
+    contacts(q => { const g = skyAt(q, ev.U); return g.sep - (g.ss + g.sm); }, ev.t, "s1", "s4", out);
+    if (ev.type !== "p") contacts(q => { const g = skyAt(q, ev.U); return g.sep - Math.abs(g.sm - g.ss); }, ev.t, "c2", "c3", out);
+  } else {
+    contacts(q => { const g = lunarGeom(q); return g.dd - (g.rp + g.sm); }, ev.t, "p1", "p4", out);
+    if (ev.type !== "n") contacts(q => { const g = lunarGeom(q); return g.dd - (g.ru + g.sm); }, ev.t, "u1", "u4", out);
+    if (ev.type === "t") contacts(q => { const g = lunarGeom(q); return g.dd - (g.ru - g.sm); }, ev.t, "u2", "u3", out);
+  }
+  out.push(["mx", ev.t]); out.sort((a, b) => a[1] - b[1]);
+  return ev._ph = out;
+}
+function renderPhases(L) {
+  const body = $("ec-ph"); $("ec-thT").textContent = `${D.thTPU} ${fusLab()}`;
+  if (!L) { body.innerHTML = `<tr><td colspan="3">${D.pick}</td></tr>`; $("ec-phn").textContent = ""; return; }
+  const ev = L.ev; $("ec-phn").textContent = ev.sol ? D.phSolN.replace("{p}", `${latTxt(ev.U.lat)}, ${lonTxt(ev.U.lon)}`) : D.phLunN;
+  body.innerHTML = phases(ev).map(([k, t]) => {
+    const lab = k === "c2" ? (ev.type === "t" ? D.ph.c2t : D.ph.c2a) : k === "c3" ? (ev.type === "t" ? D.ph.c3t : D.ph.c3a) : D.ph[k];
+    return `<tr${k === "mx" ? ' class="poss"' : ""}><td>${lab}</td><td>${fmtDay(t)} · ${hhmm(t)} ${D.utc}</td><td>${tpu(t).date} · ${tpu(t).time} ${fusLab()}</td></tr>`;
+  }).join("");
+}
 const FC = [220, 235], FR = 80;
 const fpx = v => FC[0] + v * FR, fpy = v => FC[1] - v * FR;
 function renderFund(L) {
   const el = $("ec-fp"), out = $("ec-fo");
-  if (!L || !L.ev.sol) { el.innerHTML = `<circle cx="${FC[0]}" cy="${FC[1]}" r="${FR}" fill="var(--face)" stroke="var(--ink)" stroke-width="1.6"/>`; out.innerHTML = `<div class="small">${D.needSol}</div>`; return; }
+  if (!L) { el.innerHTML = `<circle cx="${FC[0]}" cy="${FC[1]}" r="${FR}" fill="var(--face)" stroke="var(--ink)" stroke-width="1.6"/>`; out.innerHTML = `<div class="small">${D.pick}</div>`; return; }
+  if (!L.ev.sol) return renderFundL(L, el, out);
   const ev = L.ev, ms = ev.t + GOFF * 6e4;
   if (!ev._fp) { const a = []; for (let q = -240; q <= 240; q += 6) a.push(fund(ev.t + q * 6e4)); ev._fp = a; ev._f0 = fund(ev.t); }
   const tr = ev._fp, f0 = ev._f0, F = fund(ms), poly = tr.map((p, i) => (i ? "L" : "M") + f1(fpx(p.x)) + " " + f1(fpy(p.y))).join("");
@@ -553,10 +588,38 @@ function renderFund(L) {
     `<div class="small">${D.fpAxis.replace("{g}", num(g, 2))} · ${g < 1 ? D.fpIn : on ? D.fpPartial : D.fpOut}</div>` +
     `<div class="small">${D.fpPen.replace("{p}", num(F.rP, 2))} · ${F.rU > 0 ? D.fpUmb.replace("{u}", num(F.rU * 2 * R_ECHIV, 0)) : D.fpAnt.replace("{u}", num(-F.rU * 2 * R_ECHIV, 0))}</div>`;
 }
+const LK = 95, LC = [220, 235];
+const lstate = g => g.dd + g.sm <= g.ru ? D.lTot : g.dd - g.sm < g.ru ? D.lPar : g.dd - g.sm < g.rp ? D.lPen : D.lNone;
+function renderFundL(L, el, out) {
+  const ev = L.ev, ms = ev.t + GOFF * 6e4, g = lunarGeom(ms), g0 = lunarGeom(ev.t);
+  if (!ev._lp) { const a = []; for (let q = -240; q <= 240; q += 6) { const h = lunarGeom(ev.t + q * 6e4); a.push([h.dx, h.dy]); } ev._lp = a; }
+  const X = v => LC[0] + v * LK, Y = v => LC[1] - v * LK, poly = ev._lp.map((p, i) => (i ? "L" : "M") + f1(X(p[0])) + " " + f1(Y(p[1]))).join("");
+  let s = `<line x1="20" y1="${LC[1]}" x2="420" y2="${LC[1]}" stroke="var(--rule)"/><line x1="${LC[0]}" y1="40" x2="${LC[0]}" y2="430" stroke="var(--rule)"/>`;
+  s += `<circle cx="${LC[0]}" cy="${LC[1]}" r="${f1(g0.rp * LK)}" fill="var(--ink)" fill-opacity=".10" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="5 3"/>`;
+  s += `<circle cx="${LC[0]}" cy="${LC[1]}" r="${f1(g0.ru * LK)}" fill="#8a2b1f" fill-opacity=".38" stroke="#8a2b1f" stroke-width="1.4"/>`;
+  s += `<path d="${poly}" fill="none" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="4 3"/>`;
+  s += `<circle cx="${f1(X(g.dx))}" cy="${f1(Y(g.dy))}" r="${f1(g.sm * LK)}" fill="var(--moon)" fill-opacity=".8" stroke="var(--ink)" stroke-width="1.6"/>`;
+  s += `<text x="${LC[0] + 5}" y="48" font-size="12" class="mute">N</text><text x="410" y="${LC[1] - 5}" font-size="12" class="mute" text-anchor="end">E</text>`;
+  s += `<text x="${LC[0]}" y="${LC[1] + g0.rp * LK + 18}" font-size="11" text-anchor="middle" class="mute">${D.lShadow}</text>`;
+  el.innerHTML = s;
+  out.innerHTML = `<div class="big">${dateTxt(ms)} · ${timeTxt(ms)}${GOFF ? " (" + offTxt(GOFF) + ")" : ""}</div><div class="small">${lstate(g)}</div>` +
+    `<div class="small">${D.lDist}: ${num(g.dd, 2)}° · ${D.lRad.replace("{u}", num(g.ru, 2)).replace("{p}", num(g.rp, 2))}</div><div class="small">${D.mag}: ${g.magU > 0 ? num(g.magU, 2) : "0"} · ${D.lMagP}: ${g.magP > 0 ? num(g.magP, 2) : "0"}</div>`;
+}
+function renderSkyL(L, el, out) {
+  const ev = L.ev, ms = ev.t + GOFF * 6e4, g = lunarGeom(ms), K = 70 / g.sm, sx = 220 + g.dx * K, sy = 220 + g.dy * K;
+  let s = `<rect x="0" y="0" width="440" height="440" fill="var(--face)"/><defs><clipPath id="ec-lclip"><circle cx="220" cy="220" r="70"/></clipPath></defs>`;
+  s += `<circle cx="220" cy="220" r="70" fill="var(--moon)" fill-opacity=".85"/>`;
+  s += `<g clip-path="url(#ec-lclip)"><circle cx="${f1(sx)}" cy="${f1(sy)}" r="${f1(g.rp * K)}" fill="#3b2a24" fill-opacity=".28"/><circle cx="${f1(sx)}" cy="${f1(sy)}" r="${f1(g.ru * K)}" fill="#8a2b1f" fill-opacity=".62"/></g>`;
+  s += `<circle cx="220" cy="220" r="70" fill="none" stroke="var(--ink)" stroke-width=".8"/>`;
+  s += `<text x="14" y="26" font-size="12" class="mute">${D.skN}</text><text x="426" y="26" font-size="12" class="mute" text-anchor="end">${D.skUp}</text>`;
+  el.innerHTML = s;
+  out.innerHTML = `<div class="big">${dateTxt(ms)} · ${timeTxt(ms)}${GOFF ? " (" + offTxt(GOFF) + ")" : ""}</div><div class="small">${lstate(g)}</div><div class="small">${D.lSee}</div>`;
+}
 const gmstR = ms => rad(gmstDeg(ms));
 function renderSky(L) {
   const el = $("ec-sk"), out = $("ec-sko");
-  if (!L || !L.ev.sol) { el.innerHTML = `<circle cx="220" cy="220" r="70" fill="var(--sun)" opacity=".3"/>`; out.innerHTML = `<div class="small">${D.needSol}</div>`; return; }
+  if (!L) { el.innerHTML = `<circle cx="220" cy="220" r="70" fill="var(--sun)" opacity=".3"/>`; out.innerHTML = `<div class="small">${D.pick}</div>`; return; }
+  if (!L.ev.sol) return renderSkyL(L, el, out);
   const ev = L.ev, ms = ev.t + GOFF * 6e4, obs = ev.U;
   const th = rad(obs.lon) + gmstR(ms), la = rad(obs.lat), O = [R_ECHIV * Math.cos(la) * Math.cos(th), R_ECHIV * Math.cos(la) * Math.sin(th), R_ECHIV * Math.sin(la)];
   const {Mv, Sv} = solVecs(ms), rs = sub3(Sv, O), rm = sub3(Mv, O), us = nrm3(rs), um = nrm3(rm);
@@ -609,7 +672,7 @@ function renderLists() {
 }
 function pick(l) { SEL = l; GOFF = 0; renderAll(); }
 function select(l) { stopY(); stopS(); pick(l); }
-function renderAll() { renderRings(); renderLists(); renderReadout(); renderGlobe(SEL); renderTable(); renderFund(SEL); renderSky(SEL); setEnabled(); }
+function renderAll() { renderRings(); renderLists(); renderReadout(); renderGlobe(SEL); renderTable(); renderFund(SEL); renderSky(SEL); renderPhases(SEL); setEnabled(); }
 function setEnabled() { const on = !!SEL; for (const id of ["ec-splay", "ec-splay2", "ec-off", "ec-off2"]) { $(id).disabled = !on; $(id).title = on ? "" : D.noEc; } }
 function renderTime() { renderGlobe(SEL); renderFund(SEL); renderSky(SEL); }
 function setYear(y, keep) {
