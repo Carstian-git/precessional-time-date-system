@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Sunrise, sunset and the Moon&#x27;s phases in the human precessional time</title>
+<meta name="description" content="For your place: the Sun&#x27;s rising, setting and noon, the Moon&#x27;s rising and setting, and its phases over a 28-day month, in HPT new hours or in standard time.">
+<link rel="canonical" href="https://carstian-git.github.io/precessional-time-date-system/en/ziua/">
+<link rel="alternate" hreflang="ro" href="https://carstian-git.github.io/precessional-time-date-system/ro/ziua/">
+<link rel="alternate" hreflang="en" href="https://carstian-git.github.io/precessional-time-date-system/en/ziua/">
+<link rel="alternate" hreflang="fr" href="https://carstian-git.github.io/precessional-time-date-system/fr/ziua/">
+<link rel="alternate" hreflang="x-default" href="https://carstian-git.github.io/precessional-time-date-system/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Human precessional time · Human precessional calendar">
+<meta property="og:title" content="Sunrise, sunset and the Moon&#x27;s phases in the human precessional time">
+<meta property="og:description" content="For your place: the Sun&#x27;s rising, setting and noon, the Moon&#x27;s rising and setting, and its phases over a 28-day month, in HPT new hours or in standard time.">
+<meta property="og:url" content="https://carstian-git.github.io/precessional-time-date-system/en/ziua/">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://carstian-git.github.io/precessional-time-date-system/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/fonts.css?v=54">
+<link rel="stylesheet" href="../../assets/site.css?v=54">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Human precessional time · Human precessional calendar", "url": "https://carstian-git.github.io/precessional-time-date-system/en/", "inLanguage": "en", "description": "For your place: the Sun's rising, setting and noon, the Moon's rising and setting, and its phases over a 28-day month, in HPT new hours or in standard time."}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="sitehead">
+<a class="brand" href="../">Human precessional time</a>
+<nav class="sitenav" aria-label="Main menu"><a href="../">Home</a><a href="../sistem/">The HPT system</a><a href="../tutorial/">Tutorial</a><a href="../precesia/">Precession</a><a href="../soare-luna/">Sun and Moon</a><a href="../eclipse/">Eclipses</a><a href="../anotimpuri/">Seasons</a><a href="./" aria-current="page">Sunrise and sunset</a><a href="../planete/">Planets and zodiac</a><a href="../astrologie/">Astrology in brief</a><a href="../aplicatie/">Tools</a><a href="../despre/">About</a></nav>
+<div class="langsw" role="group" aria-label="Language"><a href="../../ro/ziua/" hreflang="ro" lang="ro">RO</a><a href="../../en/ziua/" hreflang="en" lang="en" aria-current="true">EN</a><a href="../../fr/ziua/" hreflang="fr" lang="fr">FR</a></div>
+</header>
+<main id="main" class="wrap sl-wrap">
+<h1 class="page sl-h1">Sunrise, sunset and lunar phases</h1>
+<noscript><p class="note">JavaScript.</p></noscript>
+<section class="explorer sl-ctl" id="zi-ctl" aria-label="Choose the day and place">
+  <div class="cal-ctl">
+    <div class="field"><label for="zi-date" class="lbl">Day</label><input id="zi-date" type="date" value="2026-10-07"></div>
+    <div class="field"><label for="zi-lat" class="lbl">Latitude (°, + north)</label><input id="zi-lat" type="number" min="-89" max="89" step="0.01" value="44.43"></div>
+    <div class="field"><label for="zi-lon" class="lbl">Longitude (°, + east)</label><input id="zi-lon" type="number" min="-180" max="180" step="0.01" value="26.10"></div>
+    <div class="field"><label for="zi-mon" class="lbl">Time system</label><select id="zi-mon"><option value="tpu">Human precessional time (HPT)</option><option value="si">Standard time (SI)</option></select></div>
+    <div class="field" id="zi-fusF"><label for="zi-fus" class="lbl">Zone (Zone mode)</label><select id="zi-fus"></select></div>
+    <div class="field" id="zi-utcF" hidden><label for="zi-utc" class="lbl">SI time zone (UTC±h)</label><input id="zi-utc" type="number" min="-12" max="14" step="0.5" value="3"></div>
+    <div class="field"><span class="lbl">&nbsp;</span><div class="ex-jump"><button type="button" id="zi-p1">‹ 28 days</button><button type="button" id="zi-prev">‹ previous day</button><button type="button" id="zi-now">Now</button><button type="button" id="zi-next">next day ›</button><button type="button" id="zi-p2">28 days ›</button></div></div>
+  </div>
+  <div class="ec-ctl2 an-sl"><label for="zi-t" class="lbl">Time of day</label><input id="zi-t" type="range" min="0" max="1439" step="1" value="720"></div>
+</section>
+<p class="lead">The Sun rises and sets at times that depend on the place and the day of the year, and the Moon at times that slip by almost an hour a day. Here you see them for your place, on a day dial of 36 new hours (or 24 standard hours), with the twilight coloured, and you see what the Moon looks like on each day of the 28-day HPT month.</p>
+<section class="sl-board sl-board2" aria-label="The day on a dial">
+  <article class="sl-card"><h2>The day on a dial</h2><svg id="zi-dial" viewBox="-28 -28 416 416" role="img" aria-label="The day on a dial"></svg><p class="note">The dial is the whole day, starting at the top with local midnight. The colours show the Sun: yellow, day; orange, civil twilight (Sun between 0.8° and 6° below the horizon); blue, nautical twilight; dark, night. The arrows ↑ ↓ are sunrise and sunset, ☉ is noon, and the ☽ circles on the inner ring are moonrise and moonset.</p><div class="out" id="zi-r" aria-live="polite"></div></article>
+  <article class="sl-card"><h2>The Moon on the chosen day</h2><svg id="zi-moon" viewBox="0 0 220 180" role="img" aria-label="The Moon on the chosen day"></svg><div class="out" id="zi-mr" aria-live="polite"></div><p class="note">The Moon's look is the same everywhere on Earth (only its orientation differs). The percentage is the lit part of the disc.</p></article>
+</section>
+<section class="prose wide sl-year">
+  <h2>Lunar phases in the month: <span id="zi-calh"></span></h2>
+  <svg id="zi-cal" viewBox="0 0 420 300" role="img" aria-label="Lunar phases in the month"></svg>
+  <p class="note">Each day shows the Moon at mid-day. Days with a main phase have a yellow ring; press a day to choose it.</p>
+  <h3>The month's main phases</h3>
+  <div class="scroll"><table class="grid sl-tab ec-tab"><thead><tr><th>Phase</th><th>Date (SI), local time</th><th>Date (HPT), new time</th></tr></thead><tbody id="zi-ph"></tbody></table></div>
+</section>
+<section class="sl-help"><h2 class="sl-helph">How to use the dials</h2>
+<div class="sl-helpgrid"><div class="sl-txt"><ol class="steps"><li>Choose the day, the place (latitude and longitude) and the time system. Bucharest, 44.43° N and 26.10° E, is filled in.</li><li>In HPT the times are new hours (HN:MN) by the chosen zone; in standard time, by the UTC±h zone you type (3 in summer, 2 in winter in Romania).</li><li>Drag the time slider: the hand moves on the dial and the heights of the Sun and the Moon change. Press a day in the Moon's month to choose it.</li><li>Beyond the polar circles the Sun may not rise or may not set for a day or more.</li></ol></div></div></section>
+<section class="prose"><h2>What the page does not show</h2><ul><li>Sunrise and sunset are computed for the mathematical horizon with standard refraction (−0.833° for the Sun, +0.125° for the Moon); terrain and weather can shift the times by minutes.</li><li>For the Moon we use a mean distance; the real moonrise may differ by a few minutes.</li><li>The time zone and daylight saving time must be typed by you; the page does not guess them.</li></ul></section>
+<section class="prose"><p>For the seasons, solstices and the day length across the year see the next page.</p><p><a href="../anotimpuri/">The seasons</a></p></section>
+<section class="prose"><h2>Sources</h2><div class="srcs"><a href="https://www.willbell.com/math/mc1.htm" rel="noopener">Jean Meeus, Astronomical Algorithms (Willmann-Bell)</a><a href="https://aa.usno.navy.mil/faq/RST_defs" rel="noopener">Rise, Set, and Twilight Definitions, U.S. Naval Observatory</a></div></section>
+</main>
+<script type="application/json" id="zi-data">{"dec": ".", "defaultFus": 0, "locale": "en-GB", "sunrise": "Sunrise", "sunset": "Sunset", "noon": "Noon", "dayLen": "Day length", "civil": "Civil twilight (start → end)", "moonrise": "Moonrise", "moonset": "Moonset", "transit": "meridian transit", "at": "At", "above": "above the horizon", "below": "below the horizon", "polarDay": "Polar day: the Sun does not set", "polarNight": "Polar night: the Sun does not rise", "hours": "hours", "newH": "new hours", "illum": "Illuminated", "age": "Age", "days": "days", "elong": "Elongation", "yearDay": "Year Day", "monthL": "Month", "dowT": "D", "phN": ["New Moon", "Waxing crescent", "First quarter", "Waxing gibbous", "Full Moon", "Waning gibbous", "Last quarter", "Waning crescent"], "phF": ["New Moon", "First quarter", "Full Moon", "Last quarter"]}</script>
+<script src="../../assets/ziua.js?v=54" defer></script>
+<footer class="sitefoot">
+<p><b>Human precessional time · Human precessional calendar</b></p>
+<p>A personal, dogma-independent way of measuring time: the hour as an angle, the year anchored to the solstice, eras from precession. It does not replace civil time or official standards.</p>
+<p>Updated: 6 October 2026</p>
+<p class="license">Texts: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" rel="license">CC BY-SA 4.0</a> · Code: <a href="https://www.gnu.org/licenses/gpl-3.0.html" rel="license">GNU GPLv3</a></p>
+<p class="visitors">Visitors: <span id="gc-total">·</span></p>
+<script data-goatcounter="https://carstian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>(function(){var el=document.getElementById("gc-total");function g(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}setTimeout(function(){g("https://carstian.goatcounter.com/counter/TOTAL.json").then(function(d){el.textContent=d.count_unique||d.count}).catch(function(){el.textContent="—"})},1500)})();</script>
+</footer>
+</body>
+</html>

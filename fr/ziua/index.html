@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Lever, coucher et phases de la Lune en temps précessionnel humain</title>
+<meta name="description" content="Pour votre lieu : lever, coucher et midi du Soleil, lever et coucher de la Lune, ses phases sur un mois de 28 jours, en heures nouvelles TPH ou en temps standard.">
+<link rel="canonical" href="https://carstian-git.github.io/precessional-time-date-system/fr/ziua/">
+<link rel="alternate" hreflang="ro" href="https://carstian-git.github.io/precessional-time-date-system/ro/ziua/">
+<link rel="alternate" hreflang="en" href="https://carstian-git.github.io/precessional-time-date-system/en/ziua/">
+<link rel="alternate" hreflang="fr" href="https://carstian-git.github.io/precessional-time-date-system/fr/ziua/">
+<link rel="alternate" hreflang="x-default" href="https://carstian-git.github.io/precessional-time-date-system/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Temps précessionnel humain · Calendrier précessionnel humain">
+<meta property="og:title" content="Lever, coucher et phases de la Lune en temps précessionnel humain">
+<meta property="og:description" content="Pour votre lieu : lever, coucher et midi du Soleil, lever et coucher de la Lune, ses phases sur un mois de 28 jours, en heures nouvelles TPH ou en temps standard.">
+<meta property="og:url" content="https://carstian-git.github.io/precessional-time-date-system/fr/ziua/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://carstian-git.github.io/precessional-time-date-system/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/fonts.css?v=54">
+<link rel="stylesheet" href="../../assets/site.css?v=54">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Temps précessionnel humain · Calendrier précessionnel humain", "url": "https://carstian-git.github.io/precessional-time-date-system/fr/", "inLanguage": "fr", "description": "Pour votre lieu : lever, coucher et midi du Soleil, lever et coucher de la Lune, ses phases sur un mois de 28 jours, en heures nouvelles TPH ou en temps standard."}</script>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+<header class="sitehead">
+<a class="brand" href="../">Temps précessionnel humain</a>
+<nav class="sitenav" aria-label="Menu principal"><a href="../">Accueil</a><a href="../sistem/">Le système TPH</a><a href="../tutorial/">Tutoriel</a><a href="../precesia/">Précession</a><a href="../soare-luna/">Soleil et Lune</a><a href="../eclipse/">Éclipses</a><a href="../anotimpuri/">Saisons</a><a href="./" aria-current="page">Lever et coucher</a><a href="../planete/">Planètes et zodiaque</a><a href="../astrologie/">L'astrologie en bref</a><a href="../aplicatie/">Outils</a><a href="../despre/">À propos</a></nav>
+<div class="langsw" role="group" aria-label="Langue"><a href="../../ro/ziua/" hreflang="ro" lang="ro">RO</a><a href="../../en/ziua/" hreflang="en" lang="en">EN</a><a href="../../fr/ziua/" hreflang="fr" lang="fr" aria-current="true">FR</a></div>
+</header>
+<main id="main" class="wrap sl-wrap">
+<h1 class="page sl-h1">Lever, coucher et phases de la Lune</h1>
+<noscript><p class="note">JavaScript.</p></noscript>
+<section class="explorer sl-ctl" id="zi-ctl" aria-label="Choisir le jour et le lieu">
+  <div class="cal-ctl">
+    <div class="field"><label for="zi-date" class="lbl">Jour</label><input id="zi-date" type="date" value="2026-10-07"></div>
+    <div class="field"><label for="zi-lat" class="lbl">Latitude (°, + nord)</label><input id="zi-lat" type="number" min="-89" max="89" step="0.01" value="44.43"></div>
+    <div class="field"><label for="zi-lon" class="lbl">Longitude (°, + est)</label><input id="zi-lon" type="number" min="-180" max="180" step="0.01" value="26.10"></div>
+    <div class="field"><label for="zi-mon" class="lbl">Système de temps</label><select id="zi-mon"><option value="tpu">Temps précessionnel humain (TPH)</option><option value="si">Temps standard (SI)</option></select></div>
+    <div class="field" id="zi-fusF"><label for="zi-fus" class="lbl">Fuseau (mode Fuseau)</label><select id="zi-fus"></select></div>
+    <div class="field" id="zi-utcF" hidden><label for="zi-utc" class="lbl">Fuseau SI (UTC±h)</label><input id="zi-utc" type="number" min="-12" max="14" step="0.5" value="3"></div>
+    <div class="field"><span class="lbl">&nbsp;</span><div class="ex-jump"><button type="button" id="zi-p1">‹ 28 jours</button><button type="button" id="zi-prev">‹ jour précédent</button><button type="button" id="zi-now">Maintenant</button><button type="button" id="zi-next">jour suivant ›</button><button type="button" id="zi-p2">28 jours ›</button></div></div>
+  </div>
+  <div class="ec-ctl2 an-sl"><label for="zi-t" class="lbl">Heure du jour</label><input id="zi-t" type="range" min="0" max="1439" step="1" value="720"></div>
+</section>
+<p class="lead">Le Soleil se lève et se couche à des heures qui dépendent du lieu et du jour de l'année, et la Lune à des heures qui glissent de près d'une heure par jour. Vous les voyez ici pour votre lieu, sur un cadran du jour de 36 heures nouvelles (ou de 24 heures standard), avec le crépuscule en couleur, et vous voyez l'aspect de la Lune chaque jour du mois TPH de 28 jours.</p>
+<section class="sl-board sl-board2" aria-label="Le jour sur un cadran">
+  <article class="sl-card"><h2>Le jour sur un cadran</h2><svg id="zi-dial" viewBox="-28 -28 416 416" role="img" aria-label="Le jour sur un cadran"></svg><p class="note">Le cadran est le jour entier, en partant du haut avec minuit local. Les couleurs montrent le Soleil : jaune, le jour ; orange, le crépuscule civil (Soleil entre 0,8° et 6° sous l'horizon) ; bleu, le crépuscule nautique ; sombre, la nuit. Les flèches ↑ ↓ sont le lever et le coucher, ☉ est midi, et les cercles ☽ de l'anneau intérieur sont le lever et le coucher de la Lune.</p><div class="out" id="zi-r" aria-live="polite"></div></article>
+  <article class="sl-card"><h2>La Lune le jour choisi</h2><svg id="zi-moon" viewBox="0 0 220 180" role="img" aria-label="La Lune le jour choisi"></svg><div class="out" id="zi-mr" aria-live="polite"></div><p class="note">L'aspect de la Lune est le même partout sur Terre (seule l'orientation change). Le pourcentage est la part éclairée du disque.</p></article>
+</section>
+<section class="prose wide sl-year">
+  <h2>Phases de la Lune du mois: <span id="zi-calh"></span></h2>
+  <svg id="zi-cal" viewBox="0 0 420 300" role="img" aria-label="Phases de la Lune du mois"></svg>
+  <p class="note">Chaque jour montre la Lune à la mi-journée. Les jours à phase principale ont un anneau jaune ; appuyez sur un jour pour le choisir.</p>
+  <h3>Les phases principales du mois</h3>
+  <div class="scroll"><table class="grid sl-tab ec-tab"><thead><tr><th>Phase</th><th>Date (SI), heure locale</th><th>Date (TPH), heure nouvelle</th></tr></thead><tbody id="zi-ph"></tbody></table></div>
+</section>
+<section class="sl-help"><h2 class="sl-helph">Comment utiliser les cadrans</h2>
+<div class="sl-helpgrid"><div class="sl-txt"><ol class="steps"><li>Choisissez le jour, le lieu (latitude et longitude) et le système de temps. Bucarest, 44,43° N et 26,10° E, est pré-rempli.</li><li>En TPH les heures sont des heures nouvelles (HN:MN) selon le fuseau choisi ; en temps standard, selon le fuseau UTC±h que vous saisissez (3 l'été, 2 l'hiver en Roumanie).</li><li>Faites glisser le curseur de l'heure : l'aiguille se déplace sur le cadran et les hauteurs du Soleil et de la Lune changent. Appuyez sur un jour du mois de la Lune pour le choisir.</li><li>Au-delà des cercles polaires le Soleil peut ne pas se lever ou ne pas se coucher pendant un jour ou plus.</li></ol></div></div></section>
+<section class="prose"><h2>Ce que la page ne montre pas</h2><ul><li>Le lever et le coucher sont calculés pour l'horizon mathématique avec la réfraction standard (−0,833° pour le Soleil, +0,125° pour la Lune) ; le relief et la météo peuvent décaler les heures de quelques minutes.</li><li>Pour la Lune nous utilisons une distance moyenne ; le vrai lever peut différer de quelques minutes.</li><li>Le fuseau horaire et l'heure d'été doivent être saisis par vous ; la page ne les devine pas.</li></ul></section>
+<section class="prose"><p>Pour les saisons, les solstices et la durée du jour sur toute l'année voyez la page suivante.</p><p><a href="../anotimpuri/">Les saisons</a></p></section>
+<section class="prose"><h2>Sources</h2><div class="srcs"><a href="https://www.willbell.com/math/mc1.htm" rel="noopener">Jean Meeus, Astronomical Algorithms (Willmann-Bell)</a><a href="https://aa.usno.navy.mil/faq/RST_defs" rel="noopener">Rise, Set, and Twilight Definitions, U.S. Naval Observatory</a></div></section>
+</main>
+<script type="application/json" id="zi-data">{"dec": ",", "defaultFus": 0, "locale": "fr-FR", "sunrise": "Lever", "sunset": "Coucher", "noon": "Midi", "dayLen": "Durée du jour", "civil": "Crépuscule civil (début → fin)", "moonrise": "Lever de la Lune", "moonset": "Coucher de la Lune", "transit": "passage au méridien", "at": "À", "above": "au-dessus de l'horizon", "below": "sous l'horizon", "polarDay": "Jour polaire : le Soleil ne se couche pas", "polarNight": "Nuit polaire : le Soleil ne se lève pas", "hours": "heures", "newH": "heures nouvelles", "illum": "Éclairée", "age": "Âge", "days": "jours", "elong": "Élongation", "yearDay": "Jour de l'année", "monthL": "Mois", "dowT": "J", "phN": ["Nouvelle Lune", "Premier croissant", "Premier quartier", "Gibbeuse croissante", "Pleine Lune", "Gibbeuse décroissante", "Dernier quartier", "Dernier croissant"], "phF": ["Nouvelle Lune", "Premier quartier", "Pleine Lune", "Dernier quartier"]}</script>
+<script src="../../assets/ziua.js?v=54" defer></script>
+<footer class="sitefoot">
+<p><b>Temps précessionnel humain · Calendrier précessionnel humain</b></p>
+<p>Un système personnel de mesure du temps, indépendant des dogmes : l'heure comme angle, l'année ancrée au solstice, les ères selon la précession. Il ne remplace ni l'heure civile ni les normes officielles.</p>
+<p>Mis à jour: 6 octobre 2026</p>
+<p class="license">Textes : <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr" rel="license">CC BY-SA 4.0</a> · Code : <a href="https://www.gnu.org/licenses/gpl-3.0.html" rel="license">GNU GPLv3</a></p>
+<p class="visitors">Visiteurs: <span id="gc-total">·</span></p>
+<script data-goatcounter="https://carstian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>(function(){var el=document.getElementById("gc-total");function g(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}setTimeout(function(){g("https://carstian.goatcounter.com/counter/TOTAL.json").then(function(d){el.textContent=d.count_unique||d.count}).catch(function(){el.textContent="—"})},1500)})();</script>
+</footer>
+</body>
+</html>
