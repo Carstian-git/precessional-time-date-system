@@ -20,8 +20,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../../assets/fonts.css?v=54">
-<link rel="stylesheet" href="../../assets/site.css?v=54">
+<link rel="stylesheet" href="../../assets/fonts.css?v=56">
+<link rel="stylesheet" href="../../assets/site.css?v=56">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Temps précessionnel humain · Calendrier précessionnel humain", "url": "https://carstian-git.github.io/precessional-time-date-system/fr/", "inLanguage": "fr", "description": "Pour votre lieu : lever, coucher et midi du Soleil, lever et coucher de la Lune, ses phases sur un mois de 28 jours, en heures nouvelles TPH ou en temps standard."}</script>
 </head>
 <body>
@@ -42,6 +42,8 @@
     <div class="field"><label for="zi-mon" class="lbl">Système de temps</label><select id="zi-mon"><option value="tpu">Temps précessionnel humain (TPH)</option><option value="si">Temps standard (SI)</option></select></div>
     <div class="field" id="zi-fusF"><label for="zi-fus" class="lbl">Fuseau (mode Fuseau)</label><select id="zi-fus"></select></div>
     <div class="field" id="zi-utcF" hidden><label for="zi-utc" class="lbl">Fuseau SI (UTC±h)</label><input id="zi-utc" type="number" min="-12" max="14" step="0.5" value="3"></div>
+    <div class="field"><span class="lbl">&nbsp;</span><button type="button" id="zi-play" class="playbtn">▶ Animer la journée</button></div>
+    <div class="field"><label for="zi-sp" class="lbl">Vitesse</label><select id="zi-sp"></select></div>
     <div class="field"><span class="lbl">&nbsp;</span><div class="ex-jump"><button type="button" id="zi-p1">‹ 28 jours</button><button type="button" id="zi-prev">‹ jour précédent</button><button type="button" id="zi-now">Maintenant</button><button type="button" id="zi-next">jour suivant ›</button><button type="button" id="zi-p2">28 jours ›</button></div></div>
   </div>
   <div class="ec-ctl2 an-sl"><label for="zi-t" class="lbl">Heure du jour</label><input id="zi-t" type="range" min="0" max="1439" step="1" value="720"></div>
@@ -49,7 +51,8 @@
 <p class="lead">Le Soleil se lève et se couche à des heures qui dépendent du lieu et du jour de l'année, et la Lune à des heures qui glissent de près d'une heure par jour. Vous les voyez ici pour votre lieu, sur un cadran du jour de 36 heures nouvelles (ou de 24 heures standard), avec le crépuscule en couleur, et vous voyez l'aspect de la Lune chaque jour du mois TPH de 28 jours.</p>
 <section class="sl-board sl-board2" aria-label="Le jour sur un cadran">
   <article class="sl-card"><h2>Le jour sur un cadran</h2><svg id="zi-dial" viewBox="-28 -28 416 416" role="img" aria-label="Le jour sur un cadran"></svg><p class="note">Le cadran est le jour entier, en partant du haut avec minuit local. Les couleurs montrent le Soleil : jaune, le jour ; orange, le crépuscule civil (Soleil entre 0,8° et 6° sous l'horizon) ; bleu, le crépuscule nautique ; sombre, la nuit. Les flèches ↑ ↓ sont le lever et le coucher, ☉ est midi, et les cercles ☽ de l'anneau intérieur sont le lever et le coucher de la Lune.</p><div class="out" id="zi-r" aria-live="polite"></div></article>
-  <article class="sl-card"><h2>La Lune le jour choisi</h2><svg id="zi-moon" viewBox="0 0 220 180" role="img" aria-label="La Lune le jour choisi"></svg><div class="out" id="zi-mr" aria-live="polite"></div><p class="note">L'aspect de la Lune est le même partout sur Terre (seule l'orientation change). Le pourcentage est la part éclairée du disque.</p></article>
+  <div class="zi-col"><article class="sl-card"><h2>Le ciel au-dessus de l'horizon</h2><svg id="zi-sky" viewBox="0 0 440 250" role="img" aria-label="Le ciel au-dessus de l'horizon"></svg><p class="note">Le Soleil (jaune) et la Lune (avec sa phase) par rapport à l'horizon, azimut en abscisse (N, E, S, O) et hauteur en ordonnée. Les pointillés sont leur trajet le jour choisi.</p></article>
+  <article class="sl-card"><h2>La Lune le jour choisi</h2><svg id="zi-moon" viewBox="0 0 220 180" role="img" aria-label="La Lune le jour choisi"></svg><div class="out" id="zi-mr" aria-live="polite"></div><p class="note">L'aspect de la Lune est le même partout sur Terre (seule l'orientation change). Le pourcentage est la part éclairée du disque.</p></article></div>
 </section>
 <section class="prose wide sl-year">
   <h2>Phases de la Lune du mois: <span id="zi-calh"></span></h2>
@@ -64,8 +67,8 @@
 <section class="prose"><p>Pour les saisons, les solstices et la durée du jour sur toute l'année voyez la page suivante.</p><p><a href="../anotimpuri/">Les saisons</a></p></section>
 <section class="prose"><h2>Sources</h2><div class="srcs"><a href="https://www.willbell.com/math/mc1.htm" rel="noopener">Jean Meeus, Astronomical Algorithms (Willmann-Bell)</a><a href="https://aa.usno.navy.mil/faq/RST_defs" rel="noopener">Rise, Set, and Twilight Definitions, U.S. Naval Observatory</a></div></section>
 </main>
-<script type="application/json" id="zi-data">{"dec": ",", "defaultFus": 0, "locale": "fr-FR", "sunrise": "Lever", "sunset": "Coucher", "noon": "Midi", "dayLen": "Durée du jour", "civil": "Crépuscule civil (début → fin)", "moonrise": "Lever de la Lune", "moonset": "Coucher de la Lune", "transit": "passage au méridien", "at": "À", "above": "au-dessus de l'horizon", "below": "sous l'horizon", "polarDay": "Jour polaire : le Soleil ne se couche pas", "polarNight": "Nuit polaire : le Soleil ne se lève pas", "hours": "heures", "newH": "heures nouvelles", "illum": "Éclairée", "age": "Âge", "days": "jours", "elong": "Élongation", "yearDay": "Jour de l'année", "monthL": "Mois", "dowT": "J", "phN": ["Nouvelle Lune", "Premier croissant", "Premier quartier", "Gibbeuse croissante", "Pleine Lune", "Gibbeuse décroissante", "Dernier quartier", "Dernier croissant"], "phF": ["Nouvelle Lune", "Premier quartier", "Pleine Lune", "Dernier quartier"]}</script>
-<script src="../../assets/ziua.js?v=54" defer></script>
+<script type="application/json" id="zi-data">{"dec": ",", "defaultFus": 0, "locale": "fr-FR", "spT": [[0.027777777777777776, "1 heure nouvelle par seconde"], [0.08333333333333333, "3 heures nouvelles par seconde"], [0.25, "9 heures nouvelles par seconde"], [1, "1 jour par seconde"]], "spS": [[0.041666666666666664, "1 heure par seconde"], [0.125, "3 heures par seconde"], [0.25, "6 heures par seconde"], [1, "1 jour par seconde"]], "play": "Animer la journée", "pause": "Arrêter", "az": "azimut", "cardinal": ["N", "E", "S", "O"], "sunrise": "Lever", "sunset": "Coucher", "noon": "Midi", "dayLen": "Durée du jour", "civil": "Crépuscule civil (début → fin)", "moonrise": "Lever de la Lune", "moonset": "Coucher de la Lune", "transit": "passage au méridien", "at": "À", "above": "au-dessus de l'horizon", "below": "sous l'horizon", "polarDay": "Jour polaire : le Soleil ne se couche pas", "polarNight": "Nuit polaire : le Soleil ne se lève pas", "hours": "heures", "newH": "heures nouvelles", "illum": "Éclairée", "age": "Âge", "days": "jours", "elong": "Élongation", "yearDay": "Jour de l'année", "monthL": "Mois", "dowT": "J", "phN": ["Nouvelle Lune", "Premier croissant", "Premier quartier", "Gibbeuse croissante", "Pleine Lune", "Gibbeuse décroissante", "Dernier quartier", "Dernier croissant"], "phF": ["Nouvelle Lune", "Premier quartier", "Pleine Lune", "Dernier quartier"]}</script>
+<script src="../../assets/ziua.js?v=56" defer></script>
 <footer class="sitefoot">
 <p><b>Temps précessionnel humain · Calendrier précessionnel humain</b></p>
 <p>Un système personnel de mesure du temps, indépendant des dogmes : l'heure comme angle, l'année ancrée au solstice, les ères selon la précession. Il ne remplace ni l'heure civile ni les normes officielles.</p>

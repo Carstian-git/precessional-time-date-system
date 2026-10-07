@@ -20,8 +20,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../../assets/fonts.css?v=54">
-<link rel="stylesheet" href="../../assets/site.css?v=54">
+<link rel="stylesheet" href="../../assets/fonts.css?v=56">
+<link rel="stylesheet" href="../../assets/site.css?v=56">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Timpul precesional uman · Calendarul precesional uman", "url": "https://carstian-git.github.io/precessional-time-date-system/ro/", "inLanguage": "ro", "description": "Pentru locul tău: răsăritul, apusul și amiaza Soarelui, răsăritul și apusul Lunii, fazele ei pe o lună de 28 de zile, totul în ore noi TPU sau în timp standard."}</script>
 </head>
 <body>
@@ -42,6 +42,8 @@
     <div class="field"><label for="zi-mon" class="lbl">Sistemul de timp</label><select id="zi-mon"><option value="tpu">Timpul precesional uman (TPU)</option><option value="si">Timp standard (SI)</option></select></div>
     <div class="field" id="zi-fusF"><label for="zi-fus" class="lbl">Fus (modul Fus)</label><select id="zi-fus"></select></div>
     <div class="field" id="zi-utcF" hidden><label for="zi-utc" class="lbl">Fus orar SI (UTC±h)</label><input id="zi-utc" type="number" min="-12" max="14" step="0.5" value="3"></div>
+    <div class="field"><span class="lbl">&nbsp;</span><button type="button" id="zi-play" class="playbtn">▶ Animă ziua</button></div>
+    <div class="field"><label for="zi-sp" class="lbl">Viteza</label><select id="zi-sp"></select></div>
     <div class="field"><span class="lbl">&nbsp;</span><div class="ex-jump"><button type="button" id="zi-p1">‹ 28 de zile</button><button type="button" id="zi-prev">‹ ziua dinainte</button><button type="button" id="zi-now">Acum</button><button type="button" id="zi-next">ziua următoare ›</button><button type="button" id="zi-p2">28 de zile ›</button></div></div>
   </div>
   <div class="ec-ctl2 an-sl"><label for="zi-t" class="lbl">Ora din zi</label><input id="zi-t" type="range" min="0" max="1439" step="1" value="720"></div>
@@ -49,7 +51,8 @@
 <p class="lead">Soarele răsare și apune la ore care depind de locul și de ziua anului, iar Luna la ore care se mută cu aproape o oră pe zi. Aici le vezi pentru locul tău, pe un cadran al zilei de 36 de ore noi (sau de 24 de ore standard), cu amurgul colorat, și vezi cum arată Luna în fiecare zi a lunii TPU de 28 de zile.</p>
 <section class="sl-board sl-board2" aria-label="Ziua pe cadran">
   <article class="sl-card"><h2>Ziua pe cadran</h2><svg id="zi-dial" viewBox="-28 -28 416 416" role="img" aria-label="Ziua pe cadran"></svg><p class="note">Cadranul este ziua întreagă, începând de sus cu miezul nopții locale. Culorile arată Soarele: galben, ziua; portocaliu, amurgul civil (Soarele între 0,8° și 6° sub orizont); albastru, amurgul nautic; închis, noaptea. Săgețile ↑ ↓ sunt răsăritul și apusul, ☉ este amiaza, iar cercurile ☽ de pe inelul interior sunt răsăritul și apusul Lunii.</p><div class="out" id="zi-r" aria-live="polite"></div></article>
-  <article class="sl-card"><h2>Luna în ziua aleasă</h2><svg id="zi-moon" viewBox="0 0 220 180" role="img" aria-label="Luna în ziua aleasă"></svg><div class="out" id="zi-mr" aria-live="polite"></div><p class="note">Aspectul Lunii este același peste tot pe Pământ (doar orientarea diferă). Procentul este partea luminată a discului.</p></article>
+  <div class="zi-col"><article class="sl-card"><h2>Cerul deasupra orizontului</h2><svg id="zi-sky" viewBox="0 0 440 250" role="img" aria-label="Cerul deasupra orizontului"></svg><p class="note">Soarele (galben) și Luna (cu faza ei) față de orizont, cu azimutul pe orizontală (N, E, S, V) și înălțimea pe verticală. Liniile punctate sunt drumul lor în ziua aleasă.</p></article>
+  <article class="sl-card"><h2>Luna în ziua aleasă</h2><svg id="zi-moon" viewBox="0 0 220 180" role="img" aria-label="Luna în ziua aleasă"></svg><div class="out" id="zi-mr" aria-live="polite"></div><p class="note">Aspectul Lunii este același peste tot pe Pământ (doar orientarea diferă). Procentul este partea luminată a discului.</p></article></div>
 </section>
 <section class="prose wide sl-year">
   <h2>Fazele Lunii în luna: <span id="zi-calh"></span></h2>
@@ -64,8 +67,8 @@
 <section class="prose"><p>Pentru anotimpuri, solstiții și durata zilei pe tot anul vezi pagina următoare.</p><p><a href="../anotimpuri/">Anotimpurile</a></p></section>
 <section class="prose"><h2>Surse</h2><div class="srcs"><a href="https://www.willbell.com/math/mc1.htm" rel="noopener">Jean Meeus, Astronomical Algorithms (Willmann-Bell)</a><a href="https://aa.usno.navy.mil/faq/RST_defs" rel="noopener">Rise, Set, and Twilight Definitions, U.S. Naval Observatory</a></div></section>
 </main>
-<script type="application/json" id="zi-data">{"dec": ",", "defaultFus": 3, "locale": "ro-RO", "sunrise": "Răsărit", "sunset": "Apus", "noon": "Amiaza", "dayLen": "Durata zilei", "civil": "Amurg civil (început → sfârșit)", "moonrise": "Răsăritul Lunii", "moonset": "Apusul Lunii", "transit": "trecerea la meridian", "at": "La", "above": "deasupra orizontului", "below": "sub orizont", "polarDay": "Zi polară: Soarele nu apune", "polarNight": "Noapte polară: Soarele nu răsare", "hours": "ore", "newH": "ore noi", "illum": "Luminată", "age": "Vârsta", "days": "zile", "elong": "Elongația", "yearDay": "Ziua anului", "monthL": "Luna", "dowT": "Z", "phN": ["Lună nouă", "Semilună crescătoare", "Primul pătrar", "Lună crescătoare (gibbous)", "Lună plină", "Lună descrescătoare (gibbous)", "Ultimul pătrar", "Semilună descrescătoare"], "phF": ["Lună nouă", "Primul pătrar", "Lună plină", "Ultimul pătrar"]}</script>
-<script src="../../assets/ziua.js?v=54" defer></script>
+<script type="application/json" id="zi-data">{"dec": ",", "defaultFus": 3, "locale": "ro-RO", "spT": [[0.027777777777777776, "1 oră nouă pe secundă"], [0.08333333333333333, "3 ore noi pe secundă"], [0.25, "9 ore noi pe secundă"], [1, "1 zi pe secundă"]], "spS": [[0.041666666666666664, "1 oră pe secundă"], [0.125, "3 ore pe secundă"], [0.25, "6 ore pe secundă"], [1, "1 zi pe secundă"]], "play": "Animă ziua", "pause": "Oprește", "az": "azimut", "cardinal": ["N", "E", "S", "V"], "sunrise": "Răsărit", "sunset": "Apus", "noon": "Amiaza", "dayLen": "Durata zilei", "civil": "Amurg civil (început → sfârșit)", "moonrise": "Răsăritul Lunii", "moonset": "Apusul Lunii", "transit": "trecerea la meridian", "at": "La", "above": "deasupra orizontului", "below": "sub orizont", "polarDay": "Zi polară: Soarele nu apune", "polarNight": "Noapte polară: Soarele nu răsare", "hours": "ore", "newH": "ore noi", "illum": "Luminată", "age": "Vârsta", "days": "zile", "elong": "Elongația", "yearDay": "Ziua anului", "monthL": "Luna", "dowT": "Z", "phN": ["Lună nouă", "Semilună crescătoare", "Primul pătrar", "Lună crescătoare (gibbous)", "Lună plină", "Lună descrescătoare (gibbous)", "Ultimul pătrar", "Semilună descrescătoare"], "phF": ["Lună nouă", "Primul pătrar", "Lună plină", "Ultimul pătrar"]}</script>
+<script src="../../assets/ziua.js?v=56" defer></script>
 <footer class="sitefoot">
 <p><b>Timpul precesional uman · Calendarul precesional uman</b></p>
 <p>Un sistem personal de măsurare a timpului, independent de dogme: ora ca unghi, anul ancorat în solstițiu, erele după precesie. Nu înlocuiește timpul civil sau standardele oficiale.</p>

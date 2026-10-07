@@ -20,8 +20,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../../assets/fonts.css?v=54">
-<link rel="stylesheet" href="../../assets/site.css?v=54">
+<link rel="stylesheet" href="../../assets/fonts.css?v=56">
+<link rel="stylesheet" href="../../assets/site.css?v=56">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Human precessional time · Human precessional calendar", "url": "https://carstian-git.github.io/precessional-time-date-system/en/", "inLanguage": "en", "description": "For your place: the Sun's rising, setting and noon, the Moon's rising and setting, and its phases over a 28-day month, in HPT new hours or in standard time."}</script>
 </head>
 <body>
@@ -42,6 +42,8 @@
     <div class="field"><label for="zi-mon" class="lbl">Time system</label><select id="zi-mon"><option value="tpu">Human precessional time (HPT)</option><option value="si">Standard time (SI)</option></select></div>
     <div class="field" id="zi-fusF"><label for="zi-fus" class="lbl">Zone (Zone mode)</label><select id="zi-fus"></select></div>
     <div class="field" id="zi-utcF" hidden><label for="zi-utc" class="lbl">SI time zone (UTC±h)</label><input id="zi-utc" type="number" min="-12" max="14" step="0.5" value="3"></div>
+    <div class="field"><span class="lbl">&nbsp;</span><button type="button" id="zi-play" class="playbtn">▶ Animate the day</button></div>
+    <div class="field"><label for="zi-sp" class="lbl">Speed</label><select id="zi-sp"></select></div>
     <div class="field"><span class="lbl">&nbsp;</span><div class="ex-jump"><button type="button" id="zi-p1">‹ 28 days</button><button type="button" id="zi-prev">‹ previous day</button><button type="button" id="zi-now">Now</button><button type="button" id="zi-next">next day ›</button><button type="button" id="zi-p2">28 days ›</button></div></div>
   </div>
   <div class="ec-ctl2 an-sl"><label for="zi-t" class="lbl">Time of day</label><input id="zi-t" type="range" min="0" max="1439" step="1" value="720"></div>
@@ -49,7 +51,8 @@
 <p class="lead">The Sun rises and sets at times that depend on the place and the day of the year, and the Moon at times that slip by almost an hour a day. Here you see them for your place, on a day dial of 36 new hours (or 24 standard hours), with the twilight coloured, and you see what the Moon looks like on each day of the 28-day HPT month.</p>
 <section class="sl-board sl-board2" aria-label="The day on a dial">
   <article class="sl-card"><h2>The day on a dial</h2><svg id="zi-dial" viewBox="-28 -28 416 416" role="img" aria-label="The day on a dial"></svg><p class="note">The dial is the whole day, starting at the top with local midnight. The colours show the Sun: yellow, day; orange, civil twilight (Sun between 0.8° and 6° below the horizon); blue, nautical twilight; dark, night. The arrows ↑ ↓ are sunrise and sunset, ☉ is noon, and the ☽ circles on the inner ring are moonrise and moonset.</p><div class="out" id="zi-r" aria-live="polite"></div></article>
-  <article class="sl-card"><h2>The Moon on the chosen day</h2><svg id="zi-moon" viewBox="0 0 220 180" role="img" aria-label="The Moon on the chosen day"></svg><div class="out" id="zi-mr" aria-live="polite"></div><p class="note">The Moon's look is the same everywhere on Earth (only its orientation differs). The percentage is the lit part of the disc.</p></article>
+  <div class="zi-col"><article class="sl-card"><h2>The sky above the horizon</h2><svg id="zi-sky" viewBox="0 0 440 250" role="img" aria-label="The sky above the horizon"></svg><p class="note">The Sun (yellow) and the Moon (with its phase) against the horizon, azimuth across (N, E, S, W) and height up. The dotted lines are their path on the chosen day.</p></article>
+  <article class="sl-card"><h2>The Moon on the chosen day</h2><svg id="zi-moon" viewBox="0 0 220 180" role="img" aria-label="The Moon on the chosen day"></svg><div class="out" id="zi-mr" aria-live="polite"></div><p class="note">The Moon's look is the same everywhere on Earth (only its orientation differs). The percentage is the lit part of the disc.</p></article></div>
 </section>
 <section class="prose wide sl-year">
   <h2>Lunar phases in the month: <span id="zi-calh"></span></h2>
@@ -64,8 +67,8 @@
 <section class="prose"><p>For the seasons, solstices and the day length across the year see the next page.</p><p><a href="../anotimpuri/">The seasons</a></p></section>
 <section class="prose"><h2>Sources</h2><div class="srcs"><a href="https://www.willbell.com/math/mc1.htm" rel="noopener">Jean Meeus, Astronomical Algorithms (Willmann-Bell)</a><a href="https://aa.usno.navy.mil/faq/RST_defs" rel="noopener">Rise, Set, and Twilight Definitions, U.S. Naval Observatory</a></div></section>
 </main>
-<script type="application/json" id="zi-data">{"dec": ".", "defaultFus": 0, "locale": "en-GB", "sunrise": "Sunrise", "sunset": "Sunset", "noon": "Noon", "dayLen": "Day length", "civil": "Civil twilight (start → end)", "moonrise": "Moonrise", "moonset": "Moonset", "transit": "meridian transit", "at": "At", "above": "above the horizon", "below": "below the horizon", "polarDay": "Polar day: the Sun does not set", "polarNight": "Polar night: the Sun does not rise", "hours": "hours", "newH": "new hours", "illum": "Illuminated", "age": "Age", "days": "days", "elong": "Elongation", "yearDay": "Year Day", "monthL": "Month", "dowT": "D", "phN": ["New Moon", "Waxing crescent", "First quarter", "Waxing gibbous", "Full Moon", "Waning gibbous", "Last quarter", "Waning crescent"], "phF": ["New Moon", "First quarter", "Full Moon", "Last quarter"]}</script>
-<script src="../../assets/ziua.js?v=54" defer></script>
+<script type="application/json" id="zi-data">{"dec": ".", "defaultFus": 0, "locale": "en-GB", "spT": [[0.027777777777777776, "1 new hour per second"], [0.08333333333333333, "3 new hours per second"], [0.25, "9 new hours per second"], [1, "1 day per second"]], "spS": [[0.041666666666666664, "1 hour per second"], [0.125, "3 hours per second"], [0.25, "6 hours per second"], [1, "1 day per second"]], "play": "Animate the day", "pause": "Stop", "az": "azimuth", "cardinal": ["N", "E", "S", "W"], "sunrise": "Sunrise", "sunset": "Sunset", "noon": "Noon", "dayLen": "Day length", "civil": "Civil twilight (start → end)", "moonrise": "Moonrise", "moonset": "Moonset", "transit": "meridian transit", "at": "At", "above": "above the horizon", "below": "below the horizon", "polarDay": "Polar day: the Sun does not set", "polarNight": "Polar night: the Sun does not rise", "hours": "hours", "newH": "new hours", "illum": "Illuminated", "age": "Age", "days": "days", "elong": "Elongation", "yearDay": "Year Day", "monthL": "Month", "dowT": "D", "phN": ["New Moon", "Waxing crescent", "First quarter", "Waxing gibbous", "Full Moon", "Waning gibbous", "Last quarter", "Waning crescent"], "phF": ["New Moon", "First quarter", "Full Moon", "Last quarter"]}</script>
+<script src="../../assets/ziua.js?v=56" defer></script>
 <footer class="sitefoot">
 <p><b>Human precessional time · Human precessional calendar</b></p>
 <p>A personal, dogma-independent way of measuring time: the hour as an angle, the year anchored to the solstice, eras from precession. It does not replace civil time or official standards.</p>

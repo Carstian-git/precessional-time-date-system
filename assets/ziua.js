@@ -316,6 +316,11 @@ function transit(body, t0, t1) {
   for (let t = t0 + 2 * st; t <= t1; t += st) { const nx = alt(body, t); if (cur > prev && cur >= nx) { let lo = t - 2 * st, hi = t; for (let i = 0; i < 30; i++) { const m1 = lo + (hi - lo) / 3, m2 = hi - (hi - lo) / 3; alt(body, m1) < alt(body, m2) ? lo = m1 : hi = m2; } const tm = (lo + hi) / 2; if (tm >= t0 && tm < t1) best = [Math.round(tm / 1000) * 1000, alt(body, tm)]; } prev = cur; cur = nx; }
   return best;
 }
+const azalt = (body, t) => {
+  const q = body === "s" ? subsolar(t) : sublunar(t), p = rad(LAT()), dd = rad(q.lat), H = rad(LON() - q.lon);
+  const az = mod(Math.atan2(Math.sin(H), Math.cos(H) * Math.sin(p) - Math.tan(dd) * Math.cos(p)) * 180 / Math.PI + 180, 360);
+  return [az, Math.asin(Math.sin(p) * Math.sin(dd) + Math.cos(p) * Math.cos(dd) * Math.cos(H)) * 180 / Math.PI];
+};
 let C = null;
 function compute() {
   const t0 = dayStart(), t1 = t0 + DAY, sun = crossings("s", H0.s, t0, t1), civ = crossings("s", -6, t0, t1), mo = crossings("m", H0.m, t0, t1);
@@ -350,7 +355,7 @@ function renderCur() {
   s += `<text x="${c0}" y="${c0 - 22}" font-size="12" text-anchor="middle" fill="var(--ink)">${isTPU() ? tpuDate(t) : fmtDate(t)}</text><text x="${c0}" y="${c0 + 2}" font-size="24" text-anchor="middle" fill="var(--ink)" font-weight="500">${timeOf(t)}</text><text x="${c0}" y="${c0 + 20}" font-size="10.5" text-anchor="middle" class="mute">${isTPU() ? fusLab() : "UTC" + (offSI() >= 0 ? "+" : "−") + Math.abs(offSI() / 36e5)}</text>`;
   s += `<text x="${c0}" y="${c0 + 40}" font-size="10.5" text-anchor="middle" fill="${as > 0 ? "#b87a10" : "var(--mute)"}">☉ ${num(as, 1)}°</text><text x="${c0}" y="${c0 + 54}" font-size="10.5" text-anchor="middle" fill="${am > 0 ? "#4a587a" : "var(--mute)"}">☽ ${num(am, 1)}°</text>`;
   $("zi-cur").innerHTML = s; $("zi-t").value = Math.round(tSel * 1440);
-  renderMoon(t); renderOut(t, as, am);
+  renderSky(t, as); renderMoon(t); renderOut(t, as, am);
 }
 function lst(list) { return list.length ? list.map(timeOf).join(" · ") : "—"; }
 function renderOut(t, as, am) {
@@ -365,12 +370,29 @@ function renderOut(t, as, am) {
     `<div class="small">${D.at} ${timeOf(t)}: ☉ ${num(as, 1)}° (${as > 0 ? D.above : D.below}) · ☽ ${num(am, 1)}° (${am > 0 ? D.above : D.below})</div>`;
 }
 
+/* ---------- cerul: Soarele și Luna față de orizont ---------- */
+const SW = 440, SH = 250, SX0 = 20, SX1 = 420, SA0 = -25, SA1 = 90, SYT = 14, SYB = 218;
+const SKY = ["#1b2342", "#3b4c85", "#c98456", "#8fc3ea"];
+const sx = az => SX0 + az / 360 * (SX1 - SX0), sy = a => SYB - (a - SA0) / (SA1 - SA0) * (SYB - SYT);
+function renderSky(t, as) {
+  const k = CLS(as), [azS, aS] = azalt("s", t), [azM, aM] = azalt("m", t), u = unghiLunar(t), hy = sy(0);
+  let s = `<rect x="${SX0}" y="${SYT}" width="${SX1 - SX0}" height="${f1(hy - SYT)}" fill="${SKY[k]}"/><rect x="${SX0}" y="${f1(hy)}" width="${SX1 - SX0}" height="${f1(SYB - hy)}" fill="var(--rule)"/><line x1="${SX0}" x2="${SX1}" y1="${f1(hy)}" y2="${f1(hy)}" stroke="var(--ink)" stroke-width="1.4"/>`;
+  for (const a of [30, 60]) s += `<line x1="${SX0}" x2="${SX1}" y1="${f1(sy(a))}" y2="${f1(sy(a))}" stroke="#fff" stroke-opacity=".25" stroke-dasharray="2 4"/><text x="${SX0 + 3}" y="${f1(sy(a) - 3)}" font-size="9.5" style="fill:#fff" opacity=".8">${a}°</text>`;
+  [["N", 0], ["E", 90], ["S", 180], ["V", 270], ["N", 360]].forEach(([l, a]) => { s += `<line x1="${sx(a)}" x2="${sx(a)}" y1="${f1(hy)}" y2="${f1(hy + 5)}" stroke="var(--ink)"/><text x="${sx(a)}" y="${f1(hy + 17)}" font-size="11" text-anchor="middle" fill="var(--ink)" font-weight="600">${D.cardinal[a / 90 % 4 === 0 && a === 360 ? 0 : a / 90]}</text>`; });
+  const trail = (body, col) => { let d = "", px = null; for (let i = 0; i <= 144; i++) { const [az, a] = azalt(body, C.t0 + i / 144 * DAY), x = sx(az); if (a < SA0) { px = null; continue; } d += (px !== null && Math.abs(x - px) < 100 ? "L" : "M") + f1(x) + " " + f1(sy(a)) + " "; px = x; } return `<path d="${d}" fill="none" stroke="${col}" stroke-width="1.4" stroke-dasharray="3 3" opacity=".85"/>`; };
+  s += trail("s", "#ffe9a8") + trail("m", "#cfd8f0");
+  if (aM > SA0) s += faseIcon(u, f1(sx(azM)), f1(sy(aM)), 11, "#4a5373", "#f4f1dc");
+  if (aS > SA0) s += `<circle cx="${f1(sx(azS))}" cy="${f1(sy(aS))}" r="11" fill="#f5c542" stroke="#fff" stroke-width="1.5"/>`;
+  s += `<text x="${SX0}" y="${SH - 6}" font-size="10.5" class="mute">☉ ${D.az} ${num(azS, 0)}° · ${num(aS, 1)}°   ☽ ${D.az} ${num(azM, 0)}° · ${num(aM, 1)}°</text>`;
+  $("zi-sky").innerHTML = s;
+}
+
 /* ---------- cadranul 2: faza Lunii ---------- */
-function faseIcon(u, cx, cy, r) {
+function faseIcon(u, cx, cy, r, dark, light) {
   const co = Math.cos(rad(u)), rx = Math.abs(co) * r, waxing = mod(u, 360) < 180; let lit;
   if (waxing) lit = `M${cx} ${cy - r}A${r} ${r} 0 0 1 ${cx} ${cy + r}A${f1(rx)} ${r} 0 0 ${co > 0 ? 0 : 1} ${cx} ${cy - r}Z`;
   else lit = `M${cx} ${cy - r}A${r} ${r} 0 0 0 ${cx} ${cy + r}A${f1(rx)} ${r} 0 0 ${co > 0 ? 1 : 0} ${cx} ${cy - r}Z`;
-  return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="var(--rule)" stroke="var(--ink)" stroke-width="1"/><path d="${lit}" fill="var(--moon)" stroke="none"/>`;
+  return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${dark || "var(--rule)"}" stroke="${dark ? "#fff" : "var(--ink)"}" stroke-width="1"/><path d="${lit}" fill="${light || "var(--moon)"}" stroke="none"/>`;
 }
 const phName = u => D.phN[Math.floor(mod(u + 22.5, 360) / 45)];
 function renderMoon(t) {
@@ -414,14 +436,25 @@ function renderMonth() {
 function refresh(keepT) { compute(); renderDial(); renderMonth(); }
 function shift(n) { const d = new Date($("zi-date").value + "T12:00:00Z"); d.setUTCDate(d.getUTCDate() + n); $("zi-date").value = d.toISOString().slice(0, 10); refresh(); }
 function now() { const n = Date.now(); $("zi-date").value = new Date(Math.floor((n + off()) / DAY) * DAY).toISOString().slice(0, 10); compute(); tSel = Math.max(0, Math.min(.9999, (n - C.t0) / DAY)); renderDial(); renderMonth(); }
+let anim = null, lastTs = 0;
+function speeds() { const t = isTPU(); return D[t ? "spT" : "spS"]; }
+function fillSpeeds() { const cur = $("zi-sp").selectedIndex; $("zi-sp").innerHTML = speeds().map(([v, l], i) => `<option value="${v}">${l}</option>`).join(""); $("zi-sp").selectedIndex = cur < 0 ? 1 : cur; }
+function stopAnim() { if (anim) { cancelAnimationFrame(anim); anim = null; } $("zi-play").textContent = "▶ " + D.play; }
+function frameA(ts) {
+  if (!anim) return;
+  const dt = Math.min(.1, (ts - lastTs) / 1000); lastTs = ts; tSel += dt * parseFloat($("zi-sp").value);
+  if (tSel >= 1) { const keep = tSel - 1; const d = new Date($("zi-date").value + "T12:00:00Z"); d.setUTCDate(d.getUTCDate() + 1); $("zi-date").value = d.toISOString().slice(0, 10); compute(); renderDial(); renderMonth(); tSel = Math.min(.9999, keep); }
+  renderCur(); anim = requestAnimationFrame(frameA);
+}
+function playA() { if (anim) { stopAnim(); return; } $("zi-play").textContent = "■ " + D.pause; lastTs = performance.now(); anim = requestAnimationFrame(frameA); }
 function setVis() { $("zi-fusF").hidden = !isTPU(); $("zi-utcF").hidden = isTPU(); }
 {
   { let o = ""; for (let k = -17; k <= 18; k++) o += `<option value="${k}">F${k >= 0 ? "+" : "−"}${pad(Math.abs(k))}</option>`; $("zi-fus").innerHTML = o; $("zi-fus").value = String(D.defaultFus); }
   $("zi-prev").onclick = () => shift(-1); $("zi-next").onclick = () => shift(1); $("zi-now").onclick = now;
   $("zi-p1").onclick = () => shift(-28); $("zi-p2").onclick = () => shift(28);
-  for (const id of ["zi-mon", "zi-fus", "zi-utc", "zi-lat", "zi-lon", "zi-date"]) $(id).addEventListener("change", () => { setVis(); refresh(); });
-  $("zi-t").addEventListener("input", e => { tSel = (+e.target.value) / 1440; renderCur(); });
-  setVis(); now();
+  for (const id of ["zi-mon", "zi-fus", "zi-utc", "zi-lat", "zi-lon", "zi-date"]) $(id).addEventListener("change", () => { setVis(); fillSpeeds(); refresh(); });
+  $("zi-play").onclick = playA; $("zi-t").addEventListener("input", e => { stopAnim(); tSel = (+e.target.value) / 1440; renderCur(); });
+  fillSpeeds(); setVis(); now();
 }
 
 })();

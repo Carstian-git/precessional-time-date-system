@@ -20,8 +20,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../../assets/fonts.css?v=54">
-<link rel="stylesheet" href="../../assets/site.css?v=54">
+<link rel="stylesheet" href="../../assets/fonts.css?v=56">
+<link rel="stylesheet" href="../../assets/site.css?v=56">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Temps précessionnel humain · Calendrier précessionnel humain", "url": "https://carstian-git.github.io/precessional-time-date-system/fr/", "inLanguage": "fr", "description": "Tutoriel visuel sur la précession des équinoxes : la toupie terrestre, l'étoile polaire qui change, les ères de 2 147 ans et la lecture des codes ER-AE."}</script>
 </head>
 <body>
@@ -43,6 +43,8 @@
     <label for="ex-y" class="lbl">Année</label>
     <input id="ex-y" type="range" min="-24000" max="14500" step="1" value="2026" style="width:100%;padding:0;min-height:28px">
     <div class="ex-jump" id="ex-jump"></div>
+    <div class="ec-ctl2 an-sl"><button type="button" id="ex-play" class="playbtn">▶ Animer la précession</button><label for="ex-sp" class="lbl" style="flex:0 0 auto">Vitesse</label><select id="ex-sp"></select><button type="button" id="ex-dir">→ en avant dans le temps</button></div>
+    <p class="note">Un cycle entier dure 25 772 ans ; à 2 000 ans par seconde vous le voyez en 13 secondes environ.</p>
     <div class="out" aria-live="polite"><div class="big" id="ex-o1"></div><div class="small" id="ex-o2"></div></div>
     <p class="note">Déplacez le curseur ci-dessous. Le cercle de gauche montre où pointe l'axe de la Terre l'année choisie. Le cercle de droite montre dans quelle ère nous sommes.</p>
   </div>
@@ -52,8 +54,8 @@
 <section class="prose"><h2>Pourquoi c'est important pour le calendrier</h2><p>Parce que la précession est le seul mouvement céleste assez lent et régulier pour mesurer toute l'histoire avec un seul cycle, sans autres conventions. L'heure vient de la rotation de la Terre, l'année de sa révolution autour du Soleil, le mois de la révolution de la Lune, et l'ère du balancement de l'axe. Ce sont quatre phénomènes physiques observables par tous.</p><p><a href="../sistem/#ere">Le système TPH: Calendrier précessionnel humain</a></p></section>
 <section class="prose"><h2>Pour aller plus loin</h2><div class="srcs"><a href="https://fr.wikipedia.org/wiki/Pr%C3%A9cession_des_%C3%A9quinoxes" rel="noopener">Précession des équinoxes (Wikipédia, français)</a><a href="https://en.wikipedia.org/wiki/Axial_precession" rel="noopener">Axial precession (Wikipedia, anglais)</a><a href="https://ro.wikipedia.org/wiki/Precesia_echinoc%C8%9Biilor" rel="noopener">Precesia echinocțiilor (Wikipedia, roumain)</a></div></section>
 </main>
-<script type="application/json" id="ex-data">{"jumps": ["Thuban · 2800 av. J.-C.", "Début de l'histoire écrite · 3300 av. J.-C.", "Aujourd'hui", "Véga · 13 700 apr. J.-C."], "ce": "apr. J.-C.", "bce": "av. J.-C.", "poleStar": "Étoile polaire : {s}", "poleNone": "Aucune étoile brillante près du pôle", "cycN": "cycle {n}", "cycNow": "cycle actuel"}</script>
-<script src="../../assets/precesia.js?v=54" defer></script>
+<script type="application/json" id="ex-data">{"play": "Animer la précession", "pause": "Arrêter", "spL": "Vitesse", "fwd": "→ en avant dans le temps", "back": "← en arrière dans le temps", "spd": [[100, "100 ans par seconde"], [500, "500 ans par seconde"], [2000, "2 000 ans par seconde"], [5000, "5 000 ans par seconde"]], "hint": "Un cycle entier dure 25 772 ans ; à 2 000 ans par seconde vous le voyez en 13 secondes environ.", "jumps": ["Thuban · 2800 av. J.-C.", "Début de l'histoire écrite · 3300 av. J.-C.", "Aujourd'hui", "Véga · 13 700 apr. J.-C."], "ce": "apr. J.-C.", "bce": "av. J.-C.", "poleStar": "Étoile polaire : {s}", "poleNone": "Aucune étoile brillante près du pôle", "cycN": "cycle {n}", "cycNow": "cycle actuel"}</script>
+<script src="../../assets/precesia.js?v=56" defer></script>
 <footer class="sitefoot">
 <p><b>Temps précessionnel humain · Calendrier précessionnel humain</b></p>
 <p>Un système personnel de mesure du temps, indépendant des dogmes : l'heure comme angle, l'année ancrée au solstice, les ères selon la précession. Il ne remplace ni l'heure civile ni les normes officielles.</p>

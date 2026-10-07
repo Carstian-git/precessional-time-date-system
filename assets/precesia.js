@@ -301,7 +301,9 @@ function renderEx() {
   const Y = parseInt($("ex-y").value, 10), k = Y - 2011, [er, ae] = eraAeDinK(k), sa = NUME_ERE[er - 1];
   const cyc = Math.floor((k - K_ANCORA) / CICLU) + 1, a = psiOf(Y);
   const [x, y] = P(160, 160, 105, a);
-  $("ex-axis").innerHTML = `<line x1="160" y1="160" x2="${f1(x)}" y2="${f1(y)}" stroke="var(--sun)" stroke-width="2.2" stroke-linecap="round"/><circle cx="${f1(x)}" cy="${f1(y)}" r="7" fill="var(--sun)" stroke="var(--face)" stroke-width="1.5"/>`;
+  const tr = CICLU / 5, a0 = psiOf(Y - tr), [tx0, ty0] = P(160, 160, 105, a0), segs = 40; let tp = "";
+  for (let i = 0; i <= segs; i++) { const [xx, yy] = P(160, 160, 105, a0 + (a - a0) * i / segs); tp += (i ? "L" : "M") + f1(xx) + " " + f1(yy); }
+  $("ex-axis").innerHTML = `<path d="${tp}" fill="none" stroke="var(--sun)" stroke-width="3" opacity=".35" stroke-linecap="round"/><line x1="160" y1="160" x2="${f1(x)}" y2="${f1(y)}" stroke="var(--sun)" stroke-width="2.2" stroke-linecap="round"/><circle cx="${f1(x)}" cy="${f1(y)}" r="7" fill="var(--sun)" stroke="var(--face)" stroke-width="1.5"/>`;
   const p = mod(k - K_ANCORA, CICLU) + .5, ah = p / CICLU * 360;
   $("ex-hand").innerHTML = `<g transform="rotate(${ah.toFixed(2)} 160 160)"><line x1="160" y1="160" x2="160" y2="${160 - 104}" stroke="var(--sun)" stroke-width="2.2" stroke-linecap="round"/><circle cx="160" cy="${160 - 104}" r="5" fill="var(--sun)"/></g>`;
   $("ex-er").textContent = "ER " + er; $("ex-nm").textContent = sa[0] + " · AE " + ae;
@@ -310,12 +312,23 @@ function renderEx() {
   const cy = cyc === 0 ? D.cycNow : D.cycN.replace("{n}", (cyc > 0 ? "+" : "") + cyc);
   $("ex-o2").textContent = (best[1] < 12 ? D.poleStar.replace("{s}", best[0]) : D.poleNone) + " · " + cy;
 }
+let animP = null, lastP = 0, yrF = 0, dir = 1;
+function stopP() { if (animP) { cancelAnimationFrame(animP); animP = null; } $("ex-play").textContent = "▶ " + D.play; }
+function frameP(ts) {
+  if (!animP) return;
+  const dt = Math.min(.1, (ts - lastP) / 1000); lastP = ts; yrF += dir * dt * parseFloat($("ex-sp").value);
+  const mn = +$("ex-y").min, mx = +$("ex-y").max; if (yrF > mx) yrF = mn + (yrF - mx); if (yrF < mn) yrF = mx - (mn - yrF);
+  $("ex-y").value = Math.round(yrF); renderEx(); animP = requestAnimationFrame(frameP);
+}
+function playP() { if (animP) { stopP(); return; } yrF = +$("ex-y").value; $("ex-play").textContent = "■ " + D.pause; lastP = performance.now(); animP = requestAnimationFrame(frameP); }
 {
   const nowY = new Date().getUTCFullYear(), years = [-2799, -3299, nowY, 13700];
   $("ex-y").value = nowY;
   $("ex-jump").innerHTML = D.jumps.map((l, i) => `<button type="button" data-y="${years[i]}">${l}</button>`).join("");
   $("ex-jump").querySelectorAll("button").forEach(b => b.onclick = () => { $("ex-y").value = b.dataset.y; renderEx(); });
-  $("ex-y").addEventListener("input", renderEx);
+  $("ex-y").addEventListener("input", () => { stopP(); renderEx(); });
+  $("ex-sp").innerHTML = D.spd.map(([v, l], i) => `<option value="${v}"${i === 2 ? " selected" : ""}>${l}</option>`).join("");
+  $("ex-play").onclick = playP; $("ex-dir").onclick = () => { dir = -dir; $("ex-dir").textContent = dir > 0 ? D.fwd : D.back; };
   buildEx(); renderEx();
 }
 
