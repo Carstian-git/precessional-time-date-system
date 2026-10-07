@@ -424,12 +424,33 @@ function renderTrace(t) {
     s += `<line x1="${x0}" x2="${x1}" y1="${f1(Y(l))}" y2="${f1(Y(l))}" stroke="var(--rule)" stroke-width="${l % 360 === 0 ? 1.4 : .7}"/>`;
     if (l < mx) s += `<text x="${x0 - 4}" y="${f1((Y(l) + Y(l + 30)) / 2)}" font-size="${(mx - mn) > 150 ? 8 : 13}" text-anchor="end" dominant-baseline="central" fill="var(--ink)">${SG[mod(l / 30, 12)]}</text>`;
   }
+  /* diviziuni: ani (linii verticale puternice) și luni, în sistemul ales (SI: 12 luni, TPU: 13 luni de 28 de zile) */
+  const monSel = $("pl-mon").value, winY = win / (365.25 * 864e5), showM = winY <= 4 && monSel !== "no" && !["jupiter", "saturn", "chiron", "uranus", "neptune", "pluto"].includes(b.id), DAYMS = 864e5;
+  const mf = new Intl.DateTimeFormat(document.documentElement.lang || "ro", {month: "short", timeZone: "UTC"});
+  const inW = tt => tt >= t0 && tt <= t1;
+  const yLine = tt => `<line x1="${f1(X(tt))}" x2="${f1(X(tt))}" y1="${yT}" y2="${yB}" stroke="var(--ink)" stroke-width="1.6" opacity=".6"/>`;
+  const mLine = tt => `<line x1="${f1(X(tt))}" x2="${f1(X(tt))}" y1="${yT}" y2="${yB}" stroke="var(--mute)" stroke-width=".7" stroke-dasharray="2 3" opacity=".75"/>`;
+  const mLab = (ta, tb, txt) => { const a = Math.max(ta, t0), b2 = Math.min(tb, t1), wpx = X(b2) - X(a); return wpx >= 13 ? `<text x="${f1((X(a) + X(b2)) / 2)}" y="${yB - 6}" font-size="9.5" text-anchor="middle" fill="var(--mute)">${txt}</text>` : ""; };
+  let gr = "";
+  if (monSel === "tpu") {
+    const k0 = anPentruZi(Math.floor(t0 / DAYMS)), k1 = anPentruZi(Math.floor(t1 / DAYMS)) + 1;
+    for (let k = k0; k <= k1; k++) { const ys = inceputAn(k) * DAYMS; if (inW(ys)) gr += yLine(ys);
+      if (showM) for (let m = 1; m <= 13; m++) { const ta = ys + 28 * (m - 1) * DAYMS, tb = ta + 28 * DAYMS; if (m > 1 && inW(ta)) gr += mLine(ta); if (tb >= t0 && ta <= t1) gr += mLab(ta, tb, m); } }
+  } else {
+    const y0 = new Date(t0).getUTCFullYear(), y1 = new Date(t1).getUTCFullYear() + 1;
+    for (let y = y0; y <= y1; y++) { const ys = UTCY(y, 0, 1); if (inW(ys)) gr += yLine(ys);
+      if (showM) for (let m = 0; m < 12; m++) { const ta = UTCY(y, m, 1), tb = UTCY(y, m + 1, 1); if (m > 0 && inW(ta)) gr += mLine(ta); if (tb >= t0 && ta <= t1) gr += mLab(ta, tb, mf.format(new Date(ta))); } }
+  }
+  s += gr;
   let p = ""; pts.forEach(([tt, l], i) => p += (i ? "L" : "M") + f1(X(tt)) + " " + f1(Y(l)));
   s += `<path d="${p}" fill="none" stroke="${b.col}" stroke-width="2"/>`;
   const sy = new Date(t0).getUTCFullYear(), ey = new Date(t1).getUTCFullYear(), stepY = Math.max(1, Math.ceil((ey - sy) / 6));
-  for (let y = Math.ceil(sy / stepY) * stepY; y <= ey; y += stepY) { const tt = Date.UTC(y, 0, 1); if (tt < t0 || tt > t1) continue; let te = ""; try { const r = dinUtc(tt + 12 * 36e5, 0, "F"); te = `${r.er}·${r.ae}`; } catch (e) {}
-    s += `<line x1="${f1(X(tt))}" x2="${f1(X(tt))}" y1="${yB}" y2="${yB + 4}" stroke="var(--mute)"/><text x="${f1(X(tt))}" y="${h - 8}" font-size="10" text-anchor="middle" fill="var(--mute)">${y}</text>` +
-      `<line x1="${f1(X(tt))}" x2="${f1(X(tt))}" y1="${yT - 4}" y2="${yT}" stroke="var(--mute)"/><text x="${f1(X(tt))}" y="${yT - 10}" font-size="10" text-anchor="middle" fill="var(--mute)">${te}</text>`; }
+  for (let y = Math.ceil(sy / stepY) * stepY; y <= ey; y += stepY) { const tt = UTCY(y, 0, 1); if (tt < t0 || tt > t1) continue;
+    s += `<line x1="${f1(X(tt))}" x2="${f1(X(tt))}" y1="${yB}" y2="${yB + 4}" stroke="var(--mute)"/><text x="${f1(X(tt))}" y="${h - 8}" font-size="10" text-anchor="middle" fill="var(--mute)">${y}</text>`; }
+  { const kA = anPentruZi(Math.floor(t0 / DAYMS)), kB = anPentruZi(Math.floor(t1 / DAYMS)) + 1; let first = true;
+    for (let k = kA; k <= kB; k++) { const tt = inceputAn(k) * DAYMS; if (!inW(tt)) continue; if (!first && (k - kA) % stepY !== 0 && stepY > 1) continue; first = false;
+      let te = ""; try { const [er, ae] = eraAeDinK(k); te = `${er}·${ae}`; } catch (e) {}
+      s += `<line x1="${f1(X(tt))}" x2="${f1(X(tt))}" y1="${yT - 4}" y2="${yT}" stroke="var(--mute)"/><text x="${f1(X(tt))}" y="${yT - 10}" font-size="10" text-anchor="middle" fill="var(--mute)">${te}</text>`; } }
   s += `<text x="2" y="${h - 8}" font-size="9" fill="var(--ink)" font-weight="600">${D.suSI}</text><text x="2" y="${yT - 10}" font-size="9" fill="var(--ink)" font-weight="600">${D.suTPU}</text>`;
   const xc = X(t), yc = Y(pts[Math.round(N / 2)][1]);
   s += `<line x1="${f1(xc)}" x2="${f1(xc)}" y1="${yT}" y2="${yB}" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 3"/><circle cx="${f1(xc)}" cy="${f1(yc)}" r="5" fill="var(--ink)" stroke="var(--face)" stroke-width="1.5"/>`;
@@ -484,7 +505,7 @@ function nextRetro(dir) { /* următoarea schimbare de sens a planetei alese (sta
   $("pl-play").onclick = play; $("pl-now").onclick = () => { stop(); setT(Date.now()); };
   document.querySelectorAll("[data-step]").forEach(b => b.onclick = () => { stop(); setT(T0 + parseFloat(b.dataset.step) * 864e5); });
   $("pl-chiron").checked = true;
-  for (const id of ["pl-chiron", "pl-planet", "pl-win", "pl-orb"]) $(id).addEventListener("change", render);
+  for (const id of ["pl-chiron", "pl-planet", "pl-win", "pl-orb", "pl-mon"]) $(id).addEventListener("change", render);
   $("pl-nextretro").onclick = () => { stop(); setT(nextRetro(1)); };
   $("pl-prevretro").onclick = () => { stop(); setT(nextRetro(-1)); };
   $("pl-jump").innerHTML = D.jumps.map(([lab, iso, pl]) => `<button type="button" data-iso="${iso}" data-pl="${pl}">${lab}</button>`).join("");
