@@ -549,7 +549,7 @@ function nextPhase(tinta, dir) {
   }
   return T0;
 }
-function stop() { if (timer) { cancelAnimationFrame(timer); timer = null; } $("sl-play").setAttribute("aria-pressed", "false"); $("sl-play").textContent = D.play; }
+function stop() { if (timer) { cancelAnimationFrame(timer); timer = null; } $("sl-play").setAttribute("aria-pressed", "false"); $("sl-play").textContent = "▶ " + D.play; }
 function frame(ts) {
   if (!timer) return;
   const dt = Math.min(0.1, (ts - last) / 1000); last = ts;
@@ -558,7 +558,7 @@ function frame(ts) {
 }
 function play() {
   if (timer) { stop(); return; }
-  $("sl-play").setAttribute("aria-pressed", "true"); $("sl-play").textContent = D.pause;
+  $("sl-play").setAttribute("aria-pressed", "true"); $("sl-play").textContent = "■ " + D.pause;
   last = performance.now(); timer = requestAnimationFrame(frame);
 }
 {

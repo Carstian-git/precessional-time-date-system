@@ -278,6 +278,9 @@ const PL_EL = {
  Earth:[1.00000261,0.00000562,0.01671123,-0.00004392,-0.00001531,-0.01294668,100.46457166,35999.37244981,102.93768193,0.32327364,0,0],
  Mars:[1.52371034,0.00001847,0.09339410,0.00007882,1.84969142,-0.00813131,-4.55343205,19140.30268499,-23.94362959,0.44441088,49.55953891,-0.29257343],
  Jupiter:[5.20288700,-0.00011607,0.04838624,-0.00013253,1.30439695,-0.00183714,34.39644051,3034.74612775,14.72847983,0.21252668,100.47390909,0.20469106],
+ Uranus:[19.18916464,-0.00196176,0.04725744,-0.00004397,0.77263783,-0.00242939,313.23810451,428.48202785,170.95427630,0.40805281,74.01692503,0.04240589],
+ Neptune:[30.06992276,0.00026291,0.00859048,0.00005105,1.77004347,0.00035372,-55.12002969,218.45945325,44.96476227,-0.32241464,131.78422574,-0.00508664],
+ Pluto:[39.48211675,-0.00031596,0.24882730,0.00005170,17.14001206,0.00004818,238.92903833,145.20780515,224.06891629,-0.04062942,110.30393684,-0.01183482],
  Saturn:[9.53667594,-0.00125060,0.05386179,-0.00050991,2.48599187,0.00193609,49.95424423,1222.49362201,92.59887831,-0.41897216,113.66242448,-0.28867794]
 };
 const _rad=x=>x*Math.PI/180, _mod=(x,m)=>((x%m)+m)%m;
@@ -317,13 +320,16 @@ const SG = ["♈","♉","♊","♋","♌","♍","♎","♏","♐","♑","♒","�
 const RULER = ["mars", "venus", "mercury", "moon", "sun", "mercury", "venus", "mars", "jupiter", "saturn", "saturn", "jupiter"]; /* guvernatoare tradiționale */
 const BODIES = [
   {id: "sun", g: "☉", col: "var(--sun)", r: 128, lon: longitudineSoare},
-  {id: "moon", g: "☽", col: "var(--moon)", r: 114, lon: ms => lunaLonLat(ms)[0]},
-  {id: "mercury", g: "☿", col: "#5F7192", r: 100, lon: ms => planLon("Mercury", ms)},
-  {id: "venus", g: "♀", col: "#A8497A", r: 87, lon: ms => planLon("Venus", ms)},
-  {id: "mars", g: "♂", col: "#B03226", r: 74, lon: ms => planLon("Mars", ms)},
-  {id: "jupiter", g: "♃", col: "#8A6130", r: 61, lon: ms => planLon("Jupiter", ms)},
-  {id: "saturn", g: "♄", col: "#5E6470", r: 48, lon: ms => planLon("Saturn", ms)},
-  {id: "chiron", g: "⚷", col: "#2F7F6F", r: 35, lon: chironLon, minor: true}
+  {id: "moon", g: "☽", col: "var(--moon)", r: 116.5, lon: ms => lunaLonLat(ms)[0]},
+  {id: "mercury", g: "☿", col: "#5F7192", r: 105, lon: ms => planLon("Mercury", ms)},
+  {id: "venus", g: "♀", col: "#A8497A", r: 93.5, lon: ms => planLon("Venus", ms)},
+  {id: "mars", g: "♂", col: "#B03226", r: 82, lon: ms => planLon("Mars", ms)},
+  {id: "jupiter", g: "♃", col: "#8A6130", r: 70.5, lon: ms => planLon("Jupiter", ms)},
+  {id: "saturn", g: "♄", col: "#5E6470", r: 59, lon: ms => planLon("Saturn", ms)},
+  {id: "chiron", g: "⚷", col: "#2F7F6F", r: 47.5, lon: chironLon, minor: true},
+  {id: "uranus", g: "♅", col: "#1F8AA3", r: 36, lon: ms => planLon("Uranus", ms)},
+  {id: "neptune", g: "♆", col: "#3A5FB0", r: 24.5, lon: ms => planLon("Neptune", ms)},
+  {id: "pluto", g: "♇", col: "#6B3E75", r: 13, lon: ms => planLon("Pluto", ms)}
 ];
 BODIES.forEach(b => { b.g += "︎"; });
 const ASP = [["conj", 0], ["sext", 60], ["sq", 90], ["tri", 120], ["opp", 180]];
@@ -392,7 +398,7 @@ function renderZod(t) {
   for (const b of bs) {
     const lon = b.lon(t), a = ang(lon), v = viteza(b.lon, t), retro = v < 0 && b.id !== "sun" && b.id !== "moon";
     const [x, y] = P(c, c, b.r, a);
-    s += dot(x, y, b, 9, retro);
+    s += dot(x, y, b, 8, retro);
     const si = Math.floor(lon / 30), home = RULER[si] === b.id || (b.id === "mercury" && si === 5) || (b.id === "venus" && si === 6);
     rows += `<tr><td><span style="color:${b.col}">${b.g}</span> ${D.bodies[b.id]}</td><td>${SG[si]} ${D.signs[si]} ${degTxt(lon)}</td><td>${consName(consIdx(lon, t))}</td><td>${retro ? D.retro : D.direct} (${num(Math.abs(v) < .005 ? 0 : v, 2)}°/${D.day})${home ? " · " + D.home : ""}</td></tr>`;
   }
@@ -455,9 +461,9 @@ function render() {
   renderZod(T0); renderTrace(T0); renderAsp(T0);
 }
 function setT(ms) { T0 = Math.max(TMIN, Math.min(TMAX, ms)); render(); }
-function stop() { if (timer) { cancelAnimationFrame(timer); timer = null; } $("pl-play").setAttribute("aria-pressed", "false"); $("pl-play").textContent = D.play; }
+function stop() { if (timer) { cancelAnimationFrame(timer); timer = null; } $("pl-play").setAttribute("aria-pressed", "false"); $("pl-play").textContent = "▶ " + D.play; }
 function frame(ts) { if (!timer) return; const dt = Math.min(0.1, (ts - last) / 1000); last = ts; T0 = Math.max(TMIN, Math.min(TMAX, T0 + dt * parseFloat($("pl-speed").value) * 864e5)); render(); timer = requestAnimationFrame(frame); }
-function play() { if (timer) { stop(); return; } $("pl-play").setAttribute("aria-pressed", "true"); $("pl-play").textContent = D.pause; last = performance.now(); timer = requestAnimationFrame(frame); }
+function play() { if (timer) { stop(); return; } $("pl-play").setAttribute("aria-pressed", "true"); $("pl-play").textContent = "■ " + D.pause; last = performance.now(); timer = requestAnimationFrame(frame); }
 function nextRetro(dir) { /* următoarea schimbare de sens a planetei alese (stație) */
   const b = BODIES.find(x => x.id === $("pl-planet").value), step = 864e5; let t = T0, v0 = viteza(b.lon, t);
   for (let i = 0; i < 12000; i++) { t += dir * step; const v = viteza(b.lon, t); if ((v0 >= 0) !== (v >= 0)) { let a = t - dir * step, z = t; for (let k = 0; k < 30; k++) { const m = (a + z) / 2; if ((viteza(b.lon, m) >= 0) === (v0 >= 0)) a = m; else z = m; } return z; } v0 = v; }
