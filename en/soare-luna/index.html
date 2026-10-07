@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Sun, the Moon and eclipses: interactive dials</title>
+<meta name="description" content="Three dials to see how the Moon chases the Sun, why there is not an eclipse every month, and when a new or full moon is a «possible eclipse» in the human precessional calendar.">
+<link rel="canonical" href="https://carstian-git.github.io/precessional-time-date-system/en/soare-luna/">
+<link rel="alternate" hreflang="ro" href="https://carstian-git.github.io/precessional-time-date-system/ro/soare-luna/">
+<link rel="alternate" hreflang="en" href="https://carstian-git.github.io/precessional-time-date-system/en/soare-luna/">
+<link rel="alternate" hreflang="fr" href="https://carstian-git.github.io/precessional-time-date-system/fr/soare-luna/">
+<link rel="alternate" hreflang="x-default" href="https://carstian-git.github.io/precessional-time-date-system/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Human precessional time · Human precessional calendar">
+<meta property="og:title" content="The Sun, the Moon and eclipses: interactive dials">
+<meta property="og:description" content="Three dials to see how the Moon chases the Sun, why there is not an eclipse every month, and when a new or full moon is a «possible eclipse» in the human precessional calendar.">
+<meta property="og:url" content="https://carstian-git.github.io/precessional-time-date-system/en/soare-luna/">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://carstian-git.github.io/precessional-time-date-system/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Human precessional time · Human precessional calendar", "url": "https://carstian-git.github.io/precessional-time-date-system/en/", "inLanguage": "en", "description": "Three dials to see how the Moon chases the Sun, why there is not an eclipse every month, and when a new or full moon is a «possible eclipse» in the human precessional calendar."}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="sitehead">
+<a class="brand" href="../">Human precessional time</a>
+<nav class="sitenav" aria-label="Main menu"><a href="../">Home</a><a href="../sistem/">The system</a><a href="../tutorial/">Tutorial</a><a href="../precesia/">Precession</a><a href="./" aria-current="page">Sun and Moon</a><a href="../aplicatie/">Tools</a><a href="../despre/">About</a></nav>
+<div class="langsw" role="group" aria-label="Language"><a href="../../ro/soare-luna/" hreflang="ro" lang="ro">RO</a><a href="../../en/soare-luna/" hreflang="en" lang="en" aria-current="true">EN</a><a href="../../fr/soare-luna/" hreflang="fr" lang="fr">FR</a></div>
+</header>
+<main id="main" class="wrap">
+<h1 class="page">The Sun and the Moon: who catches up with whom</h1>
+<p class="lead">The Sun and the Moon both move eastward among the stars, but not at the same speed: the Moon is about 13 times faster. The dials below use the same angles as the clock and calendar of the human precessional system (the solar angle, the lunar angle) and show, in turn, the race between the two bodies, the nodes of the Moon's orbit, and the eclipses of a year. This page accompanies chapter 11 of the book “O lume contra timp” (in Romanian).</p>
+<noscript><p class="note">The dials need JavaScript. The explanations below can be read without it.</p></noscript>
+<section class="explorer sl-ctl" id="sl-ctl" aria-label="Choose the moment">
+  <div class="ex-ctl">
+    <div class="cal-ctl">
+      <div class="field"><label for="sl-when" class="lbl">Date and time (UTC)</label><input id="sl-when" type="datetime-local"></div>
+      <div class="field"><label for="sl-speed" class="lbl">Speed</label><select id="sl-speed"></select></div>
+      <div class="field"><span class="lbl">&nbsp;</span><button type="button" id="sl-play" aria-pressed="false">Play</button></div>
+    </div>
+    <div class="ex-jump">
+      <button type="button" id="sl-now">Now</button>
+      <button type="button" data-step="-1">−1 hour</button><button type="button" data-step="1">+1 hour</button>
+      <button type="button" data-step="-24">−1 day</button><button type="button" data-step="24">+1 day</button>
+      <button type="button" id="sl-nextnew">Next new moon</button><button type="button" id="sl-nextfull">Next full moon</button>
+    </div>
+    <p class="note">Moments to try:</p><div class="ex-jump" id="sl-jump"></div>
+  </div>
+</section>
+<section class="sl-dial">
+  <div class="sl-fig"><svg id="sl-race" viewBox="0 0 360 360" role="img" aria-label="Dial 1. The race: the Moon chases the Sun"></svg></div>
+  <div class="sl-txt"><h2>Dial 1. The race: the Moon chases the Sun</h2><p class="note">The circle is the ecliptic, the Sun's path among the stars, with 0° at the December solstice as in the calendar. The Sun (orange) and the Moon (blue) move clockwise; the blue arc between them is the lunar angle, the Moon's distance from the Sun, and the phase is shown in the centre.</p><div class="out" id="sl-r" aria-live="off"></div><ol class="steps"><li>Press <b>Play</b> at 1 day per second and watch the blue hand: it makes a full turn in about 27 seconds while the orange hand barely moves.</li><li>Press <b>Next new moon</b>. The two hands overlap and the lunar angle is 0°. Then press <b>Next full moon</b>: the hands are opposite, at 180°.</li><li>Read the “behind” line: relative to the Sun, the Moon falls behind by 12.19° a day on average, which is 1.22 new hours or about 49 standard minutes. That is why it rises, on average, almost an hour later each day (by our calculations).</li><li>Compare the speeds: the Sun between 0.95° and 1.02° a day, the Moon between 11.8° and 15.3° a day. They are not constant, because orbits are not circles.</li></ol></div>
+</section>
+<section class="sl-dial">
+  <div class="sl-fig"><svg id="sl-nodes" viewBox="0 0 360 360" role="img" aria-label="Dial 2. The nodes: why there is not an eclipse every month"></svg>
+  <svg id="sl-side" viewBox="0 0 340 150" role="img" aria-label="Side view: the straight line is the ecliptic, the blue curve the Moon's orbit, tilted by 5.145°. The orange band is the latitude below which a new moon can bring a solar eclipse, according to the spreadsheet (1.58°). The vertical scale is enlarged relative to the horizontal one."></svg></div>
+  <div class="sl-txt"><h2>Dial 2. The nodes: why there is not an eclipse every month</h2><p class="note">The same circle with the nodes of the Moon's orbit: ☊ (ascending node) and ☋ (descending node). The orange zones next to the nodes are the “eclipse seasons” (the Sun within about 17° of a node).</p><p class="note">Side view: the straight line is the ecliptic, the blue curve the Moon's orbit, tilted by 5.145°. The orange band is the latitude below which a new moon can bring a solar eclipse, according to the spreadsheet (1.58°). The vertical scale is enlarged relative to the horizontal one.</p><div class="out" id="sl-n" aria-live="off"></div><ol class="steps"><li>Start the animation at 5 days per second. Usually the Moon passes above or below the Sun, outside the orange band: no eclipse.</li><li>Press <b>Next new moon</b> several times and watch the Moon's latitude. An eclipse becomes possible only when the latitude is small.</li><li>Press the moment buttons: <b>12.08.2026</b> or <b>02.08.2027</b>. The Sun is then in an eclipse season, with the Moon near a node.</li><li>Notice that the nodes do not stand still: they move westward by about 19.3° a year (one turn in 18.6 years), which is why eclipse seasons come about 19 days earlier each year.</li></ol></div>
+</section>
+<section class="prose wide sl-year">
+  <h2>Dial 3. The eclipses of a year: “possible” and “real”</h2><p>For each new and full moon of the chosen year, the table shows the Moon's latitude and whether the “Calendar an” sheet of the Excel workbook would write “possible eclipse”. For 2026–2028 the real eclipse is added, from NASA and EclipseWise (Table 11.2 in the book). Click a row to put it on the dials.</p>
+  <div class="cal-ctl"><div class="field"><label for="sl-y" class="lbl">Year (1900–2200)</label><input id="sl-y" type="number" min="1900" max="2200" step="1" value="2026"></div>
+  <div class="ex-jump" id="sl-yjump"><button type="button" data-y="2026">2026</button><button type="button" data-y="2027">2027</button><button type="button" data-y="2028">2028</button></div></div>
+  <div class="scroll"><table class="grid sl-tab"><thead><tr><th>Date (UTC)</th><th>Phase</th><th>Moon's latitude</th><th>Spreadsheet mark</th><th>Real eclipse</th></tr></thead><tbody id="sl-ybody"></tbody></table></div>
+  <p class="note" id="sl-ysum" aria-live="polite"></p>
+  <ol class="steps"><li>Choose 2026, 2027 and 2028 and compare the columns: almost every month marked “possible” also has a real eclipse, but not all of them.</li><li>Try a year of the 20th century. Without a real-eclipse column you will only see the mark. Over the whole century the sheet marks 244 solar eclipses against 228 in the NASA catalogue (by our calculations).</li><li>Notice that penumbral lunar eclipses (three in 2027) are not marked: the sheet marks only umbral ones.</li></ol>
+</section>
+<section class="prose"><h2>What these dials do not show</h2><ul><li>Positions are computed with Meeus formulas, in JavaScript, for the centre of the Earth; latitudes may differ by a few hundredths of a degree from the calculation with the ephem library used in the book.</li><li>The node is the mean node; the true node oscillates by up to 1.5° around it.</li><li>The dials do not predict eclipses and do not say where they will be seen. “Possible” only means that the Moon's latitude at the phase is below a threshold. Predicting a specific eclipse, with its shadow on the ground, takes much more (distances, radii, ΔT) and is done with the NASA catalogues.</li><li>Times are in UTC, not local time.</li></ul></section>
+<section class="prose"><h2>Read further</h2><div class="srcs"><a href="https://eclipse.gsfc.nasa.gov/" rel="noopener">NASA, Eclipse Predictions (Fred Espenak)</a><a href="https://eclipsewise.com/" rel="noopener">EclipseWise</a><a href="https://en.wikipedia.org/wiki/Lunar_node" rel="noopener">Lunar node (Wikipedia)</a><a href="https://en.wikipedia.org/wiki/Saros_(astronomy)" rel="noopener">Saros (Wikipedia)</a></div></section>
+</main>
+<script type="application/json" id="sl-data">{"locale": "en-GB", "dec": ".", "day": "day", "sunAng": "Solar angle", "moonAng": "Lunar angle", "phase": "Phase", "vSun": "Sun", "vMoon": "Moon", "ratio": "ratio", "vMoonH": "Moon per hour", "diam": "Moon diameters", "lag": "behind", "newH": "new hours", "season": "Eclipse season", "yes": "yes", "no": "no", "sunNode": "Sun–node", "limit": "limit", "moonLat": "Moon's latitude", "moonNode": "Moon–node", "nodeAt": "Ascending node at", "ecl": "on the ecliptic", "nodeRate": "moves westward ~19.3°/yr", "phases": ["new moon", "waxing crescent", "first quarter", "waxing gibbous", "full moon", "waning gibbous", "last quarter", "waning crescent"], "cardinals": [], "play": "Play", "pause": "Pause", "speeds": [[0.25, "6 hours per second"], [1, "1 day per second"], [5, "5 days per second"], [30, "30 days per second"]], "newM": "new moon", "fullM": "full moon", "possS": "possible solar eclipse", "possL": "possible lunar eclipse", "solar": "solar", "lunar": "lunar", "none": "no eclipse", "notMarked": "penumbral, not marked", "types": {"a": "annular", "t": "total", "p": "partial", "n": "penumbral"}, "sumTpl": "In {y}: {s} new moons and {l} full moons marked “possible”.", "sumKnown": "Real eclipses this year: {s} solar and {l} lunar.", "sumUnknown": "The “real” column is filled in only for 2026–2028.", "known": [["17.02.2026", "S", "a"], ["03.03.2026", "L", "t"], ["12.08.2026", "S", "t"], ["28.08.2026", "L", "p"], ["06.02.2027", "S", "a"], ["20.02.2027", "L", "n"], ["18.07.2027", "L", "n"], ["02.08.2027", "S", "t"], ["17.08.2027", "L", "n"], ["12.01.2028", "L", "p"], ["26.01.2028", "S", "a"], ["06.07.2028", "L", "p"], ["22.07.2028", "S", "t"], ["31.12.2028", "L", "t"]], "jumps": [["Annular solar eclipse, 17.02.2026", "2026-02-17"], ["Total lunar eclipse, 03.03.2026", "2026-03-03"], ["Total solar eclipse, 12.08.2026", "2026-08-12"], ["Total solar eclipse, 02.08.2027", "2027-08-02"], ["Total lunar eclipse, 31.12.2028", "2028-12-31"]]}</script>
+<script src="../../assets/soarelun.js" defer></script>
+<footer class="sitefoot">
+<p><b>Human precessional time · Human precessional calendar</b></p>
+<p>A personal, dogma-independent way of measuring time: the hour as an angle, the year anchored to the solstice, eras from precession. It does not replace civil time or official standards.</p>
+<p>Updated: 6 October 2026</p>
+<p class="license">Texts: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" rel="license">CC BY-SA 4.0</a> · Code: <a href="https://www.gnu.org/licenses/gpl-3.0.html" rel="license">GNU GPLv3</a></p>
+<p class="visitors">Visitors: <span id="gc-total">·</span></p>
+<script data-goatcounter="https://carstian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>(function(){var el=document.getElementById("gc-total");function g(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}var p=encodeURIComponent(location.pathname);setTimeout(function(){g("https://carstian.goatcounter.com/counter/"+p+".json").then(function(d){el.textContent=d.count}).catch(function(){el.textContent="0"})},2500)})();</script>
+</footer>
+</body>
+</html>

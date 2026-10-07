@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Le Soleil, la Lune et les éclipses : cadrans interactifs</title>
+<meta name="description" content="Trois cadrans pour voir comment la Lune court après le Soleil, pourquoi il n&#x27;y a pas d&#x27;éclipse chaque mois et quand une nouvelle ou une pleine lune est une « éclipse possible » dans le calendrier précessionnel humain.">
+<link rel="canonical" href="https://carstian-git.github.io/precessional-time-date-system/fr/soare-luna/">
+<link rel="alternate" hreflang="ro" href="https://carstian-git.github.io/precessional-time-date-system/ro/soare-luna/">
+<link rel="alternate" hreflang="en" href="https://carstian-git.github.io/precessional-time-date-system/en/soare-luna/">
+<link rel="alternate" hreflang="fr" href="https://carstian-git.github.io/precessional-time-date-system/fr/soare-luna/">
+<link rel="alternate" hreflang="x-default" href="https://carstian-git.github.io/precessional-time-date-system/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Temps précessionnel humain · Calendrier précessionnel humain">
+<meta property="og:title" content="Le Soleil, la Lune et les éclipses : cadrans interactifs">
+<meta property="og:description" content="Trois cadrans pour voir comment la Lune court après le Soleil, pourquoi il n&#x27;y a pas d&#x27;éclipse chaque mois et quand une nouvelle ou une pleine lune est une « éclipse possible » dans le calendrier précessionnel humain.">
+<meta property="og:url" content="https://carstian-git.github.io/precessional-time-date-system/fr/soare-luna/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://carstian-git.github.io/precessional-time-date-system/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Temps précessionnel humain · Calendrier précessionnel humain", "url": "https://carstian-git.github.io/precessional-time-date-system/fr/", "inLanguage": "fr", "description": "Trois cadrans pour voir comment la Lune court après le Soleil, pourquoi il n'y a pas d'éclipse chaque mois et quand une nouvelle ou une pleine lune est une « éclipse possible » dans le calendrier précessionnel humain."}</script>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+<header class="sitehead">
+<a class="brand" href="../">Temps précessionnel humain</a>
+<nav class="sitenav" aria-label="Menu principal"><a href="../">Accueil</a><a href="../sistem/">Le système</a><a href="../tutorial/">Tutoriel</a><a href="../precesia/">Précession</a><a href="./" aria-current="page">Soleil et Lune</a><a href="../aplicatie/">Outils</a><a href="../despre/">À propos</a></nav>
+<div class="langsw" role="group" aria-label="Langue"><a href="../../ro/soare-luna/" hreflang="ro" lang="ro">RO</a><a href="../../en/soare-luna/" hreflang="en" lang="en">EN</a><a href="../../fr/soare-luna/" hreflang="fr" lang="fr" aria-current="true">FR</a></div>
+</header>
+<main id="main" class="wrap">
+<h1 class="page">Le Soleil et la Lune : qui rattrape qui</h1>
+<p class="lead">Le Soleil et la Lune se déplacent tous deux vers l'est parmi les étoiles, mais pas à la même vitesse : la Lune est environ 13 fois plus rapide. Les cadrans ci-dessous utilisent les mêmes angles que l'horloge et le calendrier précessionnels humains (l'angle solaire, l'angle lunaire) et montrent tour à tour la course entre les deux astres, les nœuds de l'orbite lunaire et les éclipses d'une année. Cette page accompagne le chapitre 11 du livre « O lume contra timp » (en roumain).</p>
+<noscript><p class="note">Les cadrans nécessitent JavaScript. Les explications ci-dessous se lisent sans lui.</p></noscript>
+<section class="explorer sl-ctl" id="sl-ctl" aria-label="Choisir le moment">
+  <div class="ex-ctl">
+    <div class="cal-ctl">
+      <div class="field"><label for="sl-when" class="lbl">Date et heure (UTC)</label><input id="sl-when" type="datetime-local"></div>
+      <div class="field"><label for="sl-speed" class="lbl">Vitesse</label><select id="sl-speed"></select></div>
+      <div class="field"><span class="lbl">&nbsp;</span><button type="button" id="sl-play" aria-pressed="false">Lancer</button></div>
+    </div>
+    <div class="ex-jump">
+      <button type="button" id="sl-now">Maintenant</button>
+      <button type="button" data-step="-1">−1 heure</button><button type="button" data-step="1">+1 heure</button>
+      <button type="button" data-step="-24">−1 jour</button><button type="button" data-step="24">+1 jour</button>
+      <button type="button" id="sl-nextnew">Prochaine nouvelle lune</button><button type="button" id="sl-nextfull">Prochaine pleine lune</button>
+    </div>
+    <p class="note">Moments à essayer :</p><div class="ex-jump" id="sl-jump"></div>
+  </div>
+</section>
+<section class="sl-dial">
+  <div class="sl-fig"><svg id="sl-race" viewBox="0 0 360 360" role="img" aria-label="Cadran 1. La course : la Lune court après le Soleil"></svg></div>
+  <div class="sl-txt"><h2>Cadran 1. La course : la Lune court après le Soleil</h2><p class="note">Le cercle est l'écliptique, le chemin du Soleil parmi les étoiles, avec 0° au solstice de décembre comme dans le calendrier. Le Soleil (orange) et la Lune (bleue) tournent dans le sens des aiguilles d'une montre ; l'arc bleu entre eux est l'angle lunaire, la distance de la Lune au Soleil, et la phase apparaît au centre.</p><div class="out" id="sl-r" aria-live="off"></div><ol class="steps"><li>Appuyez sur <b>Lancer</b> à 1 jour par seconde et suivez l'aiguille bleue : elle fait un tour complet en 27 secondes environ, tandis que l'aiguille orange bouge à peine.</li><li>Appuyez sur <b>Prochaine nouvelle lune</b>. Les deux aiguilles se superposent et l'angle lunaire vaut 0°. Passez ensuite à <b>Prochaine pleine lune</b> : les aiguilles sont opposées, à 180°.</li><li>Lisez la ligne « en retard » : par rapport au Soleil, la Lune prend en moyenne 12,19° de retard par jour, soit 1,22 heure nouvelle ou environ 49 minutes standard. C'est pourquoi elle se lève, en moyenne, presque une heure plus tard chaque jour (d'après nos calculs).</li><li>Comparez les vitesses : le Soleil entre 0,95° et 1,02° par jour, la Lune entre 11,8° et 15,3° par jour. Elles ne sont pas constantes, car les orbites ne sont pas des cercles.</li></ol></div>
+</section>
+<section class="sl-dial">
+  <div class="sl-fig"><svg id="sl-nodes" viewBox="0 0 360 360" role="img" aria-label="Cadran 2. Les nœuds : pourquoi il n'y a pas d'éclipse chaque mois"></svg>
+  <svg id="sl-side" viewBox="0 0 340 150" role="img" aria-label="Vue de côté : la droite est l'écliptique, la courbe bleue l'orbite de la Lune, inclinée de 5,145°. La bande orange est la latitude sous laquelle une nouvelle lune peut amener une éclipse de Soleil, d'après la feuille de calcul (1,58°). L'échelle verticale est agrandie par rapport à l'horizontale."></svg></div>
+  <div class="sl-txt"><h2>Cadran 2. Les nœuds : pourquoi il n'y a pas d'éclipse chaque mois</h2><p class="note">Le même cercle avec les nœuds de l'orbite lunaire : ☊ (nœud ascendant) et ☋ (nœud descendant). Les zones orange près des nœuds sont les « saisons d'éclipses » (Soleil à moins de 17° environ d'un nœud).</p><p class="note">Vue de côté : la droite est l'écliptique, la courbe bleue l'orbite de la Lune, inclinée de 5,145°. La bande orange est la latitude sous laquelle une nouvelle lune peut amener une éclipse de Soleil, d'après la feuille de calcul (1,58°). L'échelle verticale est agrandie par rapport à l'horizontale.</p><div class="out" id="sl-n" aria-live="off"></div><ol class="steps"><li>Lancez l'animation à 5 jours par seconde. En général la Lune passe au-dessus ou au-dessous du Soleil, hors de la bande orange : pas d'éclipse.</li><li>Appuyez plusieurs fois sur <b>Prochaine nouvelle lune</b> et observez la latitude de la Lune. L'éclipse n'est possible que lorsque la latitude est faible.</li><li>Appuyez sur les boutons de moments : <b>12.08.2026</b> ou <b>02.08.2027</b>. Le Soleil est alors en saison d'éclipses, avec la Lune près d'un nœud.</li><li>Remarquez que les nœuds ne restent pas en place : ils reculent vers l'ouest d'environ 19,3° par an (un tour en 18,6 ans), ce qui explique que les saisons d'éclipses arrivent chaque année environ 19 jours plus tôt.</li></ol></div>
+</section>
+<section class="prose wide sl-year">
+  <h2>Cadran 3. Les éclipses d'une année : « possible » et « réelle »</h2><p>Pour chaque nouvelle et pleine lune de l'année choisie, le tableau montre la latitude de la Lune et si la feuille « Calendar an » du classeur Excel écrirait « éclipse possible ». Pour 2026–2028, l'éclipse réelle est ajoutée, d'après la NASA et EclipseWise (tableau 11.2 du livre). Cliquez sur une ligne pour la placer sur les cadrans.</p>
+  <div class="cal-ctl"><div class="field"><label for="sl-y" class="lbl">Année (1900–2200)</label><input id="sl-y" type="number" min="1900" max="2200" step="1" value="2026"></div>
+  <div class="ex-jump" id="sl-yjump"><button type="button" data-y="2026">2026</button><button type="button" data-y="2027">2027</button><button type="button" data-y="2028">2028</button></div></div>
+  <div class="scroll"><table class="grid sl-tab"><thead><tr><th>Date (UTC)</th><th>Phase</th><th>Latitude de la Lune</th><th>Marque de la feuille</th><th>Éclipse réelle</th></tr></thead><tbody id="sl-ybody"></tbody></table></div>
+  <p class="note" id="sl-ysum" aria-live="polite"></p>
+  <ol class="steps"><li>Choisissez 2026, 2027 et 2028 et comparez les colonnes : presque tous les mois marqués « possible » ont aussi une éclipse réelle, mais pas tous.</li><li>Essayez une année du XXe siècle. Sans colonne d'éclipses réelles, vous ne verrez que la marque. Sur tout le siècle, la feuille marque 244 éclipses de Soleil contre 228 dans le catalogue de la NASA (d'après nos calculs).</li><li>Remarquez que les éclipses lunaires par la pénombre (trois en 2027) ne sont pas marquées : la feuille ne marque que celles par l'ombre.</li></ol>
+</section>
+<section class="prose"><h2>Ce que ces cadrans ne montrent pas</h2><ul><li>Les positions sont calculées avec les formules de Meeus, en JavaScript, pour le centre de la Terre ; les latitudes peuvent différer de quelques centièmes de degré du calcul avec la bibliothèque ephem utilisée dans le livre.</li><li>Le nœud est le nœud moyen ; le nœud vrai oscille jusqu'à 1,5° autour de lui.</li><li>Les cadrans ne prédisent pas les éclipses et ne disent pas où elles seront visibles. « Possible » signifie seulement que la latitude de la Lune à la phase est sous un seuil. Prédire une éclipse précise, avec son ombre au sol, demande bien plus (distances, rayons, ΔT) et se fait avec les catalogues de la NASA.</li><li>Les moments sont en UTC, pas en heure locale.</li></ul></section>
+<section class="prose"><h2>Pour aller plus loin</h2><div class="srcs"><a href="https://eclipse.gsfc.nasa.gov/" rel="noopener">NASA, Eclipse Predictions (Fred Espenak)</a><a href="https://eclipsewise.com/" rel="noopener">EclipseWise</a><a href="https://fr.wikipedia.org/wiki/N%C5%93ud_lunaire" rel="noopener">Nœud lunaire (Wikipédia)</a><a href="https://fr.wikipedia.org/wiki/Saros_(astronomie)" rel="noopener">Saros (Wikipédia)</a></div></section>
+</main>
+<script type="application/json" id="sl-data">{"locale": "fr-FR", "dec": ",", "day": "jour", "sunAng": "Angle solaire", "moonAng": "Angle lunaire", "phase": "Phase", "vSun": "Soleil", "vMoon": "Lune", "ratio": "rapport", "vMoonH": "Lune par heure", "diam": "diamètres lunaires", "lag": "en retard", "newH": "heures nouvelles", "season": "Saison d'éclipses", "yes": "oui", "no": "non", "sunNode": "Soleil–nœud", "limit": "limite", "moonLat": "Latitude de la Lune", "moonNode": "Lune–nœud", "nodeAt": "Nœud ascendant à", "ecl": "sur l'écliptique", "nodeRate": "recule vers l'ouest de ~19,3°/an", "phases": ["nouvelle lune", "premier croissant", "premier quartier", "gibbeuse croissante", "pleine lune", "gibbeuse décroissante", "dernier quartier", "dernier croissant"], "cardinals": [], "play": "Lancer", "pause": "Arrêter", "speeds": [[0.25, "6 heures par seconde"], [1, "1 jour par seconde"], [5, "5 jours par seconde"], [30, "30 jours par seconde"]], "newM": "nouvelle lune", "fullM": "pleine lune", "possS": "éclipse de Soleil possible", "possL": "éclipse de Lune possible", "solar": "de Soleil", "lunar": "de Lune", "none": "aucune éclipse", "notMarked": "par la pénombre, non marquée", "types": {"a": "annulaire", "t": "totale", "p": "partielle", "n": "de pénombre"}, "sumTpl": "En {y} : {s} nouvelles lunes et {l} pleines lunes marquées « possible ».", "sumKnown": "Éclipses réelles cette année : {s} de Soleil et {l} de Lune.", "sumUnknown": "La colonne « réelle » n'est remplie que pour 2026–2028.", "known": [["17.02.2026", "S", "a"], ["03.03.2026", "L", "t"], ["12.08.2026", "S", "t"], ["28.08.2026", "L", "p"], ["06.02.2027", "S", "a"], ["20.02.2027", "L", "n"], ["18.07.2027", "L", "n"], ["02.08.2027", "S", "t"], ["17.08.2027", "L", "n"], ["12.01.2028", "L", "p"], ["26.01.2028", "S", "a"], ["06.07.2028", "L", "p"], ["22.07.2028", "S", "t"], ["31.12.2028", "L", "t"]], "jumps": [["Éclipse annulaire de Soleil, 17.02.2026", "2026-02-17"], ["Éclipse totale de Lune, 03.03.2026", "2026-03-03"], ["Éclipse totale de Soleil, 12.08.2026", "2026-08-12"], ["Éclipse totale de Soleil, 02.08.2027", "2027-08-02"], ["Éclipse totale de Lune, 31.12.2028", "2028-12-31"]]}</script>
+<script src="../../assets/soarelun.js" defer></script>
+<footer class="sitefoot">
+<p><b>Temps précessionnel humain · Calendrier précessionnel humain</b></p>
+<p>Un système personnel de mesure du temps, indépendant des dogmes : l'heure comme angle, l'année ancrée au solstice, les ères selon la précession. Il ne remplace ni l'heure civile ni les normes officielles.</p>
+<p>Mis à jour: 6 octobre 2026</p>
+<p class="license">Textes : <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr" rel="license">CC BY-SA 4.0</a> · Code : <a href="https://www.gnu.org/licenses/gpl-3.0.html" rel="license">GNU GPLv3</a></p>
+<p class="visitors">Visiteurs: <span id="gc-total">·</span></p>
+<script data-goatcounter="https://carstian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>(function(){var el=document.getElementById("gc-total");function g(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}var p=encodeURIComponent(location.pathname);setTimeout(function(){g("https://carstian.goatcounter.com/counter/"+p+".json").then(function(d){el.textContent=d.count}).catch(function(){el.textContent="0"})},2500)})();</script>
+</footer>
+</body>
+</html>
