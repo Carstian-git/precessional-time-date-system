@@ -318,17 +318,17 @@ const RULER = ["mars", "venus", "mercury", "moon", "sun", "mercury", "venus", "m
 const BODIES = [
   {id: "sun", g: "☉", col: "var(--sun)", r: 128, lon: longitudineSoare},
   {id: "moon", g: "☽", col: "var(--moon)", r: 114, lon: ms => lunaLonLat(ms)[0]},
-  {id: "mercury", g: "☿", col: "var(--ink)", r: 100, lon: ms => planLon("Mercury", ms)},
-  {id: "venus", g: "♀", col: "var(--sun)", r: 87, lon: ms => planLon("Venus", ms)},
-  {id: "mars", g: "♂", col: "var(--ink)", r: 74, lon: ms => planLon("Mars", ms)},
-  {id: "jupiter", g: "♃", col: "var(--moon)", r: 61, lon: ms => planLon("Jupiter", ms)},
-  {id: "saturn", g: "♄", col: "var(--mute)", r: 48, lon: ms => planLon("Saturn", ms)},
-  {id: "chiron", g: "⚷", col: "var(--ink)", r: 35, lon: chironLon, minor: true}
+  {id: "mercury", g: "☿", col: "#5F7192", r: 100, lon: ms => planLon("Mercury", ms)},
+  {id: "venus", g: "♀", col: "#A8497A", r: 87, lon: ms => planLon("Venus", ms)},
+  {id: "mars", g: "♂", col: "#B03226", r: 74, lon: ms => planLon("Mars", ms)},
+  {id: "jupiter", g: "♃", col: "#8A6130", r: 61, lon: ms => planLon("Jupiter", ms)},
+  {id: "saturn", g: "♄", col: "#5E6470", r: 48, lon: ms => planLon("Saturn", ms)},
+  {id: "chiron", g: "⚷", col: "#2F7F6F", r: 35, lon: chironLon, minor: true}
 ];
 BODIES.forEach(b => { b.g += "︎"; });
 const ASP = [["conj", 0], ["sext", 60], ["sq", 90], ["tri", 120], ["opp", 180]];
 const ASPSTYLE = {conj: "", sext: 'stroke-dasharray="2 4"', sq: 'stroke-dasharray="7 4"', tri: "", opp: 'stroke-dasharray="1 3"'};
-const ASPCOL = {conj: "var(--ink)", sext: "var(--moon)", sq: "var(--sun)", tri: "var(--moon)", opp: "var(--sun)"};
+const ASPCOL = {conj: "var(--ink)", sext: "var(--moon)", sq: "#B03226", tri: "var(--moon)", opp: "#B03226"};
 const delta = (a, b) => mod(a - b + 180, 360) - 180;
 const viteza = (f, ms) => delta(f(ms + 12 * 36e5), f(ms - 12 * 36e5)); /* grade pe zi */
 const CONS = [["Psc",351.57],["Ari",28.69],["Tau",53.42],["Gem",90.14],["Cnc",117.99],["Leo",138.04],["Vir",173.85],["Lib",217.81],["Sco",241.14],["Oph",247.64],["Sgr",266.62],["Cap",299.70],["Aqr",327.49]];
@@ -341,9 +341,18 @@ const fmtUtc = ms => { const d = new Date(ms); return `${pad(d.getUTCDate())}.${
 const fmtDay = ms => { const d = new Date(ms); return `${pad(d.getUTCDate())}.${pad(d.getUTCMonth() + 1)}.${d.getUTCFullYear()}`; };
 const parseLocal = v => { const m = /^(\d{4,})-(\d\d)-(\d\d)T(\d\d):(\d\d)/.exec(v); if (!m) return null; const x = new Date(0); x.setUTCFullYear(+m[1], +m[2] - 1, +m[3]); x.setUTCHours(+m[4], +m[5], 0, 0); return x.getTime(); };
 const degTxt = lon => `${Math.floor(mod(lon, 30))}°${pad(Math.floor(mod(lon, 1) * 60))}′`;
+/* corp desenat ca disc plin (Soarele galben-portocaliu și Luna albastră, ca în cadranele Soare–Lună) */
+function dot(x, y, b, rr, retro) {
+  const r = b.id === "sun" ? rr + 1.5 : rr;
+  return (retro ? `<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(r + 3)}" fill="none" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="2.5 2"/>` : "") +
+    `<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(r)}" fill="${b.col}" stroke="var(--face)" stroke-width="1.4"><title>${D.bodies[b.id]}</title></circle>` +
+    `<text x="${f1(x)}" y="${f1(y)}" font-size="${b.id === "sun" ? 14 : 12}" text-anchor="middle" dominant-baseline="central" fill="#fff" pointer-events="none">${b.g}</text>`;
+}
 const sel = () => BODIES.filter(b => !b.minor || $("pl-chiron").checked);
+const TMIN = Date.UTC(-4000, 0, 1), TMAX = Date.UTC(9000, 0, 1);
 let T0 = Date.now(), timer = null, last = 0;
 
+const outOfRange = ms => { const y = new Date(ms).getUTCFullYear(); return y < 1800 || y > 2050; };
 function tpu(ms) {
   const r = dinUtc(ms, D.defaultFus * 10, "F");
   return `ER ${r.er} · AE ${r.ae} · ${r.lc ? r.lc + "/" + r.zn : D.yearDay + " " + r.zn}`;
@@ -360,22 +369,35 @@ function buildZod() {
   }
   for (let a = 0; a < 360; a += 10) s += tick(c, c, 138, a % 30 === 0 ? 142 : 140, a, .6, "var(--mute)");
   for (const b of BODIES) s += `<circle id="pl-ring-${b.id}" cx="${c}" cy="${c}" r="${b.r}" fill="none" stroke="var(--rule)" stroke-width=".6" stroke-dasharray="1 3"/>`;
-  $("pl-zod").innerHTML = s + '<g id="pl-zod-dyn"></g>';
+  s += `<path d="M ${c + 170} ${c - 6} L ${c + 182} ${c} L ${c + 170} ${c + 6} Z" fill="var(--sun)"><title>${D.vernal}</title></path>`;
+  $("pl-zod").innerHTML = '<g id="pl-cons"></g>' + s + '<g id="pl-zod-dyn"></g>';
+}
+function renderCons(t) {
+  const c = 180, r1 = 176, r2 = 202; let s = `<circle cx="${c}" cy="${c}" r="${r2}" fill="var(--face)" stroke="var(--ink)" stroke-width="1.2"/>`;
+  for (let i = 0; i < 13; i++) {
+    const a = ang(consEdge(i, t)), b = ang(consEdge((i + 1) % 13, t)), span = mod(b - a, 360);
+    s += `<path d="${arcPath(c, c, r1, r2, a, a + span)}" fill="var(--ink)" opacity="${i === 9 ? .3 : i % 2 ? .16 : .07}" stroke="var(--rule)" stroke-width=".6"><title>${consName(i)}</title></path>`;
+    s += txt(c, c, (r1 + r2) / 2, a + span / 2, CONS[i][0], 9, "", 'font-weight="600" fill="var(--ink)"');
+  }
+  $("pl-cons").innerHTML = s;
+  /* punctul vernal (0° tropical) și constelația în care se află */
+  const vi = consIdx(0, t), d = mod(0 - consEdge(vi, t), 360), yrs = d / (50.29 / 3600), y0 = new Date(t).getUTCFullYear() + yrs;
+  return `<div class="small"><b>${D.vernal}</b>: ${consName(vi)} · ${D.vernalOut.replace("{c}", consName((vi + 12) % 13)).replace("{y}", String(Math.round(y0)))}</div>`;
 }
 function renderZod(t) {
   const c = 180; let s = "", rows = "";
+  const vern = renderCons(t);
   const bs = sel();
   for (const b of BODIES) $("pl-ring-" + b.id).style.display = bs.includes(b) ? "" : "none";
   for (const b of bs) {
     const lon = b.lon(t), a = ang(lon), v = viteza(b.lon, t), retro = v < 0 && b.id !== "sun" && b.id !== "moon";
     const [x, y] = P(c, c, b.r, a);
-    s += `<circle cx="${f1(x)}" cy="${f1(y)}" r="9.5" fill="var(--face)" stroke="${b.col}" stroke-width="${retro ? 2.4 : 1.4}"${retro ? ' stroke-dasharray="3 2"' : ""}><title>${D.bodies[b.id]}</title></circle>`;
-    s += `<text x="${f1(x)}" y="${f1(y)}" font-size="12" text-anchor="middle" dominant-baseline="central" fill="${b.col}">${b.g}</text>`;
+    s += dot(x, y, b, 9, retro);
     const si = Math.floor(lon / 30), home = RULER[si] === b.id || (b.id === "mercury" && si === 5) || (b.id === "venus" && si === 6);
-    rows += `<tr><td>${b.g} ${D.bodies[b.id]}</td><td>${SG[si]} ${D.signs[si]} ${degTxt(lon)}</td><td>${consName(consIdx(lon, t))}</td><td>${retro ? D.retro : D.direct} (${num(Math.abs(v) < .005 ? 0 : v, 2)}°/${D.day})${home ? " · " + D.home : ""}</td></tr>`;
+    rows += `<tr><td><span style="color:${b.col}">${b.g}</span> ${D.bodies[b.id]}</td><td>${SG[si]} ${D.signs[si]} ${degTxt(lon)}</td><td>${consName(consIdx(lon, t))}</td><td>${retro ? D.retro : D.direct} (${num(Math.abs(v) < .005 ? 0 : v, 2)}°/${D.day})${home ? " · " + D.home : ""}</td></tr>`;
   }
   $("pl-zod-dyn").innerHTML = s;
-  $("pl-z").innerHTML = `<table class="grid pl-tab"><thead><tr>${D.th1.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table>`;
+  $("pl-z").innerHTML = vern + `<table class="grid pl-tab"><thead><tr>${D.th1.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table>`;
 }
 /* ---------- cadranul 2: traseul unei planete ---------- */
 function ingresses(b, t0, t1) {
@@ -386,7 +408,7 @@ function ingresses(b, t0, t1) {
 }
 function renderTrace(t) {
   const b = BODIES.find(x => x.id === $("pl-planet").value), win = parseFloat($("pl-win").value) * 365.25 * 864e5, t0 = t - win / 2, t1 = t + win / 2;
-  const w = 380, h = 230, x0 = 30, x1 = w - 12, yT = 12, yB = h - 24, N = 220; const pts = []; let u = b.lon(t0), prev = u;
+  const w = 1000, h = 260, x0 = 34, x1 = w - 14, yT = 12, yB = h - 24, N = 300; const pts = []; let u = b.lon(t0), prev = u;
   for (let i = 0; i <= N; i++) { const tt = t0 + win * i / N, l = b.lon(tt); u += delta(l, prev); prev = l; pts.push([tt, u]); }
   let mn = Math.min(...pts.map(p => p[1])), mx = Math.max(...pts.map(p => p[1]));
   mn = Math.floor(mn / 30) * 30; mx = Math.max(mn + 30, Math.ceil(mx / 30) * 30);
@@ -397,14 +419,14 @@ function renderTrace(t) {
     if (l < mx) s += `<text x="${x0 - 4}" y="${f1((Y(l) + Y(l + 30)) / 2)}" font-size="${(mx - mn) > 150 ? 8 : 13}" text-anchor="end" dominant-baseline="central" fill="var(--ink)">${SG[mod(l / 30, 12)]}</text>`;
   }
   let p = ""; pts.forEach(([tt, l], i) => p += (i ? "L" : "M") + f1(X(tt)) + " " + f1(Y(l)));
-  s += `<path d="${p}" fill="none" stroke="${b.col === "var(--ink)" ? "var(--moon)" : b.col}" stroke-width="2"/>`;
+  s += `<path d="${p}" fill="none" stroke="${b.col}" stroke-width="2"/>`;
   const sy = new Date(t0).getUTCFullYear(), ey = new Date(t1).getUTCFullYear(), stepY = Math.max(1, Math.ceil((ey - sy) / 6));
   for (let y = Math.ceil(sy / stepY) * stepY; y <= ey; y += stepY) { const tt = Date.UTC(y, 0, 1); if (tt < t0 || tt > t1) continue; s += `<line x1="${f1(X(tt))}" x2="${f1(X(tt))}" y1="${yB}" y2="${yB + 4}" stroke="var(--mute)"/><text x="${f1(X(tt))}" y="${h - 6}" font-size="9" text-anchor="middle" fill="var(--mute)">${y}</text>`; }
   const xc = X(t), yc = Y(pts[Math.round(N / 2)][1]);
-  s += `<line x1="${f1(xc)}" x2="${f1(xc)}" y1="${yT}" y2="${yB}" stroke="var(--sun)" stroke-width="1" stroke-dasharray="3 3"/><circle cx="${f1(xc)}" cy="${f1(yc)}" r="5" fill="var(--sun)" stroke="var(--face)" stroke-width="1.5"/>`;
+  s += `<line x1="${f1(xc)}" x2="${f1(xc)}" y1="${yT}" y2="${yB}" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 3"/><circle cx="${f1(xc)}" cy="${f1(yc)}" r="5" fill="var(--ink)" stroke="var(--face)" stroke-width="1.5"/>`;
   $("pl-trace").innerHTML = s;
   const ing = ingresses(b, t0, t1);
-  $("pl-t").innerHTML = `<div class="big">${b.g} ${D.bodies[b.id]}</div><div class="small">${D.ingH}: ` + (ing.length ? ing.slice(0, 14).map(([tt, k, fwd]) => `${fmtDay(tt)} ${fwd ? "→" : "←"} ${SG[k]} ${D.signs[k]}`).join(" · ") : D.noIng) + `</div>` + (b.minor ? `<div class="small">${D.chironNote}</div>` : "");
+  $("pl-t").innerHTML = `<div class="big"><span style="color:${b.col}">${b.g}</span> ${D.bodies[b.id]}</div><div class="small">${D.ingH}: ` + (ing.length ? ing.slice(0, 24).map(([tt, k, fwd]) => `${fmtDay(tt)} ${fwd ? "→" : "←"} ${SG[k]} ${D.signs[k]}`).join(" · ") : D.noIng) + `</div>` + (b.minor ? `<div class="small">${D.chironNote}</div>` : "");
   $("pl-trace").setAttribute("aria-label", D.bodies[b.id]);
 }
 /* ---------- cadranul 3: unghiurile dintre corpuri ---------- */
@@ -418,20 +440,20 @@ function renderAsp(t) {
     const sep = Math.abs(delta(L[i].lon, L[j].lon));
     for (const [k, ex] of ASP) { const dev = Math.abs(sep - ex); if (dev <= orb) { found.push([L[i], L[j], k, sep, dev]); const [x1, y1] = P(c, c, R - 6, ang(L[i].lon)), [x2, y2] = P(c, c, R - 6, ang(L[j].lon)); s += `<line x1="${f1(x1)}" y1="${f1(y1)}" x2="${f1(x2)}" y2="${f1(y2)}" stroke="${ASPCOL[k]}" stroke-width="${k === "conj" ? 3 : 1.6}" ${ASPSTYLE[k]} opacity=".8"/>`; } }
   }
-  for (const {b, lon} of L) { const [x, y] = P(c, c, R - 6, ang(lon)); s += `<circle cx="${f1(x)}" cy="${f1(y)}" r="9" fill="var(--face)" stroke="${b.col}" stroke-width="1.4"/><text x="${f1(x)}" y="${f1(y)}" font-size="12" text-anchor="middle" dominant-baseline="central" fill="${b.col}">${b.g}</text>`; }
+  for (const {b, lon} of L) { const [x, y] = P(c, c, R - 6, ang(lon)); s += dot(x, y, b, 9, false); }
   $("pl-asp").innerHTML = s;
   found.sort((a, b) => a[4] - b[4]);
   $("pl-a").innerHTML = found.length ? `<table class="grid pl-tab"><thead><tr>${D.th3.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${found.map(([a, b, k, sep, dev]) => `<tr><td>${a.b.g} ${D.bodies[a.b.id]} – ${b.b.g} ${D.bodies[b.b.id]}</td><td>${D.asp[k]} (${ASP.find(x => x[0] === k)[1]}°)</td><td>${num(sep, 1)}°</td><td>${num(dev, 1)}°</td></tr>`).join("")}</tbody></table>` : `<div class="small">${D.noAsp}</div>`;
 }
 /* ---------- comenzi ---------- */
 function render() {
-  $("pl-when").value = isoLocal(T0);
-  $("pl-clock").innerHTML = `<span><b>UTC</b> ${fmtUtc(T0)}</span><span><b>${D.tpuName}</b>: <code>${tpu(T0)}</code></span>`;
+  const yy = new Date(T0).getUTCFullYear(); $("pl-when").value = yy >= 1000 && yy <= 9999 ? isoLocal(T0) : "";
+  $("pl-clock").innerHTML = `<span><b>UTC</b> ${fmtUtc(T0)}</span><span><b>${D.tpuName}</b>: <code>${tpu(T0)}</code></span>` + (outOfRange(T0) ? `<span class="note">${D.outRange}</span>` : "");
   renderZod(T0); renderTrace(T0); renderAsp(T0);
 }
-function setT(ms) { T0 = ms; render(); }
+function setT(ms) { T0 = Math.max(TMIN, Math.min(TMAX, ms)); render(); }
 function stop() { if (timer) { cancelAnimationFrame(timer); timer = null; } $("pl-play").setAttribute("aria-pressed", "false"); $("pl-play").textContent = D.play; }
-function frame(ts) { if (!timer) return; const dt = Math.min(0.1, (ts - last) / 1000); last = ts; T0 += dt * parseFloat($("pl-speed").value) * 864e5; render(); timer = requestAnimationFrame(frame); }
+function frame(ts) { if (!timer) return; const dt = Math.min(0.1, (ts - last) / 1000); last = ts; T0 = Math.max(TMIN, Math.min(TMAX, T0 + dt * parseFloat($("pl-speed").value) * 864e5)); render(); timer = requestAnimationFrame(frame); }
 function play() { if (timer) { stop(); return; } $("pl-play").setAttribute("aria-pressed", "true"); $("pl-play").textContent = D.pause; last = performance.now(); timer = requestAnimationFrame(frame); }
 function nextRetro(dir) { /* următoarea schimbare de sens a planetei alese (stație) */
   const b = BODIES.find(x => x.id === $("pl-planet").value), step = 864e5; let t = T0, v0 = viteza(b.lon, t);
@@ -441,12 +463,18 @@ function nextRetro(dir) { /* următoarea schimbare de sens a planetei alese (sta
 {
   buildZod(); buildAsp();
   $("pl-planet").innerHTML = BODIES.filter(b => b.id !== "sun" && b.id !== "moon" || true).map(b => `<option value="${b.id}">${b.g} ${D.bodies[b.id]}</option>`).join(""); $("pl-planet").value = "mars";
-  $("pl-speed").innerHTML = D.speeds.map(([v, l]) => `<option value="${v}"${v === 10 ? " selected" : ""}>${l}</option>`).join("");
+  const fillSpeeds = () => {
+    const prev = parseFloat($("pl-speed").value) || 10, L = $("pl-su").value === "tpu" ? D.speedsTpu : D.speeds;
+    let best = L[0][0]; for (const [v] of L) if (Math.abs(Math.log(v / prev)) < Math.abs(Math.log(best / prev))) best = v;
+    $("pl-speed").innerHTML = L.map(([v, l]) => `<option value="${v}"${v === best ? " selected" : ""}>${l}</option>`).join("");
+  };
+  fillSpeeds(); $("pl-su").addEventListener("change", fillSpeeds);
   $("pl-win").innerHTML = D.wins.map(([v, l]) => `<option value="${v}"${v === 2 ? " selected" : ""}>${l}</option>`).join("");
   $("pl-orb").innerHTML = D.orbs.map(([v, l]) => `<option value="${v}"${v === 6 ? " selected" : ""}>${l}</option>`).join("");
   $("pl-when").addEventListener("change", e => { const v = parseLocal(e.target.value); if (v !== null) { stop(); setT(v); } });
   $("pl-play").onclick = play; $("pl-now").onclick = () => { stop(); setT(Date.now()); };
   document.querySelectorAll("[data-step]").forEach(b => b.onclick = () => { stop(); setT(T0 + parseFloat(b.dataset.step) * 864e5); });
+  $("pl-chiron").checked = true;
   for (const id of ["pl-chiron", "pl-planet", "pl-win", "pl-orb"]) $(id).addEventListener("change", render);
   $("pl-nextretro").onclick = () => { stop(); setT(nextRetro(1)); };
   $("pl-prevretro").onclick = () => { stop(); setT(nextRetro(-1)); };

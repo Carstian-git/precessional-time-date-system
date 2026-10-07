@@ -249,7 +249,7 @@ h1.sl-h1{font-size:clamp(1.5rem,3vw,2.1rem)}
 .sl-note{margin:0;font-size:12px;opacity:.8;max-width:100ch}
 .sl-clock{display:flex;flex-wrap:wrap;gap:2px 22px;margin:0;font-size:13px}
 .sl-clock code{font-size:12px;overflow-wrap:anywhere}
-.pl-tab{font-size:11.5px;min-width:0}.pl-tab th{font-size:9.5px}.pl-tab td,.pl-tab th{padding:3px 8px 3px 0}.sl-card .out.scroll{overflow-x:auto}.sl-card svg#pl-trace{max-height:240px}
+.pl-tab{font-size:11.5px;min-width:0}.pl-tab th{font-size:9.5px}.pl-tab td,.pl-tab th{padding:3px 8px 3px 0}.sl-card .out.scroll{overflow-x:auto}.sl-board.pl-board{grid-template-columns:repeat(2,minmax(0,1fr))}.pl-wide{grid-column:1/-1}.pl-board .sl-card svg{max-height:none}.pl-board .sl-card svg#pl-trace{max-height:none}@media (max-width:760px){.sl-board.pl-board{grid-template-columns:minmax(0,1fr)}}
 .sl-board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 20px;align-items:start}
 @media (max-width:1000px){.sl-board{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}}
 .sl-card{display:flex;flex-direction:column;gap:8px;min-width:0;border-top:2px solid var(--ink);padding-top:8px}
