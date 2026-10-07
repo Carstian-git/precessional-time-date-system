@@ -476,11 +476,36 @@ function renderTrace(t) {
       let te = ""; try { const [er, ae] = eraAeDinK(k); te = `${er}·${ae}`; } catch (e) {}
       s += `<line x1="${f1(X(tt))}" x2="${f1(X(tt))}" y1="${yT - 4}" y2="${yT}" stroke="var(--mute)"/><text x="${f1(X(tt))}" y="${yT - 10}" font-size="10" text-anchor="middle" fill="var(--mute)">${te}</text>`; } }
   s += `<text x="2" y="${h - 8}" font-size="9" fill="var(--ink)" font-weight="600">${D.suSI}</text><text x="2" y="${yT - 10}" font-size="9" fill="var(--ink)" font-weight="600">${D.suTPU}</text>`;
+
+  /* conjuncții, opoziții și pătrate față de Soare (aceleași repere ca în Cadranul 4) */
+  const evSel = parseInt($("pl-ev").value, 10), EVS = ["☌", "□", "☍", "□"]; let evList = [];
+  if (evSel > 0 && b.id !== "sun") {
+    const sunL = BODIES.find(x => x.id === "sun").lon, stepD = Math.max(.5, win / 864e5 / 4000), step = stepD * 864e5;
+    if (stepD <= 1.01 || b.id !== "moon") {
+      const el = tt => mod(b.lon(tt) - sunL(tt), 360), f = (tt, k) => mod(el(tt) - k * 90 + 180, 360) - 180;
+      for (const k of (evSel === 2 ? [0, 1, 2, 3] : [0, 2])) {
+        let ta = t0, fa = f(ta, k);
+        for (let tb = t0 + step; tb <= t1 + step; tb += step) {
+          const fb = f(tb, k);
+          if ((fa < 0) !== (fb < 0) && Math.abs(fb - fa) < 90) { let lo = ta, hi = tb; const s0 = fa < 0; for (let z = 0; z < 32; z++) { const m = (lo + hi) / 2; if ((f(m, k) < 0) === s0) lo = m; else hi = m; } const te = (lo + hi) / 2; if (te >= t0 && te <= t1) evList.push([te, k]); }
+          ta = tb; fa = fb;
+        }
+      }
+      evList.sort((p, q) => p[0] - q[0]);
+      if (evList.length > 90) evList = evList.filter(e => e[1] === 0 || e[1] === 2);
+      if (evList.length > 90) evList = [];
+    }
+    for (const [te, k] of evList) {
+      const fi = (te - t0) / win * N, i0 = Math.min(N - 1, Math.floor(fi)), u = pts[i0][1] + (pts[i0 + 1][1] - pts[i0][1]) * (fi - i0), ex = X(te), ey = Y(u);
+      const col = k === 0 ? "var(--sun)" : k === 2 ? "var(--ink)" : "var(--mute)";
+      s += `<g><circle cx="${f1(ex)}" cy="${f1(ey)}" r="9" fill="var(--face)" stroke="${col}" stroke-width="1.6"/><text x="${f1(ex)}" y="${f1(ey + .5)}" font-size="13" text-anchor="middle" dominant-baseline="central" fill="${col === "var(--sun)" ? "var(--ink)" : col}" pointer-events="none">${EVS[k]}</text><title>${D.evN[k]} · ${fmtDay(te)}</title></g>`;
+    }
+  }
   const xc = X(t), yc = Y(pts[Math.round(N / 2)][1]);
   s += `<line x1="${f1(xc)}" x2="${f1(xc)}" y1="${yT}" y2="${yB}" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 3"/><circle cx="${f1(xc)}" cy="${f1(yc)}" r="5" fill="var(--ink)" stroke="var(--face)" stroke-width="1.5"/>`;
   $("pl-trace").innerHTML = s;
   const ing = ingresses(b, t0, t1);
-  $("pl-t").innerHTML = `<div class="big"><span style="color:${b.col}">${b.g}</span> ${D.bodies[b.id]}</div><div class="small">${D.ingH}: ` + (ing.length ? ing.slice(0, 24).map(([tt, k, fwd]) => `${fmtDay(tt)} ${fwd ? "→" : "←"} ${SG[k]} ${D.signs[k]}`).join(" · ") : D.noIng) + `</div>` + (b.minor ? `<div class="small">${D.chironNote}</div>` : "");
+  $("pl-t").innerHTML = `<div class="big"><span style="color:${b.col}">${b.g}</span> ${D.bodies[b.id]}</div><div class="small">${D.ingH}: ` + (ing.length ? ing.slice(0, 24).map(([tt, k, fwd]) => `${fmtDay(tt)} ${fwd ? "→" : "←"} ${SG[k]} ${D.signs[k]}`).join(" · ") : D.noIng) + `</div>` + (evSel > 0 && b.id !== "sun" ? `<div class="small">${D.evH}: ` + (evList.length ? evList.slice(0, 30).map(([te, k]) => `${EVS[k]} ${fmtDay(te)}`).join(" · ") + (evList.length > 30 ? " …" : "") : D.evNone) + `</div>` : "") + (b.minor ? `<div class="small">${D.chironNote}</div>` : "");
   $("pl-trace").setAttribute("aria-label", D.bodies[b.id]);
 }
 /* ---------- cadranul 3: unghiurile dintre corpuri ---------- */
@@ -559,11 +584,64 @@ function renderCirc(t) {
   $("pl-circ").innerHTML = s;
   $("pl-c").innerHTML = `<div class="big"><span style="color:${b.col}">${b.g}</span> ${D.bodies[b.id]}</div><div class="small">${readout}</div>`;
 }
+
+/* ---------- cadranul 5: de ce par retrograde planetele (vedere de sus, linia de vedere) ---------- */
+const HNAME = {mercury: "Mercury", venus: "Venus", mars: "Mars", jupiter: "Jupiter", saturn: "Saturn", uranus: "Uranus", neptune: "Neptune", pluto: "Pluto"};
+function renderRetro(t) {
+  const id = $("pl-planet").value, b = BODIES.find(x => x.id === id), c = 200, svg = $("pl-retro");
+  const nm = HNAME[id];
+  if (!nm) { svg.innerHTML = ""; svg.style.display = "none"; $("pl-r").innerHTML = `<div class="small">${D.r5Skip}</div>`; return; }
+  svg.style.display = "";
+  const aP = PL_EL[nm][0], outer = aP > 1, sc = outer ? Math.min(100, 128 / aP) : 100;
+  const Pp = Math.pow(aP, 1.5) * 365.25, S = 1 / Math.abs(1 / 365.25 - 1 / Pp), half = .25 * S * 864e5, N = 26;
+  const R1 = 152, R2 = 178, sun = BODIES.find(x => x.id === "sun");
+  const hp = (name, ms) => { const T = (ms - Date.UTC(2000, 0, 1, 12)) / 864e5 / 36525, h = helio(name, T); return {x: h[0], y: h[1], z: h[2], lon: mod(Math.atan2(h[1], h[0]) * 180 / Math.PI + PREC * dJ(ms), 360), r: Math.hypot(h[0], h[1])}; };
+  const scr = (name, ms) => { const h = hp(name, ms); return P(c, c, h.r * sc, ang(h.lon)); };
+  let s = `<circle cx="${c}" cy="${c}" r="198" fill="var(--face)" stroke="var(--ink)" stroke-width="1.2"/>`;
+  /* inelul stelelor: semnele, cu glife și gradații */
+  for (let i = 0; i < 12; i++) {
+    const a1 = ang(i * 30);
+    s += `<path d="${arcPath(c, c, R1 - 2, 198, a1, a1 + 30)}" fill="var(--ink)" opacity="${i % 2 ? .12 : .04}" stroke="none"/>`;
+    s += txt(c, c, 190, a1 + 15, SG[i], 13, "", 'fill="var(--ink)"');
+    s += tick(c, c, R2 + 2, 184, a1, .9, "var(--mute)");
+  }
+  s += `<circle cx="${c}" cy="${c}" r="${R1 - 2}" fill="none" stroke="var(--rule)" stroke-width=".8"/>`;
+  /* orbitele (la scară; planetele exterioare îndepărtate sunt mici) */
+  s += `<circle cx="${c}" cy="${c}" r="${f1(sc)}" fill="none" stroke="var(--rule)" stroke-width="1"/><circle cx="${c}" cy="${c}" r="${f1(aP * sc)}" fill="none" stroke="var(--rule)" stroke-width="1" stroke-dasharray="3 3"/>`;
+  /* traseele pe orbite în fereastră */
+  let pe = "", pp = "";
+  for (let i = 0; i <= 60; i++) { const tt = t - half + 2 * half * i / 60, [ex, ey] = scr("Earth", tt), [px, py] = scr(nm, tt); pe += (i ? "L" : "M") + f1(ex) + " " + f1(ey); pp += (i ? "L" : "M") + f1(px) + " " + f1(py); }
+  s += `<path d="${pe}" fill="none" stroke="#2B6CB0" stroke-width="2.4" opacity=".75"/><path d="${pp}" fill="none" stroke="${b.col}" stroke-width="2.4" opacity=".75"/>`;
+  /* liniile de vedere și traseul aparent */
+  const pts = [];
+  for (let i = 0; i <= N; i++) {
+    const tt = t - half + 2 * half * i / N, [ex, ey] = scr("Earth", tt), a = ang(b.lon(tt)), dx = Math.sin(a * Math.PI / 180), dy = -Math.cos(a * Math.PI / 180);
+    const rr = R1 + (R2 - R1) * i / N, ox = ex - c, oy = ey - c, bq = ox * dx + oy * dy, L = -bq + Math.sqrt(Math.max(0, bq * bq - (ox * ox + oy * oy) + rr * rr));
+    const hx = ex + dx * L, hy = ey + dy * L; pts.push([hx, hy, viteza(b.lon, tt) < 0]);
+    s += `<line x1="${f1(ex)}" y1="${f1(ey)}" x2="${f1(hx)}" y2="${f1(hy)}" stroke="${b.col}" stroke-width=".7" opacity=".28"/>`;
+  }
+  for (let i = 1; i < pts.length; i++) { const rt = pts[i][2] && pts[i - 1][2]; s += `<line x1="${f1(pts[i - 1][0])}" y1="${f1(pts[i - 1][1])}" x2="${f1(pts[i][0])}" y2="${f1(pts[i][1])}" stroke="${rt ? "var(--ink)" : b.col}" stroke-width="${rt ? 3 : 2.2}"${rt ? ' stroke-dasharray="2 2.5"' : ""}/>`; }
+  /* momentul ales: linia de vedere din acest moment */
+  const [ex, ey] = scr("Earth", t), [px, py] = scr(nm, t), a0 = ang(b.lon(t)), dx0 = Math.sin(a0 * Math.PI / 180), dy0 = -Math.cos(a0 * Math.PI / 180);
+  const ox = ex - c, oy = ey - c, bq = ox * dx0 + oy * dy0, rm = (R1 + R2) / 2, L0 = -bq + Math.sqrt(Math.max(0, bq * bq - (ox * ox + oy * oy) + rm * rm));
+  s += `<line x1="${f1(ex)}" y1="${f1(ey)}" x2="${f1(ex + dx0 * L0)}" y2="${f1(ey + dy0 * L0)}" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="4 3"/><circle cx="${f1(ex + dx0 * L0)}" cy="${f1(ey + dy0 * L0)}" r="4.5" fill="var(--ink)" stroke="var(--face)" stroke-width="1.4"/>`;
+  s += dot(c, c, sun, 8, false);
+  s += `<circle cx="${f1(ex)}" cy="${f1(ey)}" r="7" fill="#2B6CB0" stroke="var(--face)" stroke-width="1.4"><title>${D.r5Earth}</title></circle><text x="${f1(ex)}" y="${f1(ey)}" font-size="9" text-anchor="middle" dominant-baseline="central" fill="#fff" pointer-events="none">⊕</text>`;
+  s += dot(px, py, b, 8, viteza(b.lon, t) < 0);
+  svg.innerHTML = s;
+  const v = viteza(b.lon, t), e = hp("Earth", t), p = hp(nm, t), dist = Math.hypot(p.x - e.x, p.y - e.y, p.z - e.z), el = Math.abs(delta(b.lon(t), sun.lon(t)));
+  $("pl-r").innerHTML = `<div class="big"><span style="color:${b.col}">${b.g}</span> ${D.bodies[b.id]}</div>` +
+    `<p class="small">${Math.abs(v) < .03 ? D.r5Stat : D.r5Now.replace("{s}", v < 0 ? D.retro : D.direct).replace("{v}", num(Math.abs(v), 2))}</p>` +
+    `<p class="small">${outer ? D.r5Out : D.r5In}</p>` +
+    `<p class="small">${D.r5Syn.replace("{n}", num(S, 0))}</p>` +
+    `<p class="small">${D.r5Dist.replace("{d}", num(dist, 2)).replace("{e}", num(el, 0))}</p>` +
+    `<p class="small">${D.r5Win.replace("{a}", fmtDay(t - half)).replace("{b}", fmtDay(t + half))}</p>`;
+}
 /* ---------- comenzi ---------- */
 function render() {
   const yy = new Date(T0).getUTCFullYear(); $("pl-when").value = yy >= 1000 && yy <= 9999 ? isoLocal(T0) : "";
   $("pl-clock").innerHTML = `<span><b>UTC</b> ${fmtUtc(T0)}</span><span><b>${D.tpuName}</b>: <code>${tpu(T0)}</code></span>` + (outOfRange(T0) ? `<span class="note">${D.outRange}</span>` : "");
-  renderZod(T0); renderTrace(T0); renderCirc(T0); renderAsp(T0);
+  renderZod(T0); renderTrace(T0); renderCirc(T0); renderRetro(T0); renderAsp(T0);
 }
 function setT(ms) { T0 = Math.max(TMIN, Math.min(TMAX, ms)); render(); }
 function stop() { if (timer) { cancelAnimationFrame(timer); timer = null; } $("pl-play").setAttribute("aria-pressed", "false"); $("pl-play").textContent = "▶ " + D.play; }
@@ -589,7 +667,7 @@ function nextRetro(dir) { /* următoarea schimbare de sens a planetei alese (sta
   $("pl-play").onclick = play; $("pl-now").onclick = () => { stop(); setT(Date.now()); };
   document.querySelectorAll("[data-step]").forEach(b => b.onclick = () => { stop(); setT(T0 + parseFloat(b.dataset.step) * 864e5); });
   $("pl-chiron").checked = true;
-  for (const id of ["pl-chiron", "pl-planet", "pl-win", "pl-orb", "pl-mon", "pl-ax", "pl-nm", "pl-ref"]) $(id).addEventListener("change", render);
+  for (const id of ["pl-chiron", "pl-planet", "pl-win", "pl-orb", "pl-mon", "pl-ax", "pl-nm", "pl-ref", "pl-ev"]) $(id).addEventListener("change", render);
   $("pl-nextretro").onclick = () => { stop(); setT(nextRetro(1)); };
   $("pl-prevretro").onclick = () => { stop(); setT(nextRetro(-1)); };
   $("pl-jump").innerHTML = D.jumps.map(([lab, iso, pl]) => `<button type="button" data-iso="${iso}" data-pl="${pl}">${lab}</button>`).join("");
