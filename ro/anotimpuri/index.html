@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Anotimpurile pe roata anului: solstiții, echinocții și durata zilei</title>
+<meta name="description" content="Cele patru repere ale anului, solstițiile și echinocțiile, pe roata anului în calendarul standard și în Timpul precesional uman, cu declinația Soarelui și durata zilei pentru orice latitudine.">
+<link rel="canonical" href="https://carstian-git.github.io/precessional-time-date-system/ro/anotimpuri/">
+<link rel="alternate" hreflang="ro" href="https://carstian-git.github.io/precessional-time-date-system/ro/anotimpuri/">
+<link rel="alternate" hreflang="en" href="https://carstian-git.github.io/precessional-time-date-system/en/anotimpuri/">
+<link rel="alternate" hreflang="fr" href="https://carstian-git.github.io/precessional-time-date-system/fr/anotimpuri/">
+<link rel="alternate" hreflang="x-default" href="https://carstian-git.github.io/precessional-time-date-system/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Timpul precesional uman · Calendarul precesional uman">
+<meta property="og:title" content="Anotimpurile pe roata anului: solstiții, echinocții și durata zilei">
+<meta property="og:description" content="Cele patru repere ale anului, solstițiile și echinocțiile, pe roata anului în calendarul standard și în Timpul precesional uman, cu declinația Soarelui și durata zilei pentru orice latitudine.">
+<meta property="og:url" content="https://carstian-git.github.io/precessional-time-date-system/ro/anotimpuri/">
+<meta property="og:locale" content="ro_RO">
+<meta property="og:image" content="https://carstian-git.github.io/precessional-time-date-system/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/fonts.css?v=51">
+<link rel="stylesheet" href="../../assets/site.css?v=51">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Timpul precesional uman · Calendarul precesional uman", "url": "https://carstian-git.github.io/precessional-time-date-system/ro/", "inLanguage": "ro", "description": "Cele patru repere ale anului, solstițiile și echinocțiile, pe roata anului în calendarul standard și în Timpul precesional uman, cu declinația Soarelui și durata zilei pentru orice latitudine."}</script>
+</head>
+<body>
+<a class="skip" href="#main">Salt la conținut</a>
+<header class="sitehead">
+<a class="brand" href="../">Timpul precesional uman</a>
+<nav class="sitenav" aria-label="Meniu principal"><a href="../">Acasă</a><a href="../sistem/">Sistemul TPU</a><a href="../tutorial/">Tutorial</a><a href="../precesia/">Precesia</a><a href="../soare-luna/">Soarele și Luna</a><a href="../eclipse/">Eclipse</a><a href="./" aria-current="page">Anotimpuri</a><a href="../planete/">Planetele și Zodiacul</a><a href="../astrologie/">Astrologia pe scurt</a><a href="../aplicatie/">Instrumente</a><a href="../despre/">Despre</a></nav>
+<div class="langsw" role="group" aria-label="Limba"><a href="../../ro/anotimpuri/" hreflang="ro" lang="ro" aria-current="true">RO</a><a href="../../en/anotimpuri/" hreflang="en" lang="en">EN</a><a href="../../fr/anotimpuri/" hreflang="fr" lang="fr">FR</a></div>
+</header>
+<main id="main" class="wrap sl-wrap">
+<h1 class="page sl-h1">Anotimpurile: roata anului</h1>
+<noscript><p class="note">Cadranele au nevoie de JavaScript. Momentele se calculează în browser.</p></noscript>
+<section class="explorer sl-ctl" id="an-ctl" aria-label="Alege anul">
+  <div class="cal-ctl">
+    <div class="field"><label for="an-y" class="lbl">An</label><input id="an-y" type="number" min="1900" max="2200" step="1" value="2026"></div>
+    <div class="field"><label for="an-mon" class="lbl">Sistemul de timp</label><select id="an-mon"><option value="si">Timp standard (SI)</option><option value="tpu">Timpul precesional uman (TPU)</option></select></div>
+    <div class="field"><label for="an-fus" class="lbl">Fus (modul Fus)</label><select id="an-fus"></select></div>
+    <div class="field"><label for="an-hem" class="lbl">Emisfera</label><select id="an-hem"><option value="N">Nordică</option><option value="S">Sudică</option></select></div>
+    <div class="field"><label for="an-lat" class="lbl">Latitudine (°, + nord)</label><input id="an-lat" type="number" min="-89" max="89" step="1" value="45"></div>
+    <div class="field"><span class="lbl">&nbsp;</span><div class="ex-jump"><button type="button" id="an-prev">‹ anul dinainte</button><button type="button" id="an-cur">Anul curent</button><button type="button" id="an-next">anul următor ›</button></div></div>
+    <div class="field"><span class="lbl">&nbsp;</span><button type="button" id="an-play" class="playbtn">▶ Parcurge anul</button></div>
+    <div class="field"><label for="an-sp" class="lbl">Viteza</label><select id="an-sp"></select></div>
+  </div>
+  <div class="ec-ctl2 an-sl"><label for="an-day" class="lbl">Ziua anului</label><input id="an-day" type="range" min="0" max="365" step="1" value="0"></div>
+</section>
+<p class="lead">Anotimpurile nu apar pentru că Pământul s-ar apropia sau depărta de Soare, ci pentru că axa lui este înclinată cu 23,4°. În doi dintre cei patru poli ai anului, solstițiile, un emisferă este cea mai înclinată spre Soare, iar în ceilalți doi, echinocțiile, Soarele stă exact deasupra ecuatorului și ziua egalează noaptea. Aici le vezi pe roata anului, în ambele sisteme de timp.</p>
+<section class="sl-board sl-board2" aria-label="Roata anului">
+  <article class="sl-card"><h2>Roata anului</h2><svg id="an-ring" viewBox="-28 -28 416 416" role="img" aria-label="Roata anului"></svg><p class="note">Pe roată, anul începe sus, la solstițiul din decembrie, ca în Timpul precesional uman. Inelele de pe margine sunt lunile, săptămânile și, dacă încape, zilele. Cursorul ☉ este Soarele în ziua aleasă.</p><div class="out" id="an-r" aria-live="polite"></div></article>
+  <article class="sl-card"><h2>Declinația Soarelui și durata zilei</h2><svg id="an-chart" viewBox="0 0 440 348" role="img" aria-label="Declinația Soarelui și durata zilei"></svg><div class="out" id="an-c" aria-live="polite"></div></article>
+</section>
+<section class="prose wide sl-year">
+  <h2>Momentele de cotitură ale anului</h2>
+  <div class="scroll"><table class="grid sl-tab ec-tab"><thead><tr><th>Reper</th><th>Data (SI) · ora UTC</th><th>Data (TPU) · ora nouă</th><th>Anotimpul care începe</th><th>Durata (zile)</th><th>Durata (săptămâni)</th></tr></thead><tbody id="an-body"></tbody></table></div>
+  <p class="note"><span id="an-thT"></span></p><p class="note">Momentele sunt calculate după algoritmul lui Jean Meeus (Astronomical Algorithms), cu eroare sub un minut pentru anii apropiați. Ora TPU depinde de fusul ales mai sus.</p>
+</section>
+<section class="sl-help"><h2 class="sl-helph">Cum se folosesc cadranele</h2>
+<div class="sl-helpgrid">
+  <div class="sl-txt"><ol class="steps"><li>Alege anul, sistemul de timp și emisfera; numele anotimpurilor se inversează în emisfera sudică.</li><li>Trage cursorul «Ziua anului» sau apasă «Parcurge anul»: Soarele se mișcă pe roată, iar graficul arată declinația și durata zilei în aceeași zi.</li><li>Schimbă latitudinea: la 0° ziua are mereu 12 ore (18 ore noi), iar dincolo de cercurile polare apar noaptea și ziua polară.</li></ol></div>
+  <div class="sl-txt"><h3>De ce nu sunt egale anotimpurile</h3><p class="note">Orbita Pământului este o elipsă, iar viteza lui este mai mare când este mai aproape de Soare, la începutul lui ianuarie. De aceea, în emisfera nordică, vara astronomică este cu câteva zile mai lungă decât iarna. Tabelul arată durata fiecărui anotimp, în zile și în săptămâni TPU.</p></div>
+</div></section>
+<section class="prose"><h2>Ce nu arată pagina</h2><ul><li>Ora răsăritului și a apusului depinde și de relief și de refracție; aici folosim definiția standard, cu Soarele la −0,833° sub orizont.</li><li>Anotimpurile meteorologice (decembrie–februarie etc.) sunt convenții de calendar și nu coincid cu cele astronomice.</li><li>Durata zilei este calculată pentru ora 12:00 UTC a fiecărei zile; variația în cursul zilei este neglijabilă.</li></ul></section>
+<section class="prose"><p>Pentru Soare, Lună și nodurile lunare vezi pagina de mai jos.</p><p><a href="../soare-luna/">Soarele și Luna</a></p></section>
+<section class="prose"><h2>Surse</h2><div class="srcs"><a href="https://www.willbell.com/math/mc1.htm" rel="noopener">Jean Meeus, Astronomical Algorithms (Willmann-Bell)</a><a href="https://aa.usno.navy.mil/data/EarthSeasons" rel="noopener">Earth's Seasons, U.S. Naval Observatory</a></div></section>
+</main>
+<script type="application/json" id="an-data">{"dec": ",", "yearDay": "Ziua anului", "defaultFus": 3, "seas": ["Iarna", "Primăvara", "Vara", "Toamna"], "evN": ["Solstițiul din decembrie", "Echinocțiul din martie", "Solstițiul din iunie", "Echinocțiul din septembrie"], "utc": "UTC", "doy": "Ziua {n} din {m}", "began": "A început", "lasts": "Durează {d} zile", "passed": "au trecut {a}, mai sunt {b} zile", "sunLon": "Longitudinea Soarelui", "sunAng": "Unghiul pe roată", "monthL": "luna", "dayL": "ziua", "decL": "Declinația Soarelui", "dayLenL": "Durata zilei", "latL": "latitudinea", "newH": "ore noi", "hours": "ore", "noonAlt": "Înălțimea Soarelui la amiază", "xNote": "Axa orizontală: anul, cu lunile sistemului ales.", "polarNight": "Noapte polară: Soarele nu răsare.", "polarDay": "Zi polară: Soarele nu apune.", "thTPU": "Data (TPU) · ora nouă,", "play": "Parcurge anul", "pause": "Oprește", "speeds": [[3, "3 zile pe secundă"], [10, "10 zile pe secundă"], [30, "30 de zile pe secundă"]]}</script>
+<script src="../../assets/anotimpuri.js?v=51" defer></script>
+<footer class="sitefoot">
+<p><b>Timpul precesional uman · Calendarul precesional uman</b></p>
+<p>Un sistem personal de măsurare a timpului, independent de dogme: ora ca unghi, anul ancorat în solstițiu, erele după precesie. Nu înlocuiește timpul civil sau standardele oficiale.</p>
+<p>Actualizat: 6 octombrie 2026</p>
+<p class="license">Texte: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ro" rel="license">CC BY-SA 4.0</a> · Cod: <a href="https://www.gnu.org/licenses/gpl-3.0.html" rel="license">GNU GPLv3</a></p>
+<p class="visitors">Vizitatori: <span id="gc-total">·</span></p>
+<script data-goatcounter="https://carstian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>(function(){var el=document.getElementById("gc-total");function g(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}setTimeout(function(){g("https://carstian.goatcounter.com/counter/TOTAL.json").then(function(d){el.textContent=d.count_unique||d.count}).catch(function(){el.textContent="—"})},1500)})();</script>
+</footer>
+</body>
+</html>

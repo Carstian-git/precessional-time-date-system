@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Les saisons sur la roue de l&#x27;année : solstices, équinoxes et durée du jour</title>
+<meta name="description" content="Les quatre repères de l&#x27;année, solstices et équinoxes, sur la roue de l&#x27;année en calendrier standard et en temps précessionnel humain, avec la déclinaison du Soleil et la durée du jour pour n&#x27;importe quelle latitude.">
+<link rel="canonical" href="https://carstian-git.github.io/precessional-time-date-system/fr/anotimpuri/">
+<link rel="alternate" hreflang="ro" href="https://carstian-git.github.io/precessional-time-date-system/ro/anotimpuri/">
+<link rel="alternate" hreflang="en" href="https://carstian-git.github.io/precessional-time-date-system/en/anotimpuri/">
+<link rel="alternate" hreflang="fr" href="https://carstian-git.github.io/precessional-time-date-system/fr/anotimpuri/">
+<link rel="alternate" hreflang="x-default" href="https://carstian-git.github.io/precessional-time-date-system/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Temps précessionnel humain · Calendrier précessionnel humain">
+<meta property="og:title" content="Les saisons sur la roue de l&#x27;année : solstices, équinoxes et durée du jour">
+<meta property="og:description" content="Les quatre repères de l&#x27;année, solstices et équinoxes, sur la roue de l&#x27;année en calendrier standard et en temps précessionnel humain, avec la déclinaison du Soleil et la durée du jour pour n&#x27;importe quelle latitude.">
+<meta property="og:url" content="https://carstian-git.github.io/precessional-time-date-system/fr/anotimpuri/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://carstian-git.github.io/precessional-time-date-system/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/fonts.css?v=51">
+<link rel="stylesheet" href="../../assets/site.css?v=51">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Temps précessionnel humain · Calendrier précessionnel humain", "url": "https://carstian-git.github.io/precessional-time-date-system/fr/", "inLanguage": "fr", "description": "Les quatre repères de l'année, solstices et équinoxes, sur la roue de l'année en calendrier standard et en temps précessionnel humain, avec la déclinaison du Soleil et la durée du jour pour n'importe quelle latitude."}</script>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+<header class="sitehead">
+<a class="brand" href="../">Temps précessionnel humain</a>
+<nav class="sitenav" aria-label="Menu principal"><a href="../">Accueil</a><a href="../sistem/">Le système TPH</a><a href="../tutorial/">Tutoriel</a><a href="../precesia/">Précession</a><a href="../soare-luna/">Soleil et Lune</a><a href="../eclipse/">Éclipses</a><a href="./" aria-current="page">Saisons</a><a href="../planete/">Planètes et zodiaque</a><a href="../astrologie/">L'astrologie en bref</a><a href="../aplicatie/">Outils</a><a href="../despre/">À propos</a></nav>
+<div class="langsw" role="group" aria-label="Langue"><a href="../../ro/anotimpuri/" hreflang="ro" lang="ro">RO</a><a href="../../en/anotimpuri/" hreflang="en" lang="en">EN</a><a href="../../fr/anotimpuri/" hreflang="fr" lang="fr" aria-current="true">FR</a></div>
+</header>
+<main id="main" class="wrap sl-wrap">
+<h1 class="page sl-h1">Les saisons : la roue de l'année</h1>
+<noscript><p class="note">Les cadrans demandent JavaScript. Les instants sont calculés dans votre navigateur.</p></noscript>
+<section class="explorer sl-ctl" id="an-ctl" aria-label="Choisir l'année">
+  <div class="cal-ctl">
+    <div class="field"><label for="an-y" class="lbl">Année</label><input id="an-y" type="number" min="1900" max="2200" step="1" value="2026"></div>
+    <div class="field"><label for="an-mon" class="lbl">Système de temps</label><select id="an-mon"><option value="si">Temps standard (SI)</option><option value="tpu">Temps précessionnel humain (TPH)</option></select></div>
+    <div class="field"><label for="an-fus" class="lbl">Fuseau (mode Fuseau)</label><select id="an-fus"></select></div>
+    <div class="field"><label for="an-hem" class="lbl">Hémisphère</label><select id="an-hem"><option value="N">Nord</option><option value="S">Sud</option></select></div>
+    <div class="field"><label for="an-lat" class="lbl">Latitude (°, + nord)</label><input id="an-lat" type="number" min="-89" max="89" step="1" value="45"></div>
+    <div class="field"><span class="lbl">&nbsp;</span><div class="ex-jump"><button type="button" id="an-prev">‹ année précédente</button><button type="button" id="an-cur">Année en cours</button><button type="button" id="an-next">année suivante ›</button></div></div>
+    <div class="field"><span class="lbl">&nbsp;</span><button type="button" id="an-play" class="playbtn">▶ Parcourir l'année</button></div>
+    <div class="field"><label for="an-sp" class="lbl">Vitesse</label><select id="an-sp"></select></div>
+  </div>
+  <div class="ec-ctl2 an-sl"><label for="an-day" class="lbl">Jour de l'année</label><input id="an-day" type="range" min="0" max="365" step="1" value="0"></div>
+</section>
+<p class="lead">Les saisons ne viennent pas d'une Terre qui s'approcherait ou s'éloignerait du Soleil, mais de l'inclinaison de 23,4° de son axe. À deux des quatre repères de l'année, les solstices, un hémisphère est le plus incliné vers le Soleil ; aux deux autres, les équinoxes, le Soleil est exactement au-dessus de l'équateur et le jour égale la nuit. Vous les voyez ici sur la roue de l'année, dans les deux systèmes de temps.</p>
+<section class="sl-board sl-board2" aria-label="La roue de l'année">
+  <article class="sl-card"><h2>La roue de l'année</h2><svg id="an-ring" viewBox="-28 -28 416 416" role="img" aria-label="La roue de l'année"></svg><p class="note">Sur la roue, l'année commence en haut, au solstice de décembre, comme dans le temps précessionnel humain. Les anneaux extérieurs sont les mois, les semaines et, s'il y a de la place, les jours. Le repère ☉ est le Soleil au jour choisi.</p><div class="out" id="an-r" aria-live="polite"></div></article>
+  <article class="sl-card"><h2>Déclinaison du Soleil et durée du jour</h2><svg id="an-chart" viewBox="0 0 440 348" role="img" aria-label="Déclinaison du Soleil et durée du jour"></svg><div class="out" id="an-c" aria-live="polite"></div></article>
+</section>
+<section class="prose wide sl-year">
+  <h2>Les points de bascule de l'année</h2>
+  <div class="scroll"><table class="grid sl-tab ec-tab"><thead><tr><th>Repère</th><th>Date (SI) · heure UTC</th><th>Date (TPH) · heure nouvelle</th><th>Saison qui commence</th><th>Durée (jours)</th><th>Durée (semaines)</th></tr></thead><tbody id="an-body"></tbody></table></div>
+  <p class="note"><span id="an-thT"></span></p><p class="note">Les instants sont calculés avec l'algorithme de Jean Meeus (Astronomical Algorithms), avec une erreur inférieure à une minute pour les années proches. L'heure TPH dépend du fuseau choisi plus haut.</p>
+</section>
+<section class="sl-help"><h2 class="sl-helph">Comment utiliser les cadrans</h2>
+<div class="sl-helpgrid">
+  <div class="sl-txt"><ol class="steps"><li>Choisissez l'année, le système de temps et l'hémisphère ; les noms des saisons s'inversent dans l'hémisphère sud.</li><li>Faites glisser le curseur « Jour de l'année » ou appuyez sur « Parcourir l'année » : le Soleil se déplace sur la roue et le graphique donne la déclinaison et la durée du jour du même jour.</li><li>Changez la latitude : à 0° le jour dure toujours 12 heures (18 heures nouvelles), et au-delà des cercles polaires apparaissent la nuit et le jour polaires.</li></ol></div>
+  <div class="sl-txt"><h3>Pourquoi les saisons ne sont pas égales</h3><p class="note">L'orbite de la Terre est une ellipse, et la Terre va plus vite quand elle est plus près du Soleil, début janvier. Ainsi, dans l'hémisphère nord, l'été astronomique dure quelques jours de plus que l'hiver. Le tableau donne la durée de chaque saison en jours et en semaines TPH.</p></div>
+</div></section>
+<section class="prose"><h2>Ce que la page ne montre pas</h2><ul><li>Le lever et le coucher dépendent aussi du relief et de la réfraction ; nous utilisons la définition standard, avec le Soleil à −0,833° sous l'horizon.</li><li>Les saisons météorologiques (décembre–février, etc.) sont des conventions de calendrier et ne coïncident pas avec les saisons astronomiques.</li><li>La durée du jour est calculée pour 12:00 UTC de chaque jour ; la variation dans la journée est négligeable.</li></ul></section>
+<section class="prose"><p>Pour le Soleil, la Lune et les nœuds lunaires, voyez la page ci-dessous.</p><p><a href="../soare-luna/">Soleil et Lune</a></p></section>
+<section class="prose"><h2>Sources</h2><div class="srcs"><a href="https://www.willbell.com/math/mc1.htm" rel="noopener">Jean Meeus, Astronomical Algorithms (Willmann-Bell)</a><a href="https://aa.usno.navy.mil/data/EarthSeasons" rel="noopener">Earth's Seasons, U.S. Naval Observatory</a></div></section>
+</main>
+<script type="application/json" id="an-data">{"dec": ",", "yearDay": "Jour de l'année", "defaultFus": 0, "seas": ["Hiver", "Printemps", "Été", "Automne"], "evN": ["Solstice de décembre", "Équinoxe de mars", "Solstice de juin", "Équinoxe de septembre"], "utc": "UTC", "doy": "Jour {n} sur {m}", "began": "Commencé", "lasts": "Dure {d} jours", "passed": "{a} écoulés, {b} jours restants", "sunLon": "Longitude du Soleil", "sunAng": "Angle sur la roue", "monthL": "mois", "dayL": "jour", "decL": "Déclinaison du Soleil", "dayLenL": "Durée du jour", "latL": "latitude", "newH": "heures nouvelles", "hours": "heures", "noonAlt": "Hauteur du Soleil à midi", "xNote": "Axe horizontal : l'année, avec les mois du système choisi.", "polarNight": "Nuit polaire : le Soleil ne se lève pas.", "polarDay": "Jour polaire : le Soleil ne se couche pas.", "thTPU": "Date (TPH) · heure nouvelle,", "play": "Parcourir l'année", "pause": "Arrêter", "speeds": [[3, "3 jours par seconde"], [10, "10 jours par seconde"], [30, "30 jours par seconde"]]}</script>
+<script src="../../assets/anotimpuri.js?v=51" defer></script>
+<footer class="sitefoot">
+<p><b>Temps précessionnel humain · Calendrier précessionnel humain</b></p>
+<p>Un système personnel de mesure du temps, indépendant des dogmes : l'heure comme angle, l'année ancrée au solstice, les ères selon la précession. Il ne remplace ni l'heure civile ni les normes officielles.</p>
+<p>Mis à jour: 6 octobre 2026</p>
+<p class="license">Textes : <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr" rel="license">CC BY-SA 4.0</a> · Code : <a href="https://www.gnu.org/licenses/gpl-3.0.html" rel="license">GNU GPLv3</a></p>
+<p class="visitors">Visiteurs: <span id="gc-total">·</span></p>
+<script data-goatcounter="https://carstian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>(function(){var el=document.getElementById("gc-total");function g(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}setTimeout(function(){g("https://carstian.goatcounter.com/counter/TOTAL.json").then(function(d){el.textContent=d.count_unique||d.count}).catch(function(){el.textContent="—"})},1500)})();</script>
+</footer>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The seasons on the year wheel: solstices, equinoxes and day length</title>
+<meta name="description" content="The four turning points of the year, the solstices and equinoxes, on the year wheel in the standard calendar and in the human precessional time, with the Sun&#x27;s declination and the day length for any latitude.">
+<link rel="canonical" href="https://carstian-git.github.io/precessional-time-date-system/en/anotimpuri/">
+<link rel="alternate" hreflang="ro" href="https://carstian-git.github.io/precessional-time-date-system/ro/anotimpuri/">
+<link rel="alternate" hreflang="en" href="https://carstian-git.github.io/precessional-time-date-system/en/anotimpuri/">
+<link rel="alternate" hreflang="fr" href="https://carstian-git.github.io/precessional-time-date-system/fr/anotimpuri/">
+<link rel="alternate" hreflang="x-default" href="https://carstian-git.github.io/precessional-time-date-system/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Human precessional time · Human precessional calendar">
+<meta property="og:title" content="The seasons on the year wheel: solstices, equinoxes and day length">
+<meta property="og:description" content="The four turning points of the year, the solstices and equinoxes, on the year wheel in the standard calendar and in the human precessional time, with the Sun&#x27;s declination and the day length for any latitude.">
+<meta property="og:url" content="https://carstian-git.github.io/precessional-time-date-system/en/anotimpuri/">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://carstian-git.github.io/precessional-time-date-system/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/fonts.css?v=51">
+<link rel="stylesheet" href="../../assets/site.css?v=51">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Human precessional time · Human precessional calendar", "url": "https://carstian-git.github.io/precessional-time-date-system/en/", "inLanguage": "en", "description": "The four turning points of the year, the solstices and equinoxes, on the year wheel in the standard calendar and in the human precessional time, with the Sun's declination and the day length for any latitude."}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="sitehead">
+<a class="brand" href="../">Human precessional time</a>
+<nav class="sitenav" aria-label="Main menu"><a href="../">Home</a><a href="../sistem/">The HPT system</a><a href="../tutorial/">Tutorial</a><a href="../precesia/">Precession</a><a href="../soare-luna/">Sun and Moon</a><a href="../eclipse/">Eclipses</a><a href="./" aria-current="page">Seasons</a><a href="../planete/">Planets and zodiac</a><a href="../astrologie/">Astrology in brief</a><a href="../aplicatie/">Tools</a><a href="../despre/">About</a></nav>
+<div class="langsw" role="group" aria-label="Language"><a href="../../ro/anotimpuri/" hreflang="ro" lang="ro">RO</a><a href="../../en/anotimpuri/" hreflang="en" lang="en" aria-current="true">EN</a><a href="../../fr/anotimpuri/" hreflang="fr" lang="fr">FR</a></div>
+</header>
+<main id="main" class="wrap sl-wrap">
+<h1 class="page sl-h1">The seasons: the year wheel</h1>
+<noscript><p class="note">The dials need JavaScript. The moments are computed in your browser.</p></noscript>
+<section class="explorer sl-ctl" id="an-ctl" aria-label="Choose the year">
+  <div class="cal-ctl">
+    <div class="field"><label for="an-y" class="lbl">Year</label><input id="an-y" type="number" min="1900" max="2200" step="1" value="2026"></div>
+    <div class="field"><label for="an-mon" class="lbl">Time system</label><select id="an-mon"><option value="si">Standard time (SI)</option><option value="tpu">Human precessional time (HPT)</option></select></div>
+    <div class="field"><label for="an-fus" class="lbl">Zone (Zone mode)</label><select id="an-fus"></select></div>
+    <div class="field"><label for="an-hem" class="lbl">Hemisphere</label><select id="an-hem"><option value="N">Northern</option><option value="S">Southern</option></select></div>
+    <div class="field"><label for="an-lat" class="lbl">Latitude (°, + north)</label><input id="an-lat" type="number" min="-89" max="89" step="1" value="45"></div>
+    <div class="field"><span class="lbl">&nbsp;</span><div class="ex-jump"><button type="button" id="an-prev">‹ previous year</button><button type="button" id="an-cur">Current year</button><button type="button" id="an-next">next year ›</button></div></div>
+    <div class="field"><span class="lbl">&nbsp;</span><button type="button" id="an-play" class="playbtn">▶ Run through the year</button></div>
+    <div class="field"><label for="an-sp" class="lbl">Speed</label><select id="an-sp"></select></div>
+  </div>
+  <div class="ec-ctl2 an-sl"><label for="an-day" class="lbl">Day of the year</label><input id="an-day" type="range" min="0" max="365" step="1" value="0"></div>
+</section>
+<p class="lead">The seasons do not come from the Earth getting nearer to or farther from the Sun, but from the 23.4° tilt of its axis. At two of the year's four turning points, the solstices, one hemisphere leans most toward the Sun; at the other two, the equinoxes, the Sun stands exactly over the equator and day equals night. Here you see them on the year wheel, in both time systems.</p>
+<section class="sl-board sl-board2" aria-label="The year wheel">
+  <article class="sl-card"><h2>The year wheel</h2><svg id="an-ring" viewBox="-28 -28 416 416" role="img" aria-label="The year wheel"></svg><p class="note">On the wheel the year starts at the top, at the December solstice, as in the human precessional time. The outer rings are months, weeks and, if there is room, days. The ☉ marker is the Sun on the chosen day.</p><div class="out" id="an-r" aria-live="polite"></div></article>
+  <article class="sl-card"><h2>The Sun's declination and the day length</h2><svg id="an-chart" viewBox="0 0 440 348" role="img" aria-label="The Sun's declination and the day length"></svg><div class="out" id="an-c" aria-live="polite"></div></article>
+</section>
+<section class="prose wide sl-year">
+  <h2>The turning points of the year</h2>
+  <div class="scroll"><table class="grid sl-tab ec-tab"><thead><tr><th>Turning point</th><th>Date (SI) · UTC time</th><th>Date (HPT) · new time</th><th>Season that begins</th><th>Length (days)</th><th>Length (weeks)</th></tr></thead><tbody id="an-body"></tbody></table></div>
+  <p class="note"><span id="an-thT"></span></p><p class="note">The moments are computed with Jean Meeus's algorithm (Astronomical Algorithms), with an error under a minute for nearby years. The HPT time depends on the zone chosen above.</p>
+</section>
+<section class="sl-help"><h2 class="sl-helph">How to use the dials</h2>
+<div class="sl-helpgrid">
+  <div class="sl-txt"><ol class="steps"><li>Choose the year, the time system and the hemisphere; the season names swap in the southern hemisphere.</li><li>Drag the “Day of the year” slider or press “Run through the year”: the Sun moves on the wheel and the chart shows the declination and day length of that same day.</li><li>Change the latitude: at 0° the day is always 12 hours (18 new hours), and beyond the polar circles polar night and polar day appear.</li></ol></div>
+  <div class="sl-txt"><h3>Why the seasons are not equal</h3><p class="note">The Earth's orbit is an ellipse, and it moves faster when nearer the Sun, in early January. So in the northern hemisphere astronomical summer is a few days longer than winter. The table gives each season's length in days and in HPT weeks.</p></div>
+</div></section>
+<section class="prose"><h2>What the page does not show</h2><ul><li>Sunrise and sunset also depend on terrain and refraction; here we use the standard definition, with the Sun at −0.833° below the horizon.</li><li>Meteorological seasons (December–February, etc.) are calendar conventions and do not match the astronomical ones.</li><li>Day length is computed for 12:00 UTC of each day; the change within a day is negligible.</li></ul></section>
+<section class="prose"><p>For the Sun, the Moon and the lunar nodes see the page below.</p><p><a href="../soare-luna/">Sun and Moon</a></p></section>
+<section class="prose"><h2>Sources</h2><div class="srcs"><a href="https://www.willbell.com/math/mc1.htm" rel="noopener">Jean Meeus, Astronomical Algorithms (Willmann-Bell)</a><a href="https://aa.usno.navy.mil/data/EarthSeasons" rel="noopener">Earth's Seasons, U.S. Naval Observatory</a></div></section>
+</main>
+<script type="application/json" id="an-data">{"dec": ".", "yearDay": "Year Day", "defaultFus": 0, "seas": ["Winter", "Spring", "Summer", "Autumn"], "evN": ["December solstice", "March equinox", "June solstice", "September equinox"], "utc": "UTC", "doy": "Day {n} of {m}", "began": "Began", "lasts": "Lasts {d} days", "passed": "{a} elapsed, {b} days left", "sunLon": "Sun's longitude", "sunAng": "Angle on the wheel", "monthL": "month", "dayL": "day", "decL": "Sun's declination", "dayLenL": "Day length", "latL": "latitude", "newH": "new hours", "hours": "hours", "noonAlt": "Sun's noon altitude", "xNote": "Horizontal axis: the year, with the months of the chosen system.", "polarNight": "Polar night: the Sun does not rise.", "polarDay": "Polar day: the Sun does not set.", "thTPU": "Date (HPT) · new time,", "play": "Run through the year", "pause": "Stop", "speeds": [[3, "3 days per second"], [10, "10 days per second"], [30, "30 days per second"]]}</script>
+<script src="../../assets/anotimpuri.js?v=51" defer></script>
+<footer class="sitefoot">
+<p><b>Human precessional time · Human precessional calendar</b></p>
+<p>A personal, dogma-independent way of measuring time: the hour as an angle, the year anchored to the solstice, eras from precession. It does not replace civil time or official standards.</p>
+<p>Updated: 6 October 2026</p>
+<p class="license">Texts: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" rel="license">CC BY-SA 4.0</a> · Code: <a href="https://www.gnu.org/licenses/gpl-3.0.html" rel="license">GNU GPLv3</a></p>
+<p class="visitors">Visitors: <span id="gc-total">·</span></p>
+<script data-goatcounter="https://carstian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>(function(){var el=document.getElementById("gc-total");function g(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}setTimeout(function(){g("https://carstian.goatcounter.com/counter/TOTAL.json").then(function(d){el.textContent=d.count_unique||d.count}).catch(function(){el.textContent="—"})},1500)})();</script>
+</footer>
+</body>
+</html>
