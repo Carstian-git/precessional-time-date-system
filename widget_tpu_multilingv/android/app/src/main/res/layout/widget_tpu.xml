@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:gravity="center" android:padding="6dp" android:background="#E610151F">
+    <ImageView android:id="@+id/dial" android:layout_width="match_parent" android:layout_height="0dp"
+        android:layout_weight="1" android:scaleType="fitCenter" android:contentDescription="Cadran TPU" />
+    <TextView android:id="@+id/ora" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:textColor="#EEF0F5" android:textSize="16sp" android:textStyle="bold" android:fontFamily="monospace" />
+    <TextView android:id="@+id/data" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:textColor="#9AA3B8" android:textSize="10sp" />
+</LinearLayout>

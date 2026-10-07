@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ro"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ceasul TPU</title>
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg">
+<meta name="theme-color" content="#14213d"><meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--bg:#fbf7ee;--fg:#1d2433;--mut:#6b7385;--ring:#c9bfa8;--acc:#b03a2e;--sun:#d99a00}
+@media(prefers-color-scheme:dark){:root{--bg:#10151f;--fg:#eef0f5;--mut:#9aa3b8;--ring:#2c3650;--acc:#ff8a6b;--sun:#ffc83d}}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font:16px/1.4 system-ui,sans-serif;display:grid;place-items:center;padding:16px;box-sizing:border-box;-webkit-user-select:none;user-select:none}
+main{width:min(92vw,420px);text-align:center}
+svg{width:100%;height:auto;display:block}
+.t{font:600 1.9rem/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.d{margin-top:.4rem;color:var(--mut)} .c{font:.8rem ui-monospace,Menlo,Consolas,monospace;color:var(--mut);margin-top:.3rem;word-break:break-all}
+details{margin-top:1rem;color:var(--mut);font-size:.85rem} select{font:inherit;padding:.2em .4em;border:1px solid var(--ring);border-radius:6px;background:transparent;color:var(--fg)}
+input{width:6em;font:inherit;padding:.2em .4em;border:1px solid var(--ring);border-radius:6px;background:transparent;color:var(--fg)}
+button{font:inherit;padding:.25em .7em;border:1px solid var(--ring);border-radius:6px;background:transparent;color:var(--fg);cursor:pointer}
+</style></head><body><main>
+<svg viewBox="-110 -110 220 220" role="img" aria-label="Cadran de 36 de ore noi" id="s"></svg>
+<div class="t" id="t">--:--</div><div class="d" id="d"></div><div class="c" id="c"></div>
+<details><summary id="u_loc"></summary>
+<p><span id="u_lon"></span> <input id="lon" type="number" step="0.1" value="26.1"> <button id="ok"></button> <button id="gps"></button></p>
+<p id="u_info"></p>
+<p><span id="u_lang"></span>: <select id="lang"><option value="ro">Română</option><option value="en">English</option><option value="fr">Français</option></select></p></details>
+</main>
+<script src="tpu_mini.js"></script>
+<script>
+var UI={ro:{t:"Ceasul TPU",loc:"Locația (fusul nou)",lon:"Longitudine (°E, negativ la vest):",set:"Setează",gps:"Folosește locația mea",info:"Sistemul TPU: 36 de ore noi pe zi, 10° pe oră. Acul face un tur în 36 de ore noi (o zi).",lang:"Limba"},
+en:{t:"HPT Clock",loc:"Location (new time zone)",lon:"Longitude (°E, negative in the west):",set:"Set",gps:"Use my location",info:"The HPT system: 36 new hours per day, 10° per hour. The hand makes one turn in 36 new hours (one day).",lang:"Language"},
+fr:{t:"Horloge TPH",loc:"Position (nouveau fuseau)",lon:"Longitude (°E, négatif à l'ouest) :",set:"Valider",gps:"Utiliser ma position",info:"Le système TPH : 36 heures nouvelles par jour, 10° par heure. L'aiguille fait un tour en 36 heures nouvelles (un jour).",lang:"Langue"}};
+var LANG="ro";try{var q=(localStorage.getItem("tpu_lang")||navigator.language||"ro").slice(0,2);if(UI[q])LANG=q;}catch(e){}
+var NS="http://www.w3.org/2000/svg",svg=document.getElementById("s"),LON=26.1;
+try{var v=parseFloat(localStorage.getItem("tpu_lon"));if(!isNaN(v))LON=v;}catch(e){}
+document.getElementById("lon").value=LON;
+function el(n,a,p){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);(p||svg).appendChild(e);return e;}
+el("circle",{r:100,fill:"none",stroke:"var(--ring)","stroke-width":2});
+for(var h=0;h<36;h++){var a=h*10*Math.PI/180,big=h%3===0,r1=big?86:92;
+ el("line",{x1:Math.sin(a)*r1,y1:-Math.cos(a)*r1,x2:Math.sin(a)*100,y2:-Math.cos(a)*100,stroke:"var(--fg)","stroke-width":big?2:1});
+ if(big){var tx=el("text",{x:Math.sin(a)*74,y:-Math.cos(a)*74+4,"text-anchor":"middle","font-size":11,fill:"var(--fg)"});tx.textContent=h;}}
+var hand=el("line",{x1:0,y1:8,x2:0,y2:-66,stroke:"var(--acc)","stroke-width":4,"stroke-linecap":"round"});
+var mh=el("line",{x1:0,y1:10,x2:0,y2:-90,stroke:"var(--fg)","stroke-width":2,"stroke-linecap":"round"});
+el("circle",{r:4,fill:"var(--acc)"});
+function tick(){var r=TPU.acum(Date.now(),LON,LANG);
+ hand.setAttribute("transform","rotate("+r.unghi+")");
+ mh.setAttribute("transform","rotate("+((r.mn*240+r.sn*24+r.ss)/2400*360)+")");
+ document.getElementById("t").textContent=r.ora;
+ document.getElementById("d").textContent=r.data;
+ document.getElementById("c").textContent=r.T.fus+" F"+(r.fus>=0?"+":"-")+TPU.p2(Math.abs(r.fus))+" · "+r.T.arc+" "+r.arc+", "+r.T.zia+" "+r.za;
+ document.title=r.ora+" · "+UI[LANG].t;}
+tick();setInterval(tick,1000);
+function txt(){var u=UI[LANG];document.documentElement.lang=LANG;document.getElementById("u_loc").textContent=u.loc;document.getElementById("u_lon").textContent=u.lon;document.getElementById("ok").textContent=u.set;document.getElementById("gps").textContent=u.gps;document.getElementById("u_info").textContent=u.info;document.getElementById("u_lang").textContent=u.lang;document.getElementById("lang").value=LANG;s_.setAttribute("aria-label",u.t);}
+var s_=svg;txt();tick();
+document.getElementById("lang").onchange=function(){LANG=this.value;try{localStorage.setItem("tpu_lang",LANG)}catch(e){}txt();tick();};
+function setLon(v){if(isNaN(v))return;LON=v;try{localStorage.setItem("tpu_lon",v)}catch(e){}tick();}
+document.getElementById("ok").onclick=function(){setLon(parseFloat(document.getElementById("lon").value))};
+document.getElementById("gps").onclick=function(){navigator.geolocation&&navigator.geolocation.getCurrentPosition(function(p){var v=Math.round(p.coords.longitude*10)/10;document.getElementById("lon").value=v;setLon(v);})};
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(function(){});
+</script></body></html>
