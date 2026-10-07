@@ -408,7 +408,7 @@ function ingresses(b, t0, t1) {
 }
 function renderTrace(t) {
   const b = BODIES.find(x => x.id === $("pl-planet").value), win = parseFloat($("pl-win").value) * 365.25 * 864e5, t0 = t - win / 2, t1 = t + win / 2;
-  const w = 1000, h = 260, x0 = 34, x1 = w - 14, yT = 12, yB = h - 24, N = 300; const pts = []; let u = b.lon(t0), prev = u;
+  const w = 1000, h = 440, x0 = 40, x1 = w - 14, yT = 34, yB = h - 26, N = 300; const pts = []; let u = b.lon(t0), prev = u;
   for (let i = 0; i <= N; i++) { const tt = t0 + win * i / N, l = b.lon(tt); u += delta(l, prev); prev = l; pts.push([tt, u]); }
   let mn = Math.min(...pts.map(p => p[1])), mx = Math.max(...pts.map(p => p[1]));
   mn = Math.floor(mn / 30) * 30; mx = Math.max(mn + 30, Math.ceil(mx / 30) * 30);
@@ -421,7 +421,10 @@ function renderTrace(t) {
   let p = ""; pts.forEach(([tt, l], i) => p += (i ? "L" : "M") + f1(X(tt)) + " " + f1(Y(l)));
   s += `<path d="${p}" fill="none" stroke="${b.col}" stroke-width="2"/>`;
   const sy = new Date(t0).getUTCFullYear(), ey = new Date(t1).getUTCFullYear(), stepY = Math.max(1, Math.ceil((ey - sy) / 6));
-  for (let y = Math.ceil(sy / stepY) * stepY; y <= ey; y += stepY) { const tt = Date.UTC(y, 0, 1); if (tt < t0 || tt > t1) continue; s += `<line x1="${f1(X(tt))}" x2="${f1(X(tt))}" y1="${yB}" y2="${yB + 4}" stroke="var(--mute)"/><text x="${f1(X(tt))}" y="${h - 6}" font-size="9" text-anchor="middle" fill="var(--mute)">${y}</text>`; }
+  for (let y = Math.ceil(sy / stepY) * stepY; y <= ey; y += stepY) { const tt = Date.UTC(y, 0, 1); if (tt < t0 || tt > t1) continue; let te = ""; try { const r = dinUtc(tt + 12 * 36e5, 0, "F"); te = `${r.er}·${r.ae}`; } catch (e) {}
+    s += `<line x1="${f1(X(tt))}" x2="${f1(X(tt))}" y1="${yB}" y2="${yB + 4}" stroke="var(--mute)"/><text x="${f1(X(tt))}" y="${h - 8}" font-size="10" text-anchor="middle" fill="var(--mute)">${y}</text>` +
+      `<line x1="${f1(X(tt))}" x2="${f1(X(tt))}" y1="${yT - 4}" y2="${yT}" stroke="var(--mute)"/><text x="${f1(X(tt))}" y="${yT - 10}" font-size="10" text-anchor="middle" fill="var(--mute)">${te}</text>`; }
+  s += `<text x="2" y="${h - 8}" font-size="9" fill="var(--ink)" font-weight="600">${D.suSI}</text><text x="2" y="${yT - 10}" font-size="9" fill="var(--ink)" font-weight="600">${D.suTPU}</text>`;
   const xc = X(t), yc = Y(pts[Math.round(N / 2)][1]);
   s += `<line x1="${f1(xc)}" x2="${f1(xc)}" y1="${yT}" y2="${yB}" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 3"/><circle cx="${f1(xc)}" cy="${f1(yc)}" r="5" fill="var(--ink)" stroke="var(--face)" stroke-width="1.5"/>`;
   $("pl-trace").innerHTML = s;
