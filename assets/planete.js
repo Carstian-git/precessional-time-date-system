@@ -415,7 +415,7 @@ function ingresses(b, t0, t1) {
 function renderTrace(t) {
   const b = BODIES.find(x => x.id === $("pl-planet").value), win = parseFloat($("pl-win").value) * 365.25 * 864e5, t0 = t - win / 2, t1 = t + win / 2;
   const axSel = $("pl-ax").value, nmOn = $("pl-nm").checked;
-  const w = 1000, h = 500, x0 = nmOn ? 112 : 58, x1 = w - 14, yT = 34, yB = h - 26, N = 300; const pts = []; let u = b.lon(t0), prev = u;
+  const w = 800, h = 500, x0 = nmOn ? 112 : 58, x1 = w - 14, yT = 34, yB = h - 26, N = 300; const pts = []; let u = b.lon(t0), prev = u;
   for (let i = 0; i <= N; i++) { const tt = t0 + win * i / N, l = b.lon(tt); u += delta(l, prev); prev = l; pts.push([tt, u]); }
   let mn = Math.min(...pts.map(p => p[1])), mx = Math.max(...pts.map(p => p[1]));
   mn = Math.floor(mn / 30) * 30; mx = Math.max(mn + 30, Math.ceil(mx / 30) * 30);
@@ -499,11 +499,71 @@ function renderAsp(t) {
   found.sort((a, b) => a[4] - b[4]);
   $("pl-a").innerHTML = found.length ? `<table class="grid pl-tab"><thead><tr>${D.th3.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${found.map(([a, b, k, sep, dev]) => `<tr><td>${a.b.g} ${D.bodies[a.b.id]} – ${b.b.g} ${D.bodies[b.b.id]}</td><td>${D.asp[k]} (${ASP.find(x => x[0] === k)[1]}°)</td><td>${num(sep, 1)}°</td><td>${num(dev, 1)}°</td></tr>`).join("")}</tbody></table>` : `<div class="small">${D.noAsp}</div>`;
 }
+
+/* ---------- cadranul 4: traseul circular (spirală: centrul = începutul ferestrei, marginea = sfârșitul) ---------- */
+function renderCirc(t) {
+  const b = BODIES.find(x => x.id === $("pl-planet").value), win = parseFloat($("pl-win").value) * 365.25 * 864e5, t0 = t - win / 2, t1 = t + win / 2;
+  const mode = $("pl-ref").value, axSel = $("pl-ax").value, nmOn = $("pl-nm").checked, c = 200, rIn = 30, rOut = 146, R1 = 156, R2 = 190;
+  const sun = BODIES.find(x => x.id === "sun");
+  let s = `<circle cx="${c}" cy="${c}" r="${R2}" fill="var(--face)" stroke="var(--ink)" stroke-width="1.3"/>`;
+  if (mode === "sun") {
+    /* inel gradat în elongație; Soarele fix sus */
+    s += `<circle cx="${c}" cy="${c}" r="${R1}" fill="none" stroke="var(--ink)" stroke-width="1"/>`;
+    for (let a = 0; a < 360; a += 10) s += tick(c, c, a % 30 === 0 ? R1 : R1 + 4, R2, a, a % 90 === 0 ? 1.4 : .6, a % 90 === 0 ? "var(--ink)" : "var(--mute)");
+    for (let a = 0; a < 360; a += 30) if (a % 90) s += txt(c, c, (R1 + R2) / 2 + 2, a, a + "°", 9, "", 'fill="var(--mute)"');
+    [0, 90, 180, 270].forEach((a, i) => { s += txt(c, c, (R1 + R2) / 2 + 2, a, D.elo[i], 10, "", 'font-weight="600" fill="var(--ink)"'); s += tick(c, c, 0, R1, a, .6, "var(--rule)"); });
+    const [sx, sy] = P(c, c, R1 - 8, 0); s += dot(sx, sy, sun, 9, false);
+  } else if (axSel === "cn") {
+    for (let i = 0; i < 13; i++) {
+      const a = ang(consEdge(i, t)), e = ang(consEdge((i + 1) % 13, t)), span = mod(e - a, 360);
+      s += `<path d="${arcPath(c, c, R1, R2, a, a + span)}" fill="var(--ink)" opacity="${i === 9 ? .3 : i % 2 ? .16 : .07}" stroke="var(--rule)" stroke-width=".6"><title>${consName(i)}</title></path>`;
+      s += txt(c, c, (R1 + R2) / 2, a + span / 2, nmOn && span > 14 ? consName(i).split(" (")[0].slice(0, 9) : CONS[i][0], nmOn && span > 14 ? 8 : 10, "", 'font-weight="600" fill="var(--ink)"');
+    }
+  } else {
+    for (let i = 0; i < 12; i++) {
+      const a1 = ang(i * 30);
+      s += `<path d="${arcPath(c, c, R1, R2, a1, a1 + 30)}" fill="var(--ink)" opacity="${i % 2 ? .13 : .05}" stroke="var(--rule)" stroke-width=".6"><title>${D.signs[i]}</title></path>`;
+      s += txt(c, c, (R1 + R2) / 2 + (nmOn ? 5 : 0), a1 + 15, SG[i], nmOn ? 15 : 18, "", 'fill="var(--ink)"');
+      if (nmOn) s += txt(c, c, (R1 + R2) / 2 - 10, a1 + 15, D.signs[i].split(" (")[0].slice(0, 8), 7.5, "", 'fill="var(--mute)"');
+      s += tick(c, c, R1, R2, a1, .9, "var(--mute)");
+    }
+  }
+  /* cercuri-reper */
+  s += `<circle cx="${c}" cy="${c}" r="${rOut}" fill="none" stroke="var(--rule)" stroke-width=".6" stroke-dasharray="1 3"/><circle cx="${c}" cy="${c}" r="${rIn}" fill="none" stroke="var(--rule)" stroke-width=".6" stroke-dasharray="1 3"/>`;
+  const self = mode === "sun" && b.id === "sun";
+  let readout = "";
+  if (!self) {
+    const turnsEst = win / 864e5 / Math.max(20, b.id === "moon" ? 27.3 : 40), N = Math.min(4000, Math.max(300, Math.round(turnsEst * 16)));
+    const ex = tt => mode === "sun" ? mod(b.lon(tt) - sun.lon(tt), 360) : b.lon(tt);
+    let u = ex(t0), prev = u, p = "", uStart = u;
+    for (let i = 0; i <= N; i++) {
+      const tt = t0 + win * i / N, e = ex(tt); u += delta(e, prev); prev = e;
+      const r = rIn + (rOut - rIn) * i / N, [x, y] = P(c, c, r, mode === "sun" ? e : ang(e));
+      p += (i ? "L" : "M") + f1(x) + " " + f1(y);
+    }
+    const turns = Math.abs(u - uStart) / 360;
+    s += `<path d="${p}" fill="none" stroke="${b.col}" stroke-width="${N > 1500 ? 1 : 1.8}" stroke-linejoin="round" opacity="${N > 1500 ? .7 : 1}"/>`;
+    const [x0_, y0_] = P(c, c, rIn, mode === "sun" ? ex(t0) : ang(ex(t0))), [x1_, y1_] = P(c, c, rOut, mode === "sun" ? ex(t1) : ang(ex(t1)));
+    s += `<circle cx="${f1(x0_)}" cy="${f1(y0_)}" r="3.5" fill="var(--face)" stroke="${b.col}" stroke-width="1.6"/><circle cx="${f1(x1_)}" cy="${f1(y1_)}" r="3.5" fill="${b.col}" stroke="var(--face)" stroke-width="1"/>`;
+    /* momentul ales, la jumătatea ferestrei */
+    const em = ex(t), rm = (rIn + rOut) / 2, [xm, ym] = P(c, c, rm, mode === "sun" ? em : ang(em));
+    s += `<circle cx="${f1(xm)}" cy="${f1(ym)}" r="6" fill="var(--ink)" stroke="var(--face)" stroke-width="1.6"/>`;
+    s += `<line x1="${c}" y1="${c}" x2="${f1(P(c, c, R1, mode === "sun" ? em : ang(em))[0])}" y2="${f1(P(c, c, R1, mode === "sun" ? em : ang(em))[1])}" stroke="var(--ink)" stroke-width=".8" stroke-dasharray="3 3"/>`;
+    if (mode !== "sun" && b.id !== "sun") { const [sx, sy] = P(c, c, R1 - 8, ang(sun.lon(t))); s += dot(sx, sy, sun, 9, false); }
+    readout = D.d4Read.replace("{a}", fmtDay(t0)).replace("{b}", fmtDay(t1)).replace("{n}", num(turns, turns < 10 ? 1 : 0)) + "<br>" +
+      (mode === "sun" ? D.d4Sun.replace("{e}", num(em, 0)) : D.d4Ecl.replace("{l}", `${SG[Math.floor(mod(em, 360) / 30)]} ${degTxt(em)} · ${consName(consIdx(em, t))}`));
+  } else {
+    s += `<text x="${c}" y="${c}" text-anchor="middle" font-size="12" fill="var(--mute)">☉</text>`;
+    readout = D.d4Self;
+  }
+  $("pl-circ").innerHTML = s;
+  $("pl-c").innerHTML = `<div class="big"><span style="color:${b.col}">${b.g}</span> ${D.bodies[b.id]}</div><div class="small">${readout}</div>`;
+}
 /* ---------- comenzi ---------- */
 function render() {
   const yy = new Date(T0).getUTCFullYear(); $("pl-when").value = yy >= 1000 && yy <= 9999 ? isoLocal(T0) : "";
   $("pl-clock").innerHTML = `<span><b>UTC</b> ${fmtUtc(T0)}</span><span><b>${D.tpuName}</b>: <code>${tpu(T0)}</code></span>` + (outOfRange(T0) ? `<span class="note">${D.outRange}</span>` : "");
-  renderZod(T0); renderTrace(T0); renderAsp(T0);
+  renderZod(T0); renderTrace(T0); renderCirc(T0); renderAsp(T0);
 }
 function setT(ms) { T0 = Math.max(TMIN, Math.min(TMAX, ms)); render(); }
 function stop() { if (timer) { cancelAnimationFrame(timer); timer = null; } $("pl-play").setAttribute("aria-pressed", "false"); $("pl-play").textContent = "▶ " + D.play; }
@@ -529,7 +589,7 @@ function nextRetro(dir) { /* următoarea schimbare de sens a planetei alese (sta
   $("pl-play").onclick = play; $("pl-now").onclick = () => { stop(); setT(Date.now()); };
   document.querySelectorAll("[data-step]").forEach(b => b.onclick = () => { stop(); setT(T0 + parseFloat(b.dataset.step) * 864e5); });
   $("pl-chiron").checked = true;
-  for (const id of ["pl-chiron", "pl-planet", "pl-win", "pl-orb", "pl-mon", "pl-ax", "pl-nm"]) $(id).addEventListener("change", render);
+  for (const id of ["pl-chiron", "pl-planet", "pl-win", "pl-orb", "pl-mon", "pl-ax", "pl-nm", "pl-ref"]) $(id).addEventListener("change", render);
   $("pl-nextretro").onclick = () => { stop(); setT(nextRetro(1)); };
   $("pl-prevretro").onclick = () => { stop(); setT(nextRetro(-1)); };
   $("pl-jump").innerHTML = D.jumps.map(([lab, iso, pl]) => `<button type="button" data-iso="${iso}" data-pl="${pl}">${lab}</button>`).join("");
