@@ -319,6 +319,27 @@ function ringBase(c, rOut, rIn) {
   }
   return s;
 }
+/* ---------- constelațiile ecliptice (limite IAU, longitudine eclipticǎ J2000) ---------- */
+const CONS = [["Psc",351.57],["Ari",28.69],["Tau",53.42],["Gem",90.14],["Cnc",117.99],["Leo",138.04],["Vir",173.85],["Lib",217.81],["Sco",241.14],["Oph",247.64],["Sgr",266.62],["Cap",299.70],["Aqr",327.49]];
+const PREC = 50.29 / 3600 / 365.25; /* grade pe zi: precesia în longitudine */
+const consEdge = (i, ms) => CONS[i][1] + PREC * (ms - Date.UTC(2000, 0, 1, 12)) / 864e5;
+const consName = i => D.cons[(i + 12) % 13]; /* D.cons începe cu Berbec; CONS începe cu Pești */
+function consIdx(lon, ms) {
+  for (let i = 0; i < 13; i++) { const a = consEdge(i, ms), b = consEdge((i + 1) % 13, ms); if (mod(lon - a, 360) < mod(b - a, 360)) return i; }
+  return 0;
+}
+function consBand(t, c, r1, r2, sl, ml) {
+  let s = "";
+  for (let i = 0; i < 13; i++) {
+    const a = ang(consEdge(i, t)), b = ang(consEdge((i + 1) % 13, t)), span = mod(b - a, 360);
+    s += `<path d="${arcPath(c, c, r1, r2, a, a + span)}" fill="var(--ink)" opacity="${i === 9 ? .3 : i % 2 ? .16 : .07}" stroke="var(--rule)" stroke-width=".6"><title>${consName(i)}</title></path>`;
+    s += txt(c, c, (r1 + r2) / 2, a + span / 2, CONS[i][0], 9.5, "", 'font-weight="600" fill="var(--ink)"');
+  }
+  const [sx, sy] = P(c, c, (r1 + r2) / 2, ang(sl)), [mx, my] = P(c, c, (r1 + r2) / 2, ang(ml));
+  s += `<circle cx="${f1(mx)}" cy="${f1(my)}" r="6" fill="var(--moon)" stroke="var(--face)" stroke-width="1.6"/><circle cx="${f1(sx)}" cy="${f1(sy)}" r="8" fill="var(--sun)" stroke="var(--face)" stroke-width="1.6"/>`;
+  return s;
+}
+const consLine = (sl, ml, t) => `<div class="small">${D.consIn}: ${D.vSun} ${consName(consIdx(sl, t))} · ${D.vMoon} ${consName(consIdx(ml, t))}</div>`;
 function buildDials() {
   const c = 180;
   $("sl-race").innerHTML = ringBase(c, 168, 140) + '<g id="sl-race-dyn"></g>';
@@ -335,11 +356,13 @@ function renderRace(t) {
   const [lx, ly] = P(c, c, 85, sa + u / 2);
   s += `<text x="${f1(lx)}" y="${f1(ly)}" font-size="11" text-anchor="middle" dominant-baseline="central" fill="var(--moon)" font-weight="600">${num(u, 1)}°</text>`;
   s += faseIcon(u, c, c, 22);
+  s += consBand(t, c, 174, 198, lonSoare(t), lonLuna(t));
   $("sl-race-dyn").innerHTML = s;
   const vs = viteza(lonSoare, t), vm = viteza(lonLuna, t), rel = vm - vs;
   const k = $("sl-r");
   k.innerHTML =
     `<div class="big">${fmtUtc(t)}</div>` + `<div class="small"><b>${D.tpu}</b>: ${tpu(t).date} · ${tpu(t).time}</div>` +
+    consLine(lonSoare(t), lonLuna(t), t) +
     `<div class="small">${D.sunAng}: ${num(sa, 2)}° · ${D.moonAng}: ${num(u, 2)}° · ${D.phase}: ${phaseTxt(u)}</div>` +
     `<div class="small">${D.vSun}: ${num(vs, 3)}°/${D.day} · ${D.vMoon}: ${num(vm, 2)}°/${D.day} · ${D.ratio}: ${num(vm / vs, 1)}</div>` +
     `<div class="small">${D.vMoonH}: ${num(vm / 24, 2)}°/h ≈ ${num(vm / 24 / 0.52, 2)} ${D.diam}</div>` +
@@ -359,6 +382,7 @@ function renderNodes(t) {
   s += tick(c, c, 0, 100, ma, 1.2, "var(--moon)") + tick(c, c, 0, 150, sa, 1.6, "var(--sun)");
   s += `<circle cx="${f1(mx)}" cy="${f1(my)}" r="7" fill="var(--moon)" stroke="var(--face)" stroke-width="2"/><circle cx="${f1(sx)}" cy="${f1(sy)}" r="10" fill="var(--sun)" stroke="var(--face)" stroke-width="2"/>`;
   s += `<circle cx="${c}" cy="${c}" r="3" fill="var(--mute)"/>`;
+  s += consBand(t, c, 174, 198, sl, ml);
   $("sl-nodes-dyn").innerHTML = s;
   /* vedere laterală */
   const w = 340, h = 150, x0 = 10, ys = 11, x = d => x0 + (mod(d + 180, 360)) / 360 * (w - 2 * x0), y = b => h / 2 - b * ys;
@@ -375,6 +399,7 @@ function renderNodes(t) {
   const seas = dNod < LIM_SEZON;
   $("sl-n").innerHTML =
     `<div class="big">${D.season}: ${seas ? D.yes : D.no}</div>` +
+    consLine(sl, ml, t) +
     `<div class="small">${D.sunNode}: ${num(dNod, 1)}° (${D.limit} ≈ ${LIM_SEZON}°)</div>` +
     `<div class="small">${D.moonLat}: ${lat >= 0 ? "+" : "−"}${num(Math.abs(lat), 2)}° · ${D.moonNode}: ${num(Math.min(mod(ml - om, 180), 180 - mod(ml - om, 180)), 1)}°</div>` +
     `<div class="small">${D.nodeAt}: ${num(om, 1)}° ${D.ecl} · ${D.nodeRate}</div>`;
