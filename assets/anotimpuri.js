@@ -415,7 +415,7 @@ function renderChartCursor() {
 /* ---------- cadranul 3: analema ---------- */
 const AW = 440, AH = 400, AX0 = 60, AX1 = 400, AY0 = 24, AY1 = 330;
 function renderAnalema() {
-  const a = UTCY(Y), n = Math.round((UTCY(Y + 1) - a) / DAY), pts = [], xE = e => (AX0 + AX1) / 2 + e * (AX1 - AX0) / 2 / 20, yD = d => AY1 - (d + 25) / 50 * (AY1 - AY0);
+  const a = UTCY(Y), n = Math.round((UTCY(Y + 1) - a) / DAY), pts = [], xE = e => (AX0 + AX1) / 2 + e * (AX1 - AX0) / 2 / 20, yD = d => AY1 - (d + 29) / 58 * (AY1 - AY0);
   for (let i = 0; i < n; i++) { const t = a + i * DAY + 12 * 36e5; pts.push([t, eot(t), decOf(t)]); }
   let s = `<rect x="${AX0}" y="${AY0}" width="${AX1 - AX0}" height="${AY1 - AY0}" fill="var(--face)" stroke="var(--rule)"/>`;
   for (const d of [-20, -10, 0, 10, 20]) s += `<line x1="${AX0}" x2="${AX1}" y1="${f1(yD(d))}" y2="${f1(yD(d))}" stroke="var(--rule)" ${d ? 'stroke-dasharray="2 3"' : ""}/><text x="${AX0 - 5}" y="${f1(yD(d))}" font-size="10.5" text-anchor="end" dominant-baseline="central" style="fill:#c0701a">${d > 0 ? "+" : d < 0 ? "−" : ""}${Math.abs(d)}°</text>`;
@@ -423,12 +423,13 @@ function renderAnalema() {
   s += `<text x="${(AX0 + AX1) / 2}" y="${AY1 + 30}" font-size="11" text-anchor="middle" class="mute">${D.eotL} (${D.min})</text>`;
   let d = ""; pts.forEach((p, i) => d += (i ? "L" : "M") + f1(xE(p[1])) + " " + f1(yD(p[2]))); s += `<path d="${d}" fill="none" stroke="var(--ink)" stroke-width="2"/>`;
   const ev = events(Y);
-  for (let i = 1; i <= 4; i++) { const t = ev[i]; if (t < a || t >= b0(a)) continue; const e = eot(t), dd = decOf(t); s += `<circle cx="${f1(xE(e))}" cy="${f1(yD(dd))}" r="3.5" fill="var(--face)" stroke="var(--ink)" stroke-width="1.5"/><text x="${f1(xE(e) + (i % 2 ? 7 : -7))}" y="${f1(yD(dd) - 6)}" font-size="9.5" text-anchor="${i % 2 ? "start" : "end"}" fill="var(--ink)">${shortTxt(t)}</text>`; }
+  for (let i = 1; i <= 4; i++) { const t = ev[i]; if (t < a || t >= b0(a)) continue; const e = eot(t), dd = decOf(t); const side = [0, -1, 1, 1, -1][i], nm = D.evS[i % 4], px = xE(e), py = yD(dd), ty = i === 4 ? py - 22 : i === 2 ? py - 13 : py - 3;
+    s += `<circle cx="${f1(px)}" cy="${f1(py)}" r="3.5" fill="var(--face)" stroke="var(--ink)" stroke-width="1.5"/><text x="${f1(px + side * 8)}" y="${f1(ty)}" font-size="9.5" text-anchor="${side > 0 ? "start" : "end"}" fill="var(--ink)" stroke="var(--face)" stroke-width="3" paint-order="stroke"><tspan x="${f1(px + side * 8)}" font-weight="600">${nm}</tspan><tspan x="${f1(px + side * 8)}" dy="11">${shortTxt(t)}</tspan></text>`; }
   s += `<g id="an-an-cur"></g>`; $("an-analema").innerHTML = s; renderAnalemaCursor();
 }
 const b0 = a => UTCY(new Date(a).getUTCFullYear() + 1);
 function renderAnalemaCursor() {
-  const xE = e => (AX0 + AX1) / 2 + e * (AX1 - AX0) / 2 / 20, yD = d => AY1 - (d + 25) / 50 * (AY1 - AY0);
+  const xE = e => (AX0 + AX1) / 2 + e * (AX1 - AX0) / 2 / 20, yD = d => AY1 - (d + 29) / 58 * (AY1 - AY0);
   const t = UTCY(Y) + Math.max(0, Math.min(Math.round((UTCY(Y + 1) - UTCY(Y)) / DAY) - 1, Math.floor((TC - UTCY(Y)) / DAY))) * DAY + 12 * 36e5, e = eot(t), dd = decOf(t);
   $("an-an-cur").innerHTML = `<circle cx="${f1(xE(e))}" cy="${f1(yD(dd))}" r="7" fill="var(--sun)" stroke="var(--face)" stroke-width="1.6"/>`;
   const lon = lonSel(), noon = t - 12 * 36e5 + 12 * 36e5 - lon * 240000 - e * 60000, mean = t - lon * 240000, ab = e;
