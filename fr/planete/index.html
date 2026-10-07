@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Planètes et zodiaque : cadrans interactifs pour le trajet des planètes</title>
+<meta name="description" content="Trois cadrans pour voir où se trouvent le Soleil, la Lune, Mercure, Vénus, Mars, Jupiter, Saturne et Chiron sur le zodiaque, comment les planètes tracent leur trajet et leurs rétrogradations, et quels angles se forment entre elles.">
+<link rel="canonical" href="https://carstian-git.github.io/precessional-time-date-system/fr/planete/">
+<link rel="alternate" hreflang="ro" href="https://carstian-git.github.io/precessional-time-date-system/ro/planete/">
+<link rel="alternate" hreflang="en" href="https://carstian-git.github.io/precessional-time-date-system/en/planete/">
+<link rel="alternate" hreflang="fr" href="https://carstian-git.github.io/precessional-time-date-system/fr/planete/">
+<link rel="alternate" hreflang="x-default" href="https://carstian-git.github.io/precessional-time-date-system/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Temps précessionnel humain · Calendrier précessionnel humain">
+<meta property="og:title" content="Planètes et zodiaque : cadrans interactifs pour le trajet des planètes">
+<meta property="og:description" content="Trois cadrans pour voir où se trouvent le Soleil, la Lune, Mercure, Vénus, Mars, Jupiter, Saturne et Chiron sur le zodiaque, comment les planètes tracent leur trajet et leurs rétrogradations, et quels angles se forment entre elles.">
+<meta property="og:url" content="https://carstian-git.github.io/precessional-time-date-system/fr/planete/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://carstian-git.github.io/precessional-time-date-system/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Temps précessionnel humain · Calendrier précessionnel humain", "url": "https://carstian-git.github.io/precessional-time-date-system/fr/", "inLanguage": "fr", "description": "Trois cadrans pour voir où se trouvent le Soleil, la Lune, Mercure, Vénus, Mars, Jupiter, Saturne et Chiron sur le zodiaque, comment les planètes tracent leur trajet et leurs rétrogradations, et quels angles se forment entre elles."}</script>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+<header class="sitehead">
+<a class="brand" href="../">Temps précessionnel humain</a>
+<nav class="sitenav" aria-label="Menu principal"><a href="../">Accueil</a><a href="../sistem/">Le système</a><a href="../tutorial/">Tutoriel</a><a href="../precesia/">Précession</a><a href="../soare-luna/">Soleil et Lune</a><a href="./" aria-current="page">Planètes et zodiaque</a><a href="../astrologie/">L'astrologie en bref</a><a href="../aplicatie/">Outils</a><a href="../despre/">À propos</a></nav>
+<div class="langsw" role="group" aria-label="Langue"><a href="../../ro/planete/" hreflang="ro" lang="ro">RO</a><a href="../../en/planete/" hreflang="en" lang="en">EN</a><a href="../../fr/planete/" hreflang="fr" lang="fr" aria-current="true">FR</a></div>
+</header>
+<main id="main" class="wrap sl-wrap">
+<h1 class="page sl-h1">Les planètes sur le zodiaque : leur trajet dans le ciel</h1>
+<noscript><p class="note">Les cadrans nécessitent JavaScript. Les explications ci-dessous se lisent sans lui.</p></noscript>
+<p class="lead">Un horoscope ne lit pas le zodiaque lui-même : il lit où se trouvent, à un moment donné, le Soleil, la Lune et les planètes sur sa carte. Les cadrans ci-dessous montrent exactement cela, pour n'importe quelle date : la position de chaque corps dans les 12 signes, son trajet dans le temps (avec les rétrogradations) et les angles entre corps, que les astrologues appellent « aspects ». Les positions sont calculées, non racontées ; les interprétations ne font pas partie des cadrans (voir le tutoriel « L'astrologie en bref »).</p>
+<section class="explorer sl-ctl" id="pl-ctl" aria-label="Commandes">
+  <div class="cal-ctl">
+    <div class="field"><label for="pl-when" class="lbl">Date et heure (UTC)</label><input id="pl-when" type="datetime-local"></div>
+    <div class="field"><label for="pl-speed" class="lbl">Vitesse</label><select id="pl-speed"></select></div>
+    <div class="field"><span class="lbl">&nbsp;</span><button type="button" id="pl-play" aria-pressed="false">Lancer</button></div>
+    <div class="field"><label for="pl-planet" class="lbl">Corps suivi</label><select id="pl-planet"></select></div>
+    <div class="field"><label for="pl-win" class="lbl">Fenêtre du trajet</label><select id="pl-win"></select></div>
+    <div class="field"><label for="pl-orb" class="lbl">Orbe (tolérance des angles)</label><select id="pl-orb"></select></div>
+    <div class="field"><span class="lbl">&nbsp;</span><label><input type="checkbox" id="pl-chiron"> Afficher aussi Chiron (planète mineure)</label></div>
+  </div>
+  <div class="ex-jump">
+    <button type="button" id="pl-now">Maintenant</button>
+    <button type="button" data-step="-365.25">−1 an</button><button type="button" data-step="365.25">+1 an</button>
+    <button type="button" data-step="-30">−30 jours</button><button type="button" data-step="30">+30 jours</button>
+    <button type="button" data-step="-1">−1 jour</button><button type="button" data-step="1">+1 jour</button>
+    <button type="button" id="pl-prevretro">Rétrogradation précédente</button><button type="button" id="pl-nextretro">Rétrogradation suivante (changement de sens)</button></div>
+  <p class="sl-note">Vitesses en jours simulés par seconde réelle. Les cadrans sont orientés comme le reste du système (solstice de décembre en haut) ; les signes sont tropicaux, avec 0° Bélier à l'équinoxe de mars.</p>
+  <p class="sl-clock" id="pl-clock" aria-live="off"></p>
+  <div class="ex-jump sl-jumprow"><span class="note">Moments à essayer :</span> <span class="ex-jump" id="pl-jump"></span></div>
+</section>
+<section class="sl-board pl-board" aria-label="Commandes">
+  <article class="sl-card"><h2>Cadran 1. Le zodiaque et les planètes</h2><svg id="pl-zod" viewBox="0 0 360 360" role="img" aria-label="Le zodiaque et les planètes"></svg><div class="out scroll" id="pl-z" aria-live="off"></div></article>
+  <article class="sl-card"><h2>Cadran 2. Le trajet dans le temps</h2><svg id="pl-trace" viewBox="0 0 380 230" role="img" aria-label="Le trajet dans le temps"></svg><div class="out" id="pl-t" aria-live="off"></div></article>
+  <article class="sl-card"><h2>Cadran 3. Angles entre les corps</h2><svg id="pl-asp" viewBox="0 0 360 360" role="img" aria-label="Angles entre les corps"></svg><div class="out scroll" id="pl-a" aria-live="off"></div></article>
+</section>
+<section class="sl-help"><h2 class="sl-helph">Comment utiliser les cadrans</h2>
+<div class="sl-helpgrid">
+  <div class="sl-txt"><h3>Cadran 1. Le zodiaque et les planètes</h3><p class="note">L'anneau extérieur porte les 12 signes tropicaux, de 30° chacun. Sous chaque glyphe de signe figure celui de sa planète gouvernante traditionnelle (Bélier : Mars, Taureau : Vénus, Gémeaux et Vierge : Mercure, Cancer : la Lune, Lion : le Soleil, Balance : Vénus, Scorpion : Mars, Sagittaire et Poissons : Jupiter, Capricorne et Verseau : Saturne). À l'intérieur, chaque corps a son cercle : le Soleil à l'extérieur, Saturne (et Chiron) au centre. Un cercle à bord pointillé indique un mouvement rétrograde.</p><ol class="steps"><li>Appuyez sur <b>Maintenant</b> et lisez le tableau : dans quel signe se trouve chaque corps, dans quelle constellation il est réellement (parfois pas celle du même nom) et s'il va en direct ou en rétrograde.</li><li>Lancez l'animation à <b>10 jours par seconde</b>. La Lune court sur son cercle, le Soleil fait un tour par an, Mercure et Vénus l'accompagnent, Jupiter et Saturne semblent immobiles.</li><li>Passez à <b>1 an par seconde</b> et comptez : Jupiter change de signe environ une fois par an, Saturne tous les deux ans et demi.</li></ol></div>
+  <div class="sl-txt"><h3>Cadran 2. Le trajet dans le temps</h3><p class="note">L'axe horizontal est le temps, l'axe vertical la longitude écliptique, découpée en signes. La ligne ne monte pas toujours : tous les quelques mois une planète s'arrête, recule (rétrograde), s'arrête de nouveau et repart. Le point orange est le moment choisi.</p><ol class="steps"><li>Choisissez <b>Mars</b> et une fenêtre de <b>2 ans</b> : la boucle de rétrogradation apparaît comme un creux dans la ligne.</li><li>Appuyez sur <b>Rétrogradation suivante</b> : le cadran saute au moment exact où la planète change de sens (la station).</li><li>Lisez la liste des <b>changements de signe</b> : une planète peut entrer dans un signe, en sortir (flèche ←) et y rentrer. C'est pourquoi le « temps dans un signe » du chapitre 11 du livre est une moyenne.</li></ol></div>
+  <div class="sl-txt"><h3>Cadran 3. Angles entre les corps</h3><p class="note">Les corps sont placés sur le cercle à leur longitude. Une ligne apparaît quand la distance angulaire entre deux corps est, dans l'orbe choisi, de 0° (conjonction), 60° (sextile), 90° (carré), 120° (trigone) ou 180° (opposition). Le tableau donne l'angle exact et son écart à l'angle parfait.</p><ol class="steps"><li>Faites passer l'<b>orbe</b> de 3° à 8° : plus la tolérance est grande, plus il y a d'« aspects ». L'orbe n'est pas une grandeur physique mais une convention qui varie d'un astrologue à l'autre.</li><li>Lancez l'animation à 1 jour par seconde et regardez combien dure un angle : la Lune forme et défait des angles en quelques heures, les planètes lentes en quelques mois.</li><li>Une question à méditer : avec un orbe de 8°, quelle part de l'année s'écoule sans aucun angle entre planètes ? (Essayez.)</li></ol></div>
+</div></section>
+<section class="prose"><h2>Ce que ces cadrans ne montrent pas</h2><ul><li>Les positions du Soleil et de la Lune viennent des formules de Meeus, comme dans le reste du système. Celles des planètes viennent des éléments orbitaux d'E. M. Standish (JPL, tableau 1, valable surtout pour 1800–2050). Comparées à une bibliothèque astronomique indépendante (ephem), les longitudes de Mercure à Saturne diffèrent de moins de 0,25° entre 1900 et 2200 (vérification personnelle, sur quelques dates).</li><li>Chiron est un petit corps à l'orbite très allongée, perturbé par Jupiter et Saturne. Son trajet est calculé à partir des éléments osculateurs de la NASA de 1996, sans perturbations ; il est donc approximatif : la précision baisse avec les décennies qui nous séparent de 1996, de quelques dixièmes de degré à quelques degrés. Il ne figure pas parmi les planètes gouvernantes traditionnelles.</li><li>Les signes sont tropicaux (liés à l'équinoxe de mars). La constellation du tableau est calculée d'après la seule longitude, avec les limites de l'UAI, comme sur la page Soleil et Lune.</li><li>Les cadrans montrent des positions et des angles, c'est-à-dire de la géométrie. Ils ne disent pas, et ne peuvent pas dire, ce qui arrivera à une personne.</li></ul></section>
+<section class="prose"><p>Pour l'histoire derrière l'horoscope, voir le tutoriel <a href="../astrologie/">L'astrologie en bref</a>.</p></section>
+<section class="prose"><h2>Pour aller plus loin</h2><div class="srcs"><a href="https://ssd.jpl.nasa.gov/planets/approx_pos.html" rel="noopener">E. M. Standish (JPL), Keplerian Elements for Approximate Positions of the Major Planets</a><a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/" rel="noopener">NASA, Planetary Fact Sheet</a><a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/chironfact.html" rel="noopener">NASA, Chiron Fact Sheet</a><a href="https://fr.wikipedia.org/wiki/Mouvement_r%C3%A9trograde_apparent" rel="noopener">Mouvement rétrograde apparent (Wikipédia)</a><a href="https://fr.wikipedia.org/wiki/(2060)_Chiron" rel="noopener">(2060) Chiron (Wikipédia)</a></div></section>
+</main>
+<script type="application/json" id="pl-data">{"bodies": {"sun": "Le Soleil", "moon": "La Lune", "mercury": "Mercure", "venus": "Vénus", "mars": "Mars", "jupiter": "Jupiter", "saturn": "Saturne", "chiron": "Chiron"}, "signs": ["Bélier", "Taureau", "Gémeaux", "Cancer", "Lion", "Vierge", "Balance", "Scorpion", "Sagittaire", "Capricorne", "Verseau", "Poissons"], "direct": "directe", "retro": "rétrograde", "home": "chez lui (gouvernant)", "day": "jour", "th1": ["Corps", "Signe tropical", "Constellation", "Mouvement"], "th3": ["Paire", "Aspect", "Angle", "Écart à l'angle parfait"], "asp": {"conj": "conjonction", "sext": "sextile", "sq": "carré", "tri": "trigone", "opp": "opposition"}, "noAsp": "Aucun angle dans l'orbe choisi.", "ingH": "Changements de signe (→ avant, ← arrière)", "noIng": "aucun changement dans la fenêtre", "chironNote": "Chiron : trajet approximatif (éléments NASA de 1996, sans perturbations).", "tpuName": "Temps précessionnel humain", "yearDay": "Jour de l'année", "play": "Lancer", "pause": "Arrêter", "speeds": [[1, "1 jour par seconde"], [10, "10 jours par seconde"], [30, "30 jours par seconde"], [100, "100 jours par seconde"], [365.25, "1 an par seconde"]], "wins": [[0.5, "6 mois"], [1, "1 an"], [2, "2 ans"], [10, "10 ans"], [30, "30 ans"]], "orbs": [[3, "3°"], [6, "6°"], [8, "8°"]], "defaultFus": 0, "cons": ["Bélier", "Taureau", "Gémeaux", "Cancer", "Lion", "Vierge", "Balance", "Scorpion", "Ophiuchus", "Sagittaire", "Capricorne", "Verseau", "Poissons"], "dec": ",", "jumps": [["Chiron entre en Bélier, 18.04.2018", "2018-04-18", "chiron"], ["Mars, 1er janvier 2025", "2025-01-01", "mars"], ["1er janvier 2000", "2000-01-01", ""]]}</script>
+<script src="../../assets/planete.js" defer></script>
+<footer class="sitefoot">
+<p><b>Temps précessionnel humain · Calendrier précessionnel humain</b></p>
+<p>Un système personnel de mesure du temps, indépendant des dogmes : l'heure comme angle, l'année ancrée au solstice, les ères selon la précession. Il ne remplace ni l'heure civile ni les normes officielles.</p>
+<p>Mis à jour: 6 octobre 2026</p>
+<p class="license">Textes : <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr" rel="license">CC BY-SA 4.0</a> · Code : <a href="https://www.gnu.org/licenses/gpl-3.0.html" rel="license">GNU GPLv3</a></p>
+<p class="visitors">Visiteurs: <span id="gc-total">·</span></p>
+<script data-goatcounter="https://carstian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>(function(){var el=document.getElementById("gc-total");function g(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}var p=encodeURIComponent(location.pathname);setTimeout(function(){g("https://carstian.goatcounter.com/counter/"+p+".json").then(function(d){el.textContent=d.count}).catch(function(){el.textContent="0"})},2500)})();</script>
+</footer>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Planete și zodiac: cadrane interactive pentru traseele planetelor</title>
+<meta name="description" content="Trei cadrane pentru a vedea unde se află Soarele, Luna, Mercur, Venus, Marte, Jupiter, Saturn și Chiron pe zodiac, cum își fac planetele traseul și retrogradările și ce unghiuri se formează între ele.">
+<link rel="canonical" href="https://carstian-git.github.io/precessional-time-date-system/ro/planete/">
+<link rel="alternate" hreflang="ro" href="https://carstian-git.github.io/precessional-time-date-system/ro/planete/">
+<link rel="alternate" hreflang="en" href="https://carstian-git.github.io/precessional-time-date-system/en/planete/">
+<link rel="alternate" hreflang="fr" href="https://carstian-git.github.io/precessional-time-date-system/fr/planete/">
+<link rel="alternate" hreflang="x-default" href="https://carstian-git.github.io/precessional-time-date-system/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Timpul precesional uman · Calendarul precesional uman">
+<meta property="og:title" content="Planete și zodiac: cadrane interactive pentru traseele planetelor">
+<meta property="og:description" content="Trei cadrane pentru a vedea unde se află Soarele, Luna, Mercur, Venus, Marte, Jupiter, Saturn și Chiron pe zodiac, cum își fac planetele traseul și retrogradările și ce unghiuri se formează între ele.">
+<meta property="og:url" content="https://carstian-git.github.io/precessional-time-date-system/ro/planete/">
+<meta property="og:locale" content="ro_RO">
+<meta property="og:image" content="https://carstian-git.github.io/precessional-time-date-system/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Timpul precesional uman · Calendarul precesional uman", "url": "https://carstian-git.github.io/precessional-time-date-system/ro/", "inLanguage": "ro", "description": "Trei cadrane pentru a vedea unde se află Soarele, Luna, Mercur, Venus, Marte, Jupiter, Saturn și Chiron pe zodiac, cum își fac planetele traseul și retrogradările și ce unghiuri se formează între ele."}</script>
+</head>
+<body>
+<a class="skip" href="#main">Salt la conținut</a>
+<header class="sitehead">
+<a class="brand" href="../">Timpul precesional uman</a>
+<nav class="sitenav" aria-label="Meniu principal"><a href="../">Acasă</a><a href="../sistem/">Sistemul</a><a href="../tutorial/">Tutorial</a><a href="../precesia/">Precesia</a><a href="../soare-luna/">Soare și Lună</a><a href="./" aria-current="page">Planete și zodiac</a><a href="../astrologie/">Astrologia pe scurt</a><a href="../aplicatie/">Instrumente</a><a href="../despre/">Despre</a></nav>
+<div class="langsw" role="group" aria-label="Limba"><a href="../../ro/planete/" hreflang="ro" lang="ro" aria-current="true">RO</a><a href="../../en/planete/" hreflang="en" lang="en">EN</a><a href="../../fr/planete/" hreflang="fr" lang="fr">FR</a></div>
+</header>
+<main id="main" class="wrap sl-wrap">
+<h1 class="page sl-h1">Planetele pe zodiac: traseul lor pe cer</h1>
+<noscript><p class="note">Cadranele au nevoie de JavaScript. Explicațiile de mai jos se pot citi și fără el.</p></noscript>
+<p class="lead">Un horoscop nu citește zodiacul în sine, ci locul în care se află, la un moment dat, Soarele, Luna și planetele pe harta lui. Cadranele de mai jos arată exact asta, pentru orice dată: poziția fiecărui corp în cele 12 semne, traseul lui în timp (cu retrogradările) și unghiurile dintre corpuri, care sunt ceea ce numesc astrologii „aspecte”. Pozițiile sunt calculate, nu povestite; interpretările nu fac parte din cadrane (vezi tutorialul „Astrologia pe scurt”).</p>
+<section class="explorer sl-ctl" id="pl-ctl" aria-label="Comenzi">
+  <div class="cal-ctl">
+    <div class="field"><label for="pl-when" class="lbl">Data și ora (UTC)</label><input id="pl-when" type="datetime-local"></div>
+    <div class="field"><label for="pl-speed" class="lbl">Viteză</label><select id="pl-speed"></select></div>
+    <div class="field"><span class="lbl">&nbsp;</span><button type="button" id="pl-play" aria-pressed="false">Pornește</button></div>
+    <div class="field"><label for="pl-planet" class="lbl">Corp urmărit</label><select id="pl-planet"></select></div>
+    <div class="field"><label for="pl-win" class="lbl">Fereastra traseului</label><select id="pl-win"></select></div>
+    <div class="field"><label for="pl-orb" class="lbl">Orb (toleranța unghiurilor)</label><select id="pl-orb"></select></div>
+    <div class="field"><span class="lbl">&nbsp;</span><label><input type="checkbox" id="pl-chiron"> Arată și Chiron (planetă minoră)</label></div>
+  </div>
+  <div class="ex-jump">
+    <button type="button" id="pl-now">Acum</button>
+    <button type="button" data-step="-365.25">−1 an</button><button type="button" data-step="365.25">+1 an</button>
+    <button type="button" data-step="-30">−30 zile</button><button type="button" data-step="30">+30 zile</button>
+    <button type="button" data-step="-1">−1 zi</button><button type="button" data-step="1">+1 zi</button>
+    <button type="button" id="pl-prevretro">Retrogradarea anterioară</button><button type="button" id="pl-nextretro">Următoarea retrogradare (schimbare de sens)</button></div>
+  <p class="sl-note">Viteze în zile simulate pe secundă reală. Orientarea cercurilor este cea a restului sistemului (solstițiul din decembrie sus); semnele zodiacale sunt cele tropicale, cu 0° Berbec la echinocțiul de martie.</p>
+  <p class="sl-clock" id="pl-clock" aria-live="off"></p>
+  <div class="ex-jump sl-jumprow"><span class="note">Momente de încercat:</span> <span class="ex-jump" id="pl-jump"></span></div>
+</section>
+<section class="sl-board pl-board" aria-label="Comenzi">
+  <article class="sl-card"><h2>Cadranul 1. Zodiacul și planetele</h2><svg id="pl-zod" viewBox="0 0 360 360" role="img" aria-label="Zodiacul și planetele"></svg><div class="out scroll" id="pl-z" aria-live="off"></div></article>
+  <article class="sl-card"><h2>Cadranul 2. Traseul în timp</h2><svg id="pl-trace" viewBox="0 0 380 230" role="img" aria-label="Traseul în timp"></svg><div class="out" id="pl-t" aria-live="off"></div></article>
+  <article class="sl-card"><h2>Cadranul 3. Unghiurile dintre corpuri</h2><svg id="pl-asp" viewBox="0 0 360 360" role="img" aria-label="Unghiurile dintre corpuri"></svg><div class="out scroll" id="pl-a" aria-live="off"></div></article>
+</section>
+<section class="sl-help"><h2 class="sl-helph">Cum se folosesc cadranele</h2>
+<div class="sl-helpgrid">
+  <div class="sl-txt"><h3>Cadranul 1. Zodiacul și planetele</h3><p class="note">Inelul exterior are cele 12 semne tropicale, de câte 30°. Sub fiecare glif de semn este glifa planetei sale guvernatoare tradiționale (Berbec: Marte, Taur: Venus, Gemeni și Fecioară: Mercur, Rac: Luna, Leu: Soarele, Balanță: Venus, Scorpion: Marte, Săgetător și Pești: Jupiter, Capricorn și Vărsător: Saturn). În interior, fiecare corp are cercul lui: Soarele cel mai în afară, Saturn (și Chiron) cel mai în interior. Un cerc cu margine întreruptă înseamnă mișcare retrogradă.</p><ol class="steps"><li>Apasă <b>Acum</b> și citește tabelul: în ce semn este fiecare corp, în ce constelație se află de fapt (câteodată alta decât semnul) și dacă merge direct sau retrograd.</li><li>Pornește animația la <b>10 zile pe secundă</b>. Luna aleargă prin cercul ei, Soarele face un ocol pe an, Mercur și Venus îl însoțesc, iar Jupiter și Saturn par nemișcate.</li><li>Treci la <b>1 an pe secundă</b> și numără: Jupiter schimbă semnul cam o dată pe an, Saturn la doi ani și jumătate.</li></ol></div>
+  <div class="sl-txt"><h3>Cadranul 2. Traseul în timp</h3><p class="note">Axa orizontală este timpul, axa verticală longitudinea ecliptică, împărțită pe semne. Linia nu urcă mereu: la fiecare câteva luni o planetă se oprește, coboară (retrogradează), se oprește din nou și își reia drumul. Punctul portocaliu este momentul ales.</p><ol class="steps"><li>Alege <b>Marte</b> și fereastra de <b>2 ani</b>: bucla retrogradării se vede ca o scobitură în linie.</li><li>Apasă <b>Următoarea retrogradare</b>: cadranul sare exact la momentul în care planeta își schimbă sensul (stația).</li><li>Citește lista <b>Treceri de semn</b>: o planetă poate intra într-un semn, ieși (săgeata ←) și reintra. De aceea „timpul într-un semn” din capitolul 11 al cărții este o medie.</li></ol></div>
+  <div class="sl-txt"><h3>Cadranul 3. Unghiurile dintre corpuri</h3><p class="note">Corpurile sunt puse pe cerc la longitudinea lor. O linie apare când distanța unghiulară dintre două corpuri este, în limita orbului ales, 0° (conjuncție), 60° (sextil), 90° (pătrat), 120° (trigon) sau 180° (opoziție). Tabelul arată unghiul exact și cu cât diferă de cel perfect.</p><ol class="steps"><li>Schimbă <b>orbul</b> de la 3° la 8°: cu cât toleranța e mai mare, cu atât apar mai multe „aspecte”. Orbul nu este o mărime fizică, ci o convenție care diferă de la un astrolog la altul.</li><li>Pornește animația la 1 zi pe secundă și urmărește cât durează un unghi: Luna formează și desface unghiuri în ore, planetele lente în luni.</li><li>Întrebare de gândit: dacă orbul este 8°, cât din an trece fără niciun unghi între planete? (Încearcă și vezi.)</li></ol></div>
+</div></section>
+<section class="prose"><h2>Ce nu arată aceste cadrane</h2><ul><li>Pozițiile Soarelui și Lunii vin din formulele lui Meeus, ca în restul sistemului. Pozițiile planetelor vin din elementele orbitale ale lui E. M. Standish (JPL, tabelul 1, valabil în principal pentru 1800–2050). Comparate cu o bibliotecă astronomică independentă (ephem), longitudinile Mercur–Saturn diferă cu mai puțin de 0,25° între 1900 și 2200 (verificare proprie, în câteva date).</li><li>Chiron este un corp mic, cu orbită foarte alungită, perturbat de Jupiter și Saturn. Traseul lui este calculat din elementele osculatoare NASA din 1996, fără perturbații, deci este aproximativ: precizia scade cu decenii față de 1996, de la câteva zecimi de grad la câteva grade. Nu are loc în lista planetelor guvernatoare tradiționale.</li><li>Semnele sunt tropicale (legate de echinocțiul de martie). Constelația din tabel este calculată doar după longitudine, cu limitele IAU, ca pe pagina Soare și Lună.</li><li>Cadranele arată poziții și unghiuri, adică geometrie. Nu spun și nu pot spune ce se va întâmpla unei persoane.</li></ul></section>
+<section class="prose"><p>Pentru povestea din spatele horoscopului, vezi tutorialul <a href="../astrologie/">Astrologia pe scurt</a>.</p></section>
+<section class="prose"><h2>Citește mai departe</h2><div class="srcs"><a href="https://ssd.jpl.nasa.gov/planets/approx_pos.html" rel="noopener">E. M. Standish (JPL), Keplerian Elements for Approximate Positions of the Major Planets</a><a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/" rel="noopener">NASA, Planetary Fact Sheet</a><a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/chironfact.html" rel="noopener">NASA, Chiron Fact Sheet</a><a href="https://en.wikipedia.org/wiki/Apparent_retrograde_motion" rel="noopener">Apparent retrograde motion (Wikipedia, engleză)</a><a href="https://en.wikipedia.org/wiki/2060_Chiron" rel="noopener">2060 Chiron (Wikipedia, engleză)</a></div></section>
+</main>
+<script type="application/json" id="pl-data">{"bodies": {"sun": "Soarele", "moon": "Luna", "mercury": "Mercur", "venus": "Venus", "mars": "Marte", "jupiter": "Jupiter", "saturn": "Saturn", "chiron": "Chiron"}, "signs": ["Berbec", "Taur", "Gemeni", "Rac", "Leu", "Fecioară", "Balanță", "Scorpion", "Săgetător", "Capricorn", "Vărsător", "Pești"], "direct": "directă", "retro": "retrogradă", "home": "la el acasă (guvernator)", "day": "zi", "th1": ["Corp", "Semn tropical", "Constelația", "Mișcare"], "th3": ["Pereche", "Aspect", "Unghi", "Față de perfect"], "asp": {"conj": "conjuncție", "sext": "sextil", "sq": "pătrat", "tri": "trigon", "opp": "opoziție"}, "noAsp": "Niciun unghi în orbul ales.", "ingH": "Treceri de semn (→ înainte, ← înapoi)", "noIng": "nicio trecere în fereastră", "chironNote": "Chiron: traseu aproximativ (elemente NASA din 1996, fără perturbații).", "tpuName": "Timpul precesional uman", "yearDay": "Ziua anului", "play": "Pornește", "pause": "Oprește", "speeds": [[1, "1 zi pe secundă"], [10, "10 zile pe secundă"], [30, "30 de zile pe secundă"], [100, "100 de zile pe secundă"], [365.25, "1 an pe secundă"]], "wins": [[0.5, "6 luni"], [1, "1 an"], [2, "2 ani"], [10, "10 ani"], [30, "30 de ani"]], "orbs": [[3, "3°"], [6, "6°"], [8, "8°"]], "defaultFus": 3, "cons": ["Berbec", "Taur", "Gemeni", "Rac", "Leu", "Fecioară", "Balanță", "Scorpion", "Șarpar (Ophiuchus)", "Săgetător", "Capricorn", "Vărsător", "Pești"], "dec": ",", "jumps": [["Chiron intră în Berbec, 18.04.2018", "2018-04-18", "chiron"], ["Marte, 1 ianuarie 2025", "2025-01-01", "mars"], ["1 ianuarie 2000", "2000-01-01", ""]]}</script>
+<script src="../../assets/planete.js" defer></script>
+<footer class="sitefoot">
+<p><b>Timpul precesional uman · Calendarul precesional uman</b></p>
+<p>Un sistem personal de măsurare a timpului, independent de dogme: ora ca unghi, anul ancorat în solstițiu, erele după precesie. Nu înlocuiește timpul civil sau standardele oficiale.</p>
+<p>Actualizat: 6 octombrie 2026</p>
+<p class="license">Texte: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ro" rel="license">CC BY-SA 4.0</a> · Cod: <a href="https://www.gnu.org/licenses/gpl-3.0.html" rel="license">GNU GPLv3</a></p>
+<p class="visitors">Vizitatori: <span id="gc-total">·</span></p>
+<script data-goatcounter="https://carstian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>(function(){var el=document.getElementById("gc-total");function g(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}var p=encodeURIComponent(location.pathname);setTimeout(function(){g("https://carstian.goatcounter.com/counter/"+p+".json").then(function(d){el.textContent=d.count}).catch(function(){el.textContent="0"})},2500)})();</script>
+</footer>
+</body>
+</html>
