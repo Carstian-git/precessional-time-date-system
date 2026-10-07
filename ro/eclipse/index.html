@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Eclipsele de Soare și de Lună: lista unui an și umbra pe Pământ</title>
+<meta name="description" content="Pentru orice an: eclipsele reale de Soare și de Lună, cu data în timpul standard și în Timpul precesional uman, sezonul eclipselor pe cadran și drumul umbrei pe Ceasul Pământului.">
+<link rel="canonical" href="https://carstian-git.github.io/precessional-time-date-system/ro/eclipse/">
+<link rel="alternate" hreflang="ro" href="https://carstian-git.github.io/precessional-time-date-system/ro/eclipse/">
+<link rel="alternate" hreflang="en" href="https://carstian-git.github.io/precessional-time-date-system/en/eclipse/">
+<link rel="alternate" hreflang="fr" href="https://carstian-git.github.io/precessional-time-date-system/fr/eclipse/">
+<link rel="alternate" hreflang="x-default" href="https://carstian-git.github.io/precessional-time-date-system/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Timpul precesional uman · Calendarul precesional uman">
+<meta property="og:title" content="Eclipsele de Soare și de Lună: lista unui an și umbra pe Pământ">
+<meta property="og:description" content="Pentru orice an: eclipsele reale de Soare și de Lună, cu data în timpul standard și în Timpul precesional uman, sezonul eclipselor pe cadran și drumul umbrei pe Ceasul Pământului.">
+<meta property="og:url" content="https://carstian-git.github.io/precessional-time-date-system/ro/eclipse/">
+<meta property="og:locale" content="ro_RO">
+<meta property="og:image" content="https://carstian-git.github.io/precessional-time-date-system/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/fonts.css?v=44">
+<link rel="stylesheet" href="../../assets/site.css?v=44">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Timpul precesional uman · Calendarul precesional uman", "url": "https://carstian-git.github.io/precessional-time-date-system/ro/", "inLanguage": "ro", "description": "Pentru orice an: eclipsele reale de Soare și de Lună, cu data în timpul standard și în Timpul precesional uman, sezonul eclipselor pe cadran și drumul umbrei pe Ceasul Pământului."}</script>
+</head>
+<body>
+<a class="skip" href="#main">Salt la conținut</a>
+<header class="sitehead">
+<a class="brand" href="../">Timpul precesional uman</a>
+<nav class="sitenav" aria-label="Meniu principal"><a href="../">Acasă</a><a href="../sistem/">Sistemul TPU</a><a href="../tutorial/">Tutorial</a><a href="../precesia/">Precesia</a><a href="../soare-luna/">Soarele și Luna</a><a href="./" aria-current="page">Eclipse</a><a href="../planete/">Planetele și Zodiacul</a><a href="../astrologie/">Astrologia pe scurt</a><a href="../aplicatie/">Instrumente</a><a href="../despre/">Despre</a></nav>
+<div class="langsw" role="group" aria-label="Limba"><a href="../../ro/eclipse/" hreflang="ro" lang="ro" aria-current="true">RO</a><a href="../../en/eclipse/" hreflang="en" lang="en">EN</a><a href="../../fr/eclipse/" hreflang="fr" lang="fr">FR</a></div>
+</header>
+<main id="main" class="wrap sl-wrap">
+<h1 class="page sl-h1">Eclipsele: când, de ce și unde</h1>
+<noscript><p class="note">Cadranele au nevoie de JavaScript. Lista eclipselor se calculează în browser.</p></noscript>
+<section class="explorer sl-ctl" id="ec-ctl" aria-label="Alege anul">
+  <div class="cal-ctl">
+    <div class="field"><label for="ec-y" class="lbl">An</label><input id="ec-y" type="number" min="1900" max="2200" step="1" value="2026"></div>
+    <div class="field"><label for="ec-mon" class="lbl">Sistemul de timp</label><select id="ec-mon"><option value="si">Timp standard (SI)</option><option value="tpu">Timpul precesional uman (TPU)</option></select></div>
+    <div class="field"><label for="ec-fus" class="lbl">Fus (modul Fus)</label><select id="ec-fus"></select></div>
+    <div class="field"><span class="lbl">&nbsp;</span><div class="ex-jump"><button type="button" id="ec-prev">‹ anul dinainte</button><button type="button" id="ec-cur">Anul curent</button><button type="button" id="ec-next">anul următor ›</button></div></div>
+  </div>
+</section>
+<p class="lead">Eclipsele se întâmplă doar când Luna nouă sau Luna plină cade lângă unul dintre cele două noduri, punctele în care orbita ei taie drumul Soarelui. Soarele trece pe lângă nod de două ori pe an. Aici vezi toate lunile noi și pline ale unui an, care dintre ele devin eclipse și unde cade umbra.</p>
+<section class="sl-board sl-board2" aria-label="Alege anul">
+  <article class="sl-card"><h2>Sezonul eclipselor</h2><svg id="ec-ring" viewBox="-28 -28 416 416" role="img" aria-label="Sezonul eclipselor"></svg><div class="out" id="ec-r" aria-live="polite"></div></article>
+  <article class="sl-card"><h2>Cum arată umbra</h2><svg id="sl-globe" viewBox="0 0 440 440" role="img" aria-label="Cum arată umbra"></svg><div class="out" id="ec-e" aria-live="polite"></div></article>
+</section>
+<section class="prose wide sl-year">
+  <h2 id="ec-lista"></h2>
+  <div class="scroll"><table class="grid sl-tab ec-tab"><thead><tr><th>Data</th><th>Ora</th><th>Fenomen</th><th>Tip</th><th>γ</th><th>Raport / magnitudine</th><th>Distanța Lunii (km)</th></tr></thead><tbody id="ec-body"></tbody></table></div>
+  <p class="note" id="ec-sum" aria-live="polite"></p>
+  <p class="note">γ (gamma) este distanța axei umbrei de la centrul Pământului, în raze ale Pământului: sub circa 0,997 axa lovește Pământul (eclipsă totală sau inelară), până la circa 1,55 doar penumbra (parțială). La eclipsa de Lună, magnitudinea este cât din discul Lunii intră în umbră.</p>
+</section>
+<section class="sl-help"><h2 class="sl-helph">Cum se folosesc cadranele</h2>
+<div class="sl-helpgrid">
+  <div class="sl-txt"><h3>Sezonul eclipselor</h3><p class="note">Cercul este anul, cu unghiul solar ca pe celelalte cadrane (0° la solstițiul din decembrie, deasupra). Zona colorată este «sezonul eclipselor»: cât timp Soarele este la mai puțin de circa 17° de un nod. Pe inelul interior sunt lunile noi, pe cel exterior lunile pline; cele cu contur îngroșat sunt eclipse. Apasă una ca s-o alegi.</p><ol class="steps"><li>Alege anul și sistemul de timp. Datele din tabel, din rezumat și de sub cadrane urmează sistemul ales.</li><li>Pe cadranul din stânga vezi cele două ferestre colorate ale anului. Fiecare conține una, două sau, rar, trei eclipse, pentru că o lună nouă și o lună plină se află la circa 15 zile una de alta, iar fereastra durează circa 34 de zile.</li><li>Apasă o eclipsă pe cadran sau un rând din tabel. Cadranul din dreapta arată unde cade umbra la maxim.</li></ol></div>
+  <div class="sl-txt"><h3>Cum arată umbra</h3><p class="note">Ceasul Pământului în clipa maximului eclipsei alese. La eclipsa de Soare, linia arată drumul axei umbrei Lunii (cu patru ore înainte și după) și discul gri, penumbra. La eclipsa de Lună, cercul punctat arată unde Luna este deasupra orizontului. Orele noi de pe margine sunt cele din clipa maximului.</p><ol class="steps"><li>La eclipsa de Soare, drumul liniei trece de la vest la est pe Pământ: Luna se mișcă mai repede decât umbra rotitoare a Pământului, spre est.</li><li>Compară ora nouă a locului în clipa maximului cu ora de pe margine. În TPU, ora locală este cea din fusul de 10° al locului.</li><li>Eclipsa de Lună se vede de pe toată emisfera unde Luna este deasupra orizontului, de aceea cercul punctat este mare. Eclipsa de Soare se vede doar dintr-o fâșie îngustă (totală, inelară) sau dintr-o zonă largă (parțială).</li></ol></div>
+  <div class="sl-txt"><h3>De ce totală sau inelară?</h3><p class="note">Distanța dintre Pământ și Lună variază între circa 356.000 și 407.000 km, deci diametrul aparent al Lunii variază între 0,49° și 0,56°, iar al Soarelui între 0,52° și 0,54°. Dacă Luna pare mai mare decât Soarele, eclipsa este totală; dacă pare mai mică, în jurul ei rămâne un inel de Soare, adică eclipsă inelară. Raportul din tabel este diametrul aparent al Lunii împărțit la al Soarelui: peste 1 înseamnă totală, sub 1 inelară.</p></div>
+</div></section>
+<section class="prose"><h2>Limite</h2><ul><li>Calculăm cu seriile abreviate Meeus (aceleași ca în restul site-ului). Momentele maxime sunt corecte la un minut sau două, iar tipul, în cazurile limită (eclipsă hibridă, penumbrală foarte slabă), poate diferi de catalogul NASA, care folosește seriile complete.</li><li>Nu desenăm fâșia totalității cu lățimea ei exactă, ci axa umbrei și penumbra aproximată ca un cerc la maxim.</li></ul></section>
+<section class="prose"><p>Cadranele pentru care a fost construită această pagină (cursa Soare–Lună, nodurile, vederea laterală) sunt pe pagina Soarele și Luna.</p><p><a href="../soare-luna/">Înapoi la Soarele și Luna</a></p></section>
+<section class="prose"><h2>Pentru verificare</h2><div class="srcs"><a href="https://eclipse.gsfc.nasa.gov/SEcat5/SE2001-2100.html" rel="noopener">NASA, Five Millennium Catalog of Solar Eclipses</a><a href="https://eclipse.gsfc.nasa.gov/LEcat5/LE2001-2100.html" rel="noopener">NASA, Five Millennium Catalog of Lunar Eclipses</a><a href="https://www.willbell.com/math/mc1.htm" rel="noopener">Meeus, Astronomical Algorithms</a></div></section>
+</main>
+<script type="application/json" id="ec-data">{"dec": ",", "tpu": "Timpul precesional uman", "yearDay": "Ziua anului", "defaultFus": 3, "phases": ["lună nouă", "semilună crescătoare", "primul pătrar", "gibbă crescătoare", "lună plină", "gibbă descrescătoare", "ultimul pătrar", "semilună descrescătoare"], "locale": "ro-RO", "day": "zi", "listH": "Eclipsele anului", "solarE": "Eclipsă de Soare", "lunarE": "Eclipsă de Lună", "S": "Soare", "L": "Lună", "tS": {"t": "totală", "a": "inelară", "p": "parțială"}, "tL": {"t": "totală", "p": "parțială", "n": "penumbrală"}, "ratio": "Raport", "mag": "Magnitudinea", "gamma": "γ", "dist": "Distanța Lunii", "km": "km", "sumTpl": "În {y}: {s} eclipse de Soare și {l} de Lună.", "none": "Nicio eclipsă în acest an.", "newM": "lună nouă", "fullM": "lună plină", "winL": "sezon de eclipse", "utc": "UTC", "at": "la", "nodeD": "Soare–nod", "closer": "Luna pare mai mare decât Soarele", "smaller": "Luna pare mai mică decât Soarele", "inner": "Inel interior: luni noi", "outer": "Inel exterior: luni pline", "monL": "luna", "yearBeg": "1 ian", "where": "Axa umbrei la maxim", "near": "Punctul sublunar la maxim", "localNew": "Ora nouă locală", "localSI": "Ora locală (soare mediu)", "pen": "Penumbra: circa {p} mii km diametru", "miss": "Axa umbrei trece pe lângă Pământ: doar eclipsă parțială, la latitudini mari", "visL": "Cercul punctat: unde Luna este deasupra orizontului", "tot": "totalitate aici", "ann": "inelaritate aici", "partialOnly": "eclipsă parțială aici", "pick": "Alege o eclipsă din tabel sau de pe cadran.", "noEc": "Nicio eclipsă în acest an.", "full": "durata maximă a totalității sau inelarității pe axă nu se calculează aici", "siL": "Timp standard (SI)", "tpuL": "Timpul precesional uman (TPU)"}</script>
+<script src="../../assets/eclipse.js?v=44" defer></script>
+<footer class="sitefoot">
+<p><b>Timpul precesional uman · Calendarul precesional uman</b></p>
+<p>Un sistem personal de măsurare a timpului, independent de dogme: ora ca unghi, anul ancorat în solstițiu, erele după precesie. Nu înlocuiește timpul civil sau standardele oficiale.</p>
+<p>Actualizat: 6 octombrie 2026</p>
+<p class="license">Texte: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ro" rel="license">CC BY-SA 4.0</a> · Cod: <a href="https://www.gnu.org/licenses/gpl-3.0.html" rel="license">GNU GPLv3</a></p>
+<p class="visitors">Vizitatori: <span id="gc-total">·</span></p>
+<script data-goatcounter="https://carstian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>(function(){var el=document.getElementById("gc-total");function g(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}setTimeout(function(){g("https://carstian.goatcounter.com/counter/TOTAL.json").then(function(d){el.textContent=d.count_unique||d.count}).catch(function(){el.textContent="—"})},1500)})();</script>
+</footer>
+</body>
+</html>

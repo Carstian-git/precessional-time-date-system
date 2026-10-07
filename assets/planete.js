@@ -508,7 +508,7 @@ function renderTrace(t) {
     }
   }
   const xc = X(t), yc = Y(pts[Math.round(N / 2)][1]);
-  s += `<line x1="${f1(xc)}" x2="${f1(xc)}" y1="${yT}" y2="${yB}" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 3"/><circle cx="${f1(xc)}" cy="${f1(yc)}" r="5" fill="var(--ink)" stroke="var(--face)" stroke-width="1.5"/>`;
+  s += `<line x1="${f1(xc)}" x2="${f1(xc)}" y1="${yT}" y2="${yB}" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 3"/><circle cx="${f1(xc)}" cy="${f1(yc)}" r="11" fill="var(--face)" stroke="${b.col}" stroke-width="2"/><text x="${f1(xc)}" y="${f1(yc + .5)}" font-size="15" text-anchor="middle" dominant-baseline="central" fill="${b.col}" pointer-events="none">${b.g}</text>`;
   $("pl-trace").innerHTML = s;
   const ing = ingresses(b, t0, t1);
   $("pl-t").innerHTML = `<div class="big"><span style="color:${b.col}">${b.g}</span> ${D.bodies[b.id]}</div><div class="small">${D.ingH}: ` + (ing.length ? ing.slice(0, 24).map(([tt, k, fwd]) => `${fmtDay(tt)} ${fwd ? "→" : "←"} ${SG[k]} ${D.signs[k]}`).join(" · ") : D.noIng) + `</div>` + (evSel > 0 && b.id !== "sun" ? `<div class="small">${D.evH}: ` + (evList.length ? evList.slice(0, 30).map(([te, k]) => `${EVS[k]} ${fmtDay(te)}`).join(" · ") + (evList.length > 30 ? " …" : "") : D.evNone) + `</div>` : "") + (b.minor ? `<div class="small">${D.chironNote}</div>` : "");
@@ -585,7 +585,7 @@ function renderCirc(t) {
     s += `<circle cx="${f1(x0_)}" cy="${f1(y0_)}" r="3.5" fill="var(--face)" stroke="${b.col}" stroke-width="1.6"/><circle cx="${f1(x1_)}" cy="${f1(y1_)}" r="3.5" fill="${b.col}" stroke="var(--face)" stroke-width="1"/>`;
     /* momentul ales, la jumătatea ferestrei */
     const em = ex(t), rm = (rIn + rOut) / 2, [xm, ym] = P(c, c, rm, mode === "sun" ? em : ang(em));
-    s += `<circle cx="${f1(xm)}" cy="${f1(ym)}" r="6" fill="var(--ink)" stroke="var(--face)" stroke-width="1.6"/>`;
+    s += `<circle cx="${f1(xm)}" cy="${f1(ym)}" r="10" fill="var(--face)" stroke="${b.col}" stroke-width="2"/><text x="${f1(xm)}" y="${f1(ym + .5)}" font-size="13" text-anchor="middle" dominant-baseline="central" fill="${b.col}" pointer-events="none">${b.g}</text>`;
     s += `<line x1="${c}" y1="${c}" x2="${f1(P(c, c, R1, mode === "sun" ? em : ang(em))[0])}" y2="${f1(P(c, c, R1, mode === "sun" ? em : ang(em))[1])}" stroke="var(--ink)" stroke-width=".8" stroke-dasharray="3 3"/>`;
     if (mode !== "sun" && b.id !== "sun") { const [sx, sy] = P(c, c, R1 - 8, ang(sun.lon(t))); s += dot(sx, sy, sun, 9, false); }
     readout = D.d4Read.replace("{a}", fmtDay(t0)).replace("{b}", fmtDay(t1)).replace("{n}", num(turns, turns < 10 ? 1 : 0)) + "<br>" +
@@ -631,7 +631,7 @@ function renderRetro(t) {
   /* momentul ales: linia de vedere din acest moment */
   const [ex, ey] = scr("Earth", t), [px, py] = scr(nm, t), a0 = ang(b.lon(t)), dx0 = Math.sin(a0 * Math.PI / 180), dy0 = -Math.cos(a0 * Math.PI / 180);
   const ox = ex - c, oy = ey - c, bq = ox * dx0 + oy * dy0, rm = (R1 + R2) / 2, L0 = -bq + Math.sqrt(Math.max(0, bq * bq - (ox * ox + oy * oy) + rm * rm));
-  s += `<line x1="${f1(ex)}" y1="${f1(ey)}" x2="${f1(ex + dx0 * L0)}" y2="${f1(ey + dy0 * L0)}" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="4 3"/><circle cx="${f1(ex + dx0 * L0)}" cy="${f1(ey + dy0 * L0)}" r="4.5" fill="var(--ink)" stroke="var(--face)" stroke-width="1.4"/>`;
+  s += `<line x1="${f1(ex)}" y1="${f1(ey)}" x2="${f1(ex + dx0 * L0)}" y2="${f1(ey + dy0 * L0)}" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="4 3"/><circle cx="${f1(ex + dx0 * L0)}" cy="${f1(ey + dy0 * L0)}" r="10" fill="var(--face)" stroke="${b.col}" stroke-width="2"/><text x="${f1(ex + dx0 * L0)}" y="${f1(ey + dy0 * L0 + .5)}" font-size="13" text-anchor="middle" dominant-baseline="central" fill="${b.col}" pointer-events="none">${b.g}</text>`;
   s += dot(c, c, sun, 8, false);
   s += `<circle cx="${f1(ex)}" cy="${f1(ey)}" r="7" fill="#2B6CB0" stroke="var(--face)" stroke-width="1.4"><title>${D.r5Earth}</title></circle><text x="${f1(ex)}" y="${f1(ey)}" font-size="9" text-anchor="middle" dominant-baseline="central" fill="#fff" pointer-events="none">⊕</text>`;
   s += dot(px, py, b, 8, viteza(b.lon, t) < 0);

@@ -272,10 +272,10 @@ function txt(cx, cy, r, a, s, size, cls, extra) {
   return `<text x="${f1(x)}" y="${f1(y)}" font-size="${size}" text-anchor="middle" dominant-baseline="central" class="${cls || ""}" ${extra || ""}>${s}</text>`;
 }
 
-/* Cadranele Soare–Lună (pagina Soare și Lună). Texte din #sl-data. Calcule: Meeus, aceleași ca în nucleul sistemului. */
-const D = JSON.parse(document.getElementById("sl-data").textContent);
+/* Pagina Eclipse: lista eclipselor unui an, sezonul eclipselor, umbra pe Ceasul Pământului. Texte din #ec-data. Calcule: Meeus (seriile abreviate), ca în nucleul sistemului. */
+const D = JSON.parse(document.getElementById("ec-data").textContent);
 const num = (x, d) => x.toFixed(d).replace(".", D.dec);
-const R_ECHIV = 6378.14, LIM_NEW = 1.58, GAMA_UMB = 1.0128, LIM_SEZON = 17;
+const R_ECHIV = 6378.14, LIM_SEZON = 17, R_SOARE = 695700, R_LUNA = 1737.4, AU = 149597870.7;
 const DIST_TERMS = [[0,0,1,0,-20905355],[2,0,-1,0,-3699111],[2,0,0,0,-2955968],[0,0,2,0,-569925],[0,1,0,0,48888],
  [2,0,-2,0,246158],[2,-1,-1,0,-152138],[2,0,1,0,-170733],[2,-1,0,0,-204586],[0,1,-1,0,-129620],[1,0,0,0,108743],
  [0,1,1,0,104755],[4,0,-1,0,-34782],[0,0,3,0,-22241],[4,0,-2,0,-30824]];
@@ -288,185 +288,137 @@ function distLuna(ms) {
 }
 const nodMediu = ms => { const T = Tcen(ms); return mod(125.04452 - 1934.136261 * T + 0.0020708 * T * T, 360); };
 const delta = (a, b) => mod(a - b + 180, 360) - 180;
-const viteza = (f, ms) => delta(f(ms + 6 * 36e5), f(ms - 6 * 36e5)) * 2; /* grade pe zi, din diferența pe 12 h */
 const lonSoare = longitudineSoare, lonLuna = ms => lunaLonLat(ms)[0], latLuna = ms => lunaLonLat(ms)[1];
 const ang = lon => mod(lon - 270, 360); /* unghi solar: 0° la solstițiul din decembrie */
-const GRADE_ORA = 10; /* o oră nouă = 10° */
-
-let T0 = Date.now(), timer = null, last = 0;
+const rSoareAU = ms => { const T = Tcen(ms), M = rad(357.52911 + 35999.05029 * T); return 1.000001018 * (1 - 0.016708634 * Math.cos(M) - 0.000139589 * Math.cos(2 * M)); };
 const pad = n => String(n).padStart(2, "0");
-const isoLocal = ms => { const d = new Date(ms); return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}T${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}`; };
-const fmtUtc = ms => { const d = new Date(ms); return `${pad(d.getUTCDate())}.${pad(d.getUTCMonth() + 1)}.${d.getUTCFullYear()} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())} UTC`; };
 const fmtDay = ms => { const d = new Date(ms); return `${pad(d.getUTCDate())}.${pad(d.getUTCMonth() + 1)}.${d.getUTCFullYear()}`; };
-const parseLocal = v => { const m = /^(\d{4,})-(\d\d)-(\d\d)T(\d\d):(\d\d)/.exec(v); if (!m) return null; const x = new Date(0); x.setUTCFullYear(+m[1], +m[2] - 1, +m[3]); x.setUTCHours(+m[4], +m[5], 0, 0); return x.getTime(); };
-const arcLine = (cx, cy, r, a1, a2) => { const [x1, y1] = P(cx, cy, r, a1), [x2, y2] = P(cx, cy, r, a2); const lg = mod(a2 - a1, 360) > 180 ? 1 : 0; return `M${f1(x1)} ${f1(y1)}A${r} ${r} 0 ${lg} 1 ${f1(x2)} ${f1(y2)}`; };
+const hhmm = ms => { const d = new Date(ms); return `${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}`; };
+const isTPU = () => $("ec-mon").value === "tpu";
+const fusSel = () => parseInt($("ec-fus").value, 10) || 0;
+function tpu(ms, fusK) {
+  const k = fusK === undefined ? fusSel() : fusK, r = dinUtc(ms, k * 10, "F");
+  return {r, date: `ER ${r.er} · AE ${r.ae} · ${r.lc ? r.lc + "/" + r.zn : D.yearDay + " " + r.zn}`, time: `${pad(r.hn)}:${pad(r.mn)}`};
+}
+const fusLab = () => { const k = fusSel(); return "F" + (k >= 0 ? "+" : "−") + pad(Math.abs(k)); };
+const dateTxt = ms => isTPU() ? tpu(ms).date : fmtDay(ms);
+const timeTxt = ms => isTPU() ? `${tpu(ms).time} ${fusLab()}` : `${hhmm(ms)} ${D.utc}`;
 
-function faseIcon(u, cx, cy, r) {
-  const c = Math.cos(rad(u)), rx = Math.abs(c) * r, waxing = mod(u, 360) < 180;
-  let lit;
-  if (waxing) lit = `M${cx} ${cy - r}A${r} ${r} 0 0 1 ${cx} ${cy + r}A${f1(rx)} ${r} 0 0 ${c > 0 ? 0 : 1} ${cx} ${cy - r}Z`;
-  else lit = `M${cx} ${cy - r}A${r} ${r} 0 0 0 ${cx} ${cy + r}A${f1(rx)} ${r} 0 0 ${c > 0 ? 1 : 0} ${cx} ${cy - r}Z`;
-  return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="var(--bg)" stroke="var(--ink)" stroke-width="1"/><path d="${lit}" fill="var(--moon)" stroke="none" opacity=".85"/>`;
-}
-
-/* ---------- cadranul 1: cursa ---------- */
-function ringBase(c, rOut, rIn) {
-  let s = `<circle cx="${c}" cy="${c}" r="${rOut}" fill="var(--face)" stroke="var(--ink)" stroke-width="1.4"/><circle cx="${c}" cy="${c}" r="${rIn}" fill="none" stroke="var(--rule)"/>`;
-  for (let a = 0; a < 360; a += 10) s += tick(c, c, rIn, rIn + (a % 30 === 0 ? 9 : 5), a, a % 90 === 0 ? 1.6 : .8, "var(--mute)");
-  const lab = D.cardinals;
-  for (let i = 0; i < 4; i++) {
-    s += txt(c, c, rOut - 11, i * 90, `${i * 90}°`, 10, "", 'font-weight="600"');
-  }
-  return s;
-}
-/* ---------- constelațiile ecliptice (limite IAU, longitudine eclipticǎ J2000) ---------- */
-const CONS = [["Psc",351.57],["Ari",28.69],["Tau",53.42],["Gem",90.14],["Cnc",117.99],["Leo",138.04],["Vir",173.85],["Lib",217.81],["Sco",241.14],["Oph",247.64],["Sgr",266.62],["Cap",299.70],["Aqr",327.49]];
-const PREC = 50.29 / 3600 / 365.25; /* grade pe zi: precesia în longitudine */
-const consEdge = (i, ms) => CONS[i][1] + PREC * (ms - Date.UTC(2000, 0, 1, 12)) / 864e5;
-const consName = i => D.cons[(i + 12) % 13]; /* D.cons începe cu Berbec; CONS începe cu Pești */
-function consIdx(lon, ms) {
-  for (let i = 0; i < 13; i++) { const a = consEdge(i, ms), b = consEdge((i + 1) % 13, ms); if (mod(lon - a, 360) < mod(b - a, 360)) return i; }
-  return 0;
-}
-function consBand(t, c, r1, r2, sl, ml) {
-  let s = "";
-  for (let i = 0; i < 13; i++) {
-    const a = ang(consEdge(i, t)), b = ang(consEdge((i + 1) % 13, t)), span = mod(b - a, 360);
-    s += `<path d="${arcPath(c, c, r1, r2, a, a + span)}" fill="var(--ink)" opacity="${i === 9 ? .3 : i % 2 ? .16 : .07}" stroke="var(--rule)" stroke-width=".6"><title>${consName(i)}</title></path>`;
-    s += txt(c, c, (r1 + r2) / 2, a + span / 2, CONS[i][0], 9.5, "", 'font-weight="600" fill="var(--ink)"');
-  }
-  const [sx, sy] = P(c, c, (r1 + r2) / 2, ang(sl)), [mx, my] = P(c, c, (r1 + r2) / 2, ang(ml));
-  s += `<circle cx="${f1(mx)}" cy="${f1(my)}" r="7.5" fill="var(--moon)" stroke="var(--face)" stroke-width="1.4"/>${glif(mx, my, "☽", 10)}<circle cx="${f1(sx)}" cy="${f1(sy)}" r="9" fill="var(--sun)" stroke="var(--face)" stroke-width="1.4"/>${glif(sx, sy, "☉", 12)}`;
-  return s;
-}
-const consLine = (sl, ml, t) => `<div class="small">${D.consIn}: ${D.vSun} ${consName(consIdx(sl, t))} · ${D.vMoon} ${consName(consIdx(ml, t))}</div>`;
-function buildDials() {
-  const c = 180;
-  $("sl-race").innerHTML = ringBase(c, 168, 140) + '<g id="sl-race-dyn"></g>';
-  $("sl-nodes").innerHTML = ringBase(c, 168, 140) + '<g id="sl-nodes-dyn"></g>';
-}
-function renderRace(t) {
-  const c = 180, sa = ang(lonSoare(t)), ma = ang(lonLuna(t)); let u = mod(ma - sa, 360); if (u > 359.995) u = 0;
-  let s = "";
-  s += `<path d="${arcLine(c, c, 100, sa, sa + u)}" fill="none" stroke="var(--moon)" stroke-width="3" stroke-linecap="round" opacity=".55"/>`;
-  s += tick(c, c, 0, 118, ma, 1.2, "var(--moon)") + tick(c, c, 0, 130, sa, 1.6, "var(--sun)");
-  const [sx, sy] = P(c, c, 130, sa), [mx, my] = P(c, c, 118, ma);
-  s += `<circle cx="${f1(mx)}" cy="${f1(my)}" r="9" fill="var(--moon)" stroke="var(--face)" stroke-width="2"/>${glif(mx, my, "☽", 12)}`;
-  s += `<circle cx="${f1(sx)}" cy="${f1(sy)}" r="11" fill="var(--sun)" stroke="var(--face)" stroke-width="2"/>${glif(sx, sy, "☉", 14)}`;
-  const [lx, ly] = P(c, c, 85, sa + u / 2);
-  s += `<text x="${f1(lx)}" y="${f1(ly)}" font-size="11" text-anchor="middle" dominant-baseline="central" fill="var(--moon)" font-weight="600">${num(u, 1)}°</text>`;
-  s += faseIcon(u, c, c, 22);
-  s += consBand(t, c, 174, 198, lonSoare(t), lonLuna(t));
-  $("sl-race-dyn").innerHTML = s;
-  const vs = viteza(lonSoare, t), vm = viteza(lonLuna, t), rel = vm - vs;
-  const k = $("sl-r");
-  k.innerHTML =
-    `<div class="big">${fmtUtc(t)}</div>` + `<div class="small"><b>${D.tpu}</b>: ${tpu(t).date} · ${tpu(t).time}</div>` +
-    consLine(lonSoare(t), lonLuna(t), t) +
-    `<div class="small">${D.sunAng}: ${num(sa, 2)}° · ${D.moonAng}: ${num(u, 2)}° · ${D.phase}: ${phaseTxt(u)}</div>` +
-    `<div class="small">${D.vSun}: ${num(vs, 3)}°/${D.day} · ${D.vMoon}: ${num(vm, 2)}°/${D.day} · ${D.ratio}: ${num(vm / vs, 1)}</div>` +
-    `<div class="small">${D.vMoonH}: ${num(vm / 24, 2)}°/h ≈ ${num(vm / 24 / 0.52, 2)} ${D.diam}</div>` +
-    `<div class="small">${D.lag}: ${num(rel, 2)}°/${D.day} = ${num(rel / GRADE_ORA, 2)} ${D.newH} = ${num(rel / GRADE_ORA * 40, 1)} min</div>`;
-  $("sl-race").setAttribute("aria-label", `${D.sunAng} ${num(sa, 1)}°, ${D.moonAng} ${num(u, 1)}°`);
-}
-const glif = (x, y, g, fs) => `<text x="${f1(x)}" y="${f1(y + .5)}" font-size="${fs}" text-anchor="middle" dominant-baseline="central" fill="#fff" pointer-events="none">${g}</text>`;
-function phaseTxt(u) { return D.phases[Math.floor(mod(u + 22.5, 360) / 45)]; }
-
-/* ---------- cadranul 2: nodurile ---------- */
-function renderNodes(t) {
-  const c = 180, sl = lonSoare(t), ml = lonLuna(t), om = nodMediu(t), sa = ang(sl), ma = ang(ml), na = ang(om), nd = mod(na + 180, 360);
-  let s = "";
-  for (const n of [na, nd]) s += `<path d="${arcPath(c, c, 108, 138, n - LIM_SEZON, n + LIM_SEZON)}" fill="var(--sun)" opacity=".22" stroke="none"/>`;
-  s += tick(c, c, 0, 138, na, 1.4, "var(--ink)") + tick(c, c, 0, 138, nd, 1.4, "var(--ink)");
-  s += txt(c, c, 124, na, "☊", 15, "", 'fill="var(--ink)"') + txt(c, c, 124, nd, "☋", 15, "", 'fill="var(--ink)"');
-  const [sx, sy] = P(c, c, 150, sa), [mx, my] = P(c, c, 100, ma);
-  s += tick(c, c, 0, 100, ma, 1.2, "var(--moon)") + tick(c, c, 0, 150, sa, 1.6, "var(--sun)");
-  s += `<circle cx="${f1(mx)}" cy="${f1(my)}" r="9" fill="var(--moon)" stroke="var(--face)" stroke-width="2"/>${glif(mx, my, "☽", 12)}<circle cx="${f1(sx)}" cy="${f1(sy)}" r="10" fill="var(--sun)" stroke="var(--face)" stroke-width="2"/>${glif(sx, sy, "☉", 13)}`;
-  s += `<circle cx="${c}" cy="${c}" r="3" fill="var(--mute)"/>`;
-  s += consBand(t, c, 174, 198, sl, ml);
-  $("sl-nodes-dyn").innerHTML = s;
-  /* vedere laterală */
-  const w = 400, h = 400, x0 = 18, ys = 34, x = d => x0 + (mod(d + 180, 360)) / 360 * (w - 2 * x0), y = b => h / 2 - b * ys;
-  let g = `<rect x="${x0}" y="${y(LIM_NEW)}" width="${w - 2 * x0}" height="${f1(2 * LIM_NEW * ys)}" fill="var(--sun)" opacity=".18"/>`;
-  g += `<line x1="${x0}" x2="${w - x0}" y1="${h / 2}" y2="${h / 2}" stroke="var(--ink)" stroke-width="1.2"/>`;
-  let p = ""; for (let d = -180; d <= 180; d += 4) p += (d === -180 ? "M" : "L") + f1(x(d)) + " " + f1(y(5.145 * Math.sin(rad(d))));
-  g += `<path d="${p}" fill="none" stroke="var(--moon)" stroke-width="2.4" opacity=".75"/>`;
-  g += `<text x="${x0 + 26}" y="${y(5.145) - 3}" font-size="13" class="mute">+5,1°</text><text x="${x0 + 26}" y="${y(-5.145) + 11}" font-size="13" class="mute">−5,1°</text>`;
-  g += `<text x="${x(0)}" y="${h - 4}" font-size="16" text-anchor="middle">☊</text><text x="${x(180)}" y="${h - 4}" font-size="16" text-anchor="middle">☋</text><text x="${w - x0}" y="${h - 4}" font-size="16" text-anchor="middle">☋</text>`;
-  const lat = latLuna(t), dm = delta(ml, om), ds = delta(sl, om);
-  g += `<circle cx="${f1(x(ds))}" cy="${h / 2}" r="9" fill="var(--sun)" stroke="var(--face)" stroke-width="1.6"/>${glif(x(ds), h / 2, "☉", 12)}`;
-  /* fazele: unde ar fi Luna la lună nouă / lună plină cu Soarele unde este acum, și Luna reală cu faza ei */
-  const uPh = mod(ml - sl, 360), dNew = ds, dFull = delta(ds + 180, 0), nx = x(dNew), ny = y(5.145 * Math.sin(rad(dNew))), fx = x(dFull), fy = y(5.145 * Math.sin(rad(dFull)));
-  g += `<g opacity=".95"><title>${D.newM}</title>${faseIcon(0, +f1(nx), +f1(ny), 8)}</g><g><title>${D.fullM}</title>${faseIcon(180, +f1(fx), +f1(fy), 8)}</g>`;
-  g += `<g><title>${D.moonAng}: ${num(uPh, 1)}° · ${D.phase}: ${phaseTxt(uPh)}</title>${faseIcon(uPh, +f1(x(dm)), +f1(y(lat)), 11)}</g>`;
-  g += `<text x="${w - x0}" y="20" font-size="13" text-anchor="end" fill="var(--ink)">${phaseTxt(uPh)} · ${num(uPh, 0)}°</text>`;
-  $("sl-side").innerHTML = g;
-  const dNod = Math.min(Math.abs(mod(sl - om, 180)), 180 - Math.abs(mod(sl - om, 180)));
-  const seas = dNod < LIM_SEZON;
-  $("sl-n").innerHTML =
-    `<div class="big">${D.season}: ${seas ? D.yes : D.no}</div>` +
-    consLine(sl, ml, t) +
-    `<div class="small">${D.sunNode}: ${num(dNod, 1)}° (${D.limit} ≈ ${LIM_SEZON}°)</div>` +
-    `<div class="small">${D.moonLat}: ${lat >= 0 ? "+" : "−"}${num(Math.abs(lat), 2)}° · ${D.moonNode}: ${num(Math.min(mod(ml - om, 180), 180 - mod(ml - om, 180)), 1)}°</div>` +
-    `<div class="small">${D.nodeAt}: ${num(om, 1)}° ${D.ecl} · ${D.nodeRate}</div>`;
-}
-
-/* ---------- cadranul 3: tabelul unui an ---------- */
-const EC = D.known; /* [data dd.mm.yyyy, S|L, tip] */
-const knownMap = {}; for (const [d, k, ty] of EC) knownMap[d] = [k, ty];
-function rows(an) {
-  const out = [];
-  for (const [t, tinta] of fazeLunare(UTCY(an), UTCY(an + 1))) {
-    if (tinta !== 0 && tinta !== 180) continue;
-    const lat = latLuna(t), key = fmtDay(t), kn = knownMap[key];
-    let poss, umbral = null;
-    if (tinta === 0) poss = Math.abs(lat) < LIM_NEW;
-    else { const gama = Math.abs(rad(lat)) * distLuna(t) / R_ECHIV; poss = gama < GAMA_UMB; }
-    out.push({t, tinta, lat, poss, kn});
-  }
-  return out;
-}
-function renderYear() {
-  const an = Math.max(1900, Math.min(2200, parseInt($("sl-y").value, 10) || 2026));
-  const rs = rows(an); let nS = 0, nL = 0, nSp = 0, nLp = 0;
-  const body = rs.map((r, i) => {
-    const sol = r.tinta === 0;
-    if (r.poss) sol ? nSp++ : nLp++;
-    let real = "—";
-    if (an >= 2026 && an <= 2028) {
-      if (r.kn) { real = `${r.kn[0] === "S" ? D.solar : D.lunar}: ${D.types[r.kn[1]]}`; sol ? nS++ : nL++; }
-      else if (an >= 2026) real = D.none;
-    }
-    const mark = r.poss ? (sol ? D.possS : D.possL) : "";
-    const penum = !sol && r.kn && !r.poss ? ` <span class="mute">(${D.notMarked})</span>` : "";
-    return `<tr class="${r.poss ? "poss" : ""}" data-t="${r.t}"><td>${fmtDay(r.t)}</td><td>${tpu(r.t).date}</td><td>${sol ? D.newM : D.fullM}</td><td>${r.lat >= 0 ? "+" : "−"}${num(Math.abs(r.lat), 2)}°</td><td>${mark}</td><td>${real}${penum}</td></tr>`;
-  }).join("");
-  $("sl-ybody").innerHTML = body;
-  const known = an >= 2026 && an <= 2028;
-  $("sl-ysum").textContent = D.sumTpl.replace("{y}", an).replace("{s}", nSp).replace("{l}", nLp) + (known ? " " + D.sumKnown.replace("{s}", nS).replace("{l}", nL) : " " + D.sumUnknown);
-  $("sl-ybody").querySelectorAll("tr").forEach(tr => tr.onclick = () => { setT(+tr.dataset.t); $("sl-ctl").scrollIntoView({behavior: "smooth", block: "start"}); });
-}
-
-
-/* ---------- cadranul 3: Ceasul Pământului în eclipsă (proiecție polară, fusuri noi de 10°) ---------- */
-const GR = 165, GLAT0 = -60, GC = 220;
-const gproj = (lat, lon) => { const r = Math.min(GR, GR * (90 - lat) / (90 - GLAT0)); return P(GC, GC, r, -lon); };
-const R_SOARE = 695700, R_LUNA = 1737.4, AU = 149597870.7;
+/* ---------- geometria umbrei (axa umbrei Lunii față de centrul Pământului) ---------- */
 const vecEcl = (lonD, latD, r, eps) => { const l = rad(lonD), b = rad(latD); return [r * Math.cos(b) * Math.cos(l), r * (Math.cos(b) * Math.sin(l) * Math.cos(eps) - Math.sin(b) * Math.sin(eps)), r * (Math.cos(b) * Math.sin(l) * Math.sin(eps) + Math.sin(b) * Math.cos(eps))]; };
 const gmstDeg = ms => mod(280.46061837 + 360.98564736629 * ((ms - J2000) / DAY), 360);
 function umbra(ms) {
   const T = Tcen(ms), eps = rad(23.4393 - 0.0130 * T), [ml, mb] = lunaLonLat(ms);
   const Mv = vecEcl(ml, mb, distLuna(ms), eps), Sv = vecEcl(lonSoare(ms), 0, AU, eps);
-  const dv = [Mv[0] - Sv[0], Mv[1] - Sv[1], Mv[2] - Sv[2]], D = Math.hypot(...dv), d = dv.map(x => x / D);
+  const dv = [Mv[0] - Sv[0], Mv[1] - Sv[1], Mv[2] - Sv[2]], Dn = Math.hypot(...dv), d = dv.map(x => x / Dn);
   const b = Mv[0] * d[0] + Mv[1] * d[1] + Mv[2] * d[2], m2 = Mv[0] ** 2 + Mv[1] ** 2 + Mv[2] ** 2, c = m2 - R_ECHIV ** 2, disc = b * b - c;
   const gamma = Math.sqrt(Math.max(0, m2 - b * b)) / R_ECHIV;
-  if (disc < 0) return {hit: false, gamma};
+  const rP0 = R_LUNA + (-b) * (R_SOARE + R_LUNA) / Dn;
+  const toLL = Pv => { const r = Math.hypot(...Pv); return {lat: Math.asin(Pv[2] / r) * 180 / Math.PI, lon: mod(Math.atan2(Pv[1], Pv[0]) * 180 / Math.PI - gmstDeg(ms) + 180, 360) - 180}; };
+  if (disc < 0) { const C = [Mv[0] - b * d[0], Mv[1] - b * d[1], Mv[2] - b * d[2]]; return {hit: false, gamma, rP0, rhoP: rP0, ...toLL(C)}; }
   const tt = -b - Math.sqrt(disc), Pv = [Mv[0] + tt * d[0], Mv[1] + tt * d[1], Mv[2] + tt * d[2]];
-  const lat = Math.asin(Pv[2] / R_ECHIV) * 180 / Math.PI, ra = Math.atan2(Pv[1], Pv[0]) * 180 / Math.PI;
-  const lon = mod(ra - gmstDeg(ms) + 180, 360) - 180;
-  const Lu = R_LUNA * D / (R_SOARE - R_LUNA), rhoU = R_LUNA * (1 - tt / Lu), rhoP = R_LUNA + tt * (R_SOARE + R_LUNA) / D;
-  return {hit: true, gamma, lat, lon, rhoU, rhoP, total: rhoU > 0};
+  const Lu = R_LUNA * Dn / (R_SOARE - R_LUNA), rhoU = R_LUNA * (1 - tt / Lu), rhoP = R_LUNA + tt * (R_SOARE + R_LUNA) / Dn;
+  return {hit: true, gamma, rP0, rhoU, rhoP, total: rhoU > 0, ...toLL(Pv)};
 }
+/* eclipsa de Lună: distanța Lunii de axa umbrei Pământului (grade) și razele umbrei/penumbrei */
+function lunarGeom(ms) {
+  const [ml, mb] = lunaLonLat(ms), dl = delta(ml, lonSoare(ms) + 180), dist = distLuna(ms), r = rSoareAU(ms);
+  const dd = Math.hypot(dl * Math.cos(rad(mb)), mb), pm = Math.asin(R_ECHIV / dist) * 180 / Math.PI, ps = 8.794 / 3600 / r, ss = 0.26656 / r, sm = Math.asin(R_LUNA / dist) * 180 / Math.PI;
+  const ru = 1.02 * (pm + ps - ss), rp = 1.02 * (pm + ps + ss);
+  return {dd, gamma: dd / pm, magU: (ru + sm - dd) / (2 * sm), magP: (rp + sm - dd) / (2 * sm), dist};
+}
+function minimize(f, t0, span, step) { let best = t0, bv = Infinity; for (let q = t0 - span; q <= t0 + span; q += step) { const v = f(q); if (v < bv) { bv = v; best = q; } } return best; }
+function eclipseAt(t0, tinta) {
+  if (tinta === 0) {
+    if (Math.abs(latLuna(t0)) > 2) return null;
+    const f = q => umbra(q).gamma;
+    let t = minimize(f, t0, 6 * 36e5, 6e5); t = minimize(f, t, 6e5, 3e4);
+    const U = umbra(t), r = rSoareAU(t), dist = distLuna(t);
+    const ratio = (Math.asin(R_LUNA / dist) * 180 / Math.PI) / (0.26656 / r);
+    let type = null;
+    if (U.hit) type = U.total ? "t" : "a"; else if (U.gamma < 1 + U.rP0 / R_ECHIV) type = "p";
+    if (!type) return null;
+    return {sol: true, t, t0, type, gamma: U.gamma, ratio, dist, U};
+  }
+  if (Math.abs(latLuna(t0)) > 1.8) return null;
+  const f = q => lunarGeom(q).dd;
+  let t = minimize(f, t0, 6 * 36e5, 6e5); t = minimize(f, t, 6e5, 3e4);
+  const g = lunarGeom(t); let type = null;
+  if (g.magU >= 1) type = "t"; else if (g.magU > 0) type = "p"; else if (g.magP > 0) type = "n";
+  if (!type) return null;
+  return {sol: false, t, t0, type, gamma: g.gamma, mag: g.magU > 0 ? g.magU : g.magP, dist: g.dist};
+}
+const cache = {};
+function lunations(an) {
+  if (cache[an]) return cache[an];
+  const out = [];
+  for (const [t0, tinta] of fazeLunare(UTCY(an), UTCY(an + 1))) {
+    if (tinta !== 0 && tinta !== 180) continue;
+    out.push({t0, tinta, ev: eclipseAt(t0, tinta)});
+  }
+  return cache[an] = out;
+}
+
+/* ---------- starea paginii ---------- */
+let Y = 2026, SEL = null; /* SEL = lunația aleasă (cu eclipsă) */
+const evsOf = an => lunations(an).filter(x => x.ev);
+
+/* ---------- cadranul 1: sezonul eclipselor ---------- */
+const CR = 180;
+const monthTicks = {};
+function monthStarts(an) {
+  const key = an + "|" + isTPU();
+  if (monthTicks[key]) return monthTicks[key];
+  const out = [];
+  if (!isTPU()) for (let m = 0; m < 12; m++) out.push([Date.UTC(an, m, 1), String(m + 1)]);
+  else {
+    let prev = null;
+    for (let t = UTCY(an); t < UTCY(an + 1); t += DAY) { const r = campuriSolare(Math.floor(t / DAY)), id = r.lc ? r.lc : 0; if (id && id !== prev && prev !== null) out.push([t, String(id)]); if (id) prev = id; else prev = prev; }
+  }
+  return monthTicks[key] = out;
+}
+const sunAng = t => ang(lonSoare(t));
+function windows(an) {
+  const out = []; let open = null, last = UTCY(an);
+  for (let t = UTCY(an); t < UTCY(an + 1); t += 6 * 36e5) {
+    const x = Math.abs(delta(lonSoare(t), nodMediu(t))); const dn = Math.min(x, 180 - x), ins = dn < LIM_SEZON;
+    if (ins && open === null) open = t; if (!ins && open !== null) { out.push([open, t]); open = null; } last = t;
+  }
+  if (open !== null) out.push([open, last]);
+  return out;
+}
+function buildRing() {
+  const c = CR;
+  $("ec-ring").innerHTML = `<circle cx="${c}" cy="${c}" r="198" fill="var(--face)" stroke="var(--ink)" stroke-width="1.4"/><circle cx="${c}" cy="${c}" r="168" fill="none" stroke="var(--rule)"/><g id="ec-ring-dyn"></g>`;
+}
+function renderRing() {
+  const c = CR; let s = "";
+  for (const [a, b] of windows(Y)) { const a1 = sunAng(a), span = mod(sunAng(b) - a1, 360); s += `<path d="${arcPath(c, c, 100, 164, a1, a1 + span)}" fill="var(--sun)" opacity=".24" stroke="none"><title>${D.winL}</title></path>`; }
+  s += `<circle cx="${c}" cy="${c}" r="100" fill="none" stroke="var(--rule)"/><circle cx="${c}" cy="${c}" r="164" fill="none" stroke="var(--rule)"/>`;
+  for (const [t, lab] of monthStarts(Y)) { const a = sunAng(t); s += tick(c, c, 168, 178, a, 1, "var(--mute)") + txt(c, c, 187, a + 4, lab, 9.5, "mute"); }
+  const a0 = sunAng(UTCY(Y)); s += tick(c, c, 100, 198, a0, 1.6, "var(--ink)") + txt(c, c, 208, a0, D.yearBeg, 9, "mute");
+  s += `<text x="${c}" y="${c - 6}" font-size="26" text-anchor="middle" fill="var(--ink)" font-weight="500">${Y}</text>`;
+  s += `<text x="${c}" y="${c + 14}" font-size="9.5" text-anchor="middle" class="mute">${D.inner}</text><text x="${c}" y="${c + 27}" font-size="9.5" text-anchor="middle" class="mute">${D.outer}</text>`;
+  lunations(Y).forEach((L, i) => {
+    const a = sunAng(L.t0), r = L.tinta === 0 ? 118 : 148, [x, y] = P(c, c, r, a), sel = SEL && SEL === L;
+    const u = L.tinta === 0 ? 0 : 180, dis = L.ev ? 1 : .42;
+    if (sel) s += `<circle cx="${f1(x)}" cy="${f1(y)}" r="13" fill="none" stroke="var(--ink)" stroke-width="2.4"/>`;
+    s += `<g opacity="${dis}" data-i="${i}" ${L.ev ? 'style="cursor:pointer" tabindex="0" role="button"' : ""}><title>${L.tinta === 0 ? D.newM : D.fullM} · ${dateTxt(L.t0)}${L.ev ? " · " + (L.ev.sol ? D.solarE + " " + D.tS[L.ev.type] : D.lunarE + " " + D.tL[L.ev.type]) : ""}</title>${faseIcon(u, +f1(x), +f1(y), 8)}${L.ev ? `<circle cx="${f1(x)}" cy="${f1(y)}" r="10.5" fill="none" stroke="${L.ev.sol ? "var(--sun)" : "var(--moon)"}" stroke-width="2.4"/>` : ""}</g>`;
+  });
+  $("ec-ring-dyn").innerHTML = s;
+  const lun = lunations(Y);
+  $("ec-ring-dyn").querySelectorAll("g[data-i]").forEach(g => { const L = lun[+g.dataset.i]; if (!L.ev) return; g.onclick = () => select(L); g.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(L); } }; });
+}
+function faseIcon(u, cx, cy, r) {
+  const co = Math.cos(rad(u)), rx = Math.abs(co) * r, waxing = mod(u, 360) < 180; let lit;
+  if (waxing) lit = `M${cx} ${cy - r}A${r} ${r} 0 0 1 ${cx} ${cy + r}A${f1(rx)} ${r} 0 0 ${co > 0 ? 0 : 1} ${cx} ${cy - r}Z`;
+  else lit = `M${cx} ${cy - r}A${r} ${r} 0 0 0 ${cx} ${cy + r}A${f1(rx)} ${r} 0 0 ${co > 0 ? 1 : 0} ${cx} ${cy - r}Z`;
+  return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="var(--bg)" stroke="var(--ink)" stroke-width="1"/><path d="${lit}" fill="var(--moon)" stroke="none" opacity=".85"/>`;
+}
+
+/* ---------- cadranul 2: Ceasul Pământului ---------- */
+const GR = 165, GLAT0 = -60, GC = 220;
+const gproj = (lat, lon) => { const r = Math.min(GR, GR * (90 - lat) / (90 - GLAT0)); return P(GC, GC, r, -lon); };
 function capPath(lat0, lon0, angD) {
   const la = rad(lat0), a = rad(angD); let p = "";
   for (let th = 0; th <= 360; th += 6) {
@@ -490,111 +442,90 @@ function buildGlobe() {
     s += txt(c, c, 178, a, k === 18 ? "±18" : (k > 0 ? "+" + k : k < 0 ? "−" + (-k) : "0"), k === 18 ? 6.5 : 7.5, "mute");
     s += `<text id="seh${k}" x="${f1(P(c, c, 199, a)[0])}" y="${f1(P(c, c, 199, a)[1])}" font-size="9.5" text-anchor="middle" dominant-baseline="central" font-weight="500">0</text>`;
   }
-  s += `<g id="se-vis"></g><g id="se-shadow"></g><g id="se-sub"></g><g id="se-hands"></g>`;
+  s += `<g id="se-vis"></g><g id="se-shadow"></g><g id="se-sub"></g>`;
   $("sl-globe").innerHTML = s;
 }
 function fusTxt(lon) { const k = Math.floor(lon / 10 + 0.5), kk = k === -18 ? 18 : k; return "F" + (kk >= 0 ? "+" : "−") + pad(Math.abs(kk)); }
-function nouaLocala(ms, lon) { const k = Math.floor(lon / 10 + 0.5), t = mod(Math.floor(ms / 1000) + 2400 * k, 86400); return `${pad(Math.floor(t / 2400))}:${pad(Math.floor(t % 2400 / 240))}:${pad(Math.floor(t % 240 / 24))}`; }
-function renderGlobe(ms) {
-  const c = GC, sub = subsolar(ms), lu = sublunar(ms), dec = sub.lat, tu = mod(ms / 1000, 86400), u = mod(unghiLunar(ms), 360);
+function nouaLocala(ms, lon) { const k = Math.floor(lon / 10 + 0.5), t = mod(Math.floor(ms / 1000) + 2400 * k, 86400); return `${pad(Math.floor(t / 2400))}:${pad(Math.floor(t % 2400 / 240))}`; }
+function stdLocala(ms, lon) { return hhmm(ms + lon / 15 * 36e5); }
+const latTxt = (v) => `${num(Math.abs(v), 1)}°${v >= 0 ? "N" : "S"}`, lonTxt = (v) => `${num(Math.abs(v), 1)}°${v >= 0 ? "E" : "V"}`;
+function renderGlobe(L) {
+  const c = GC;
+  if (!L) { for (const id of ["se-vis", "se-shadow", "se-sub"]) $(id).innerHTML = ""; $("se-night").setAttribute("d", ""); $("ec-e").innerHTML = `<div class="small">${D.pick}</div>`; return; }
+  const ev = L.ev, ms = ev.t, sub = subsolar(ms), lu = sublunar(ms), dec = sub.lat, tu = mod(ms / 1000, 86400);
   const td = Math.tan(rad(Math.abs(dec) < 0.05 ? 0.05 * (dec < 0 ? -1 : 1) : dec));
   let pts = "";
   for (let lon = 0; lon <= 360; lon += 3) { let lat = Math.atan(-Math.cos(rad(lon - sub.lon)) / td) * 180 / Math.PI; lat = Math.max(GLAT0, lat); const [x, y] = gproj(lat, lon); pts += (lon ? "L" : "M") + f1(x) + " " + f1(y); }
   const full = `M${c - GR} ${c}a${GR} ${GR} 0 1 0 ${2 * GR} 0a${GR} ${GR} 0 1 0 ${-2 * GR} 0Z`;
   $("se-night").setAttribute("d", dec >= 0 ? full + pts + "Z" : pts + "Z");
-  for (let k = -17; k <= 18; k++) { const v = Math.floor(mod(tu + 2400 * k, 86400) / 2400), el = $("seh" + k); if (el.dataset.v != v) { el.dataset.v = v; el.textContent = v; el.style.fill = v === 18 ? "var(--sun)" : ""; el.style.fontWeight = v === 18 ? "700" : "500"; } }
-  const near0 = Math.min(u, 360 - u) < 15, near180 = Math.abs(u - 180) < 15;
-  $("se-vis").innerHTML = near180 ? `<path d="${capPath(lu.lat, lu.lon, 90)}" fill="var(--moon)" fill-opacity=".10" stroke="var(--moon)" stroke-width="1.4" stroke-dasharray="5 4"/>` : "";
-  const U = umbra(ms); let sh = "";
-  if (U.hit && near0) {
+  for (let k = -17; k <= 18; k++) { const v = Math.floor(mod(tu + 2400 * k, 86400) / 2400), el = $("seh" + k); if (el.dataset.v != v) { el.dataset.v = v; el.textContent = v; el.style.fill = v === 18 ? "var(--sun)" : ""; el.style.fontWeight = v === 18 ? "700" : ""; } }
+  let vis = "", sh = "", sb = "", o = `<div class="big">${dateTxt(ms)} · ${timeTxt(ms)}</div>`;
+  if (ev.sol) {
+    const U = ev.U, ca = Math.min(60, U.rhoP / R_ECHIV * 180 / Math.PI);
+    let path = "";
+    for (let q = -240; q <= 240; q += 6) { const V = umbra(ms + q * 6e4); if (V.hit) { const [x, y] = gproj(Math.max(GLAT0, V.lat), V.lon); path += (path ? "L" : "M") + f1(x) + " " + f1(y); } }
+    if (path) vis = `<path d="${path}" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round" stroke-dasharray="6 3"/>`;
+    sh = `<path d="${capPath(U.lat, U.lon, ca)}" fill="var(--ink)" fill-opacity=".22" stroke="var(--ink)" stroke-width=".8"/>`;
     const [x, y] = gproj(Math.max(GLAT0, U.lat), U.lon);
-    sh += `<path d="${capPath(U.lat, U.lon, Math.min(60, U.rhoP / R_ECHIV * 180 / Math.PI))}" fill="var(--ink)" fill-opacity=".22" stroke="var(--ink)" stroke-width=".8"/>`;
-    sh += `<circle cx="${f1(x)}" cy="${f1(y)}" r="3.4" fill="var(--ink)" stroke="var(--face)" stroke-width="1.2"/>`;
+    sh += `<circle cx="${f1(x)}" cy="${f1(y)}" r="4" fill="var(--ink)" stroke="var(--face)" stroke-width="1.3"/>`;
+    if (U.hit) {
+      o += `<div class="small">${D.where}: ${latTxt(U.lat)}, ${lonTxt(U.lon)} · ${fusTxt(U.lon)} · ${U.total ? D.tot : D.ann}</div>`;
+      o += `<div class="small">${isTPU() ? D.localNew + ": " + nouaLocala(ms, U.lon) : D.localSI + ": " + stdLocala(ms, U.lon)}</div>`;
+    } else {
+      o += `<div class="small">${D.miss}</div><div class="small">${D.where}: ${latTxt(U.lat)}, ${lonTxt(U.lon)} · ${D.partialOnly}</div>`;
+      o += `<div class="small">${isTPU() ? D.localNew + ": " + nouaLocala(ms, U.lon) : D.localSI + ": " + stdLocala(ms, U.lon)}</div>`;
+    }
+    o += `<div class="small">${D.pen.replace("{p}", num(U.rhoP * 2 / 1000, 1))}</div>`;
+  } else {
+    vis = `<path d="${capPath(lu.lat, lu.lon, 90)}" fill="var(--moon)" fill-opacity=".10" stroke="var(--moon)" stroke-width="1.4" stroke-dasharray="5 4"/>`;
+    const [mx, my] = gproj(Math.max(GLAT0, lu.lat), lu.lon);
+    sb = `<circle cx="${f1(mx)}" cy="${f1(my)}" r="9" fill="var(--moon)" stroke="var(--face)" stroke-width="1.6"/>`;
+    o += `<div class="small">${D.visL}</div><div class="small">${D.near}: ${latTxt(lu.lat)}, ${lonTxt(lu.lon)} · ${fusTxt(lu.lon)}</div>`;
+    o += `<div class="small">${isTPU() ? D.localNew + ": " + nouaLocala(ms, lu.lon) : D.localSI + ": " + stdLocala(ms, lu.lon)}</div>`;
   }
-  $("se-shadow").innerHTML = sh;
-  const [sx, sy] = gproj(sub.lat, sub.lon), [mx, my] = gproj(Math.max(GLAT0, lu.lat), lu.lon);
-  $("se-sub").innerHTML = `<circle cx="${f1(sx)}" cy="${f1(sy)}" r="5.5" fill="none" stroke="var(--sun)" stroke-width="1.6"/><circle cx="${f1(sx)}" cy="${f1(sy)}" r="1.6" fill="var(--sun)"/>` +
-    `<circle cx="${f1(mx)}" cy="${f1(my)}" r="11" fill="var(--face)" fill-opacity=".55"/>` + faseIcon(u, mx, my, 8).replace(/<circle cx="[\d.]+" cy="[\d.]+" r="8"/, `<circle cx="${f1(mx)}" cy="${f1(my)}" r="8"`);
-  const ah = tu / 240 + 180, am = mod(tu, 2400) / 2400 * 360;
-  let rays = ""; for (let i = 0; i < 8; i++) rays += `<line x1="${f1(9 * Math.sin(i * Math.PI / 4))}" y1="${f1(-9 * Math.cos(i * Math.PI / 4))}" x2="${f1(13 * Math.sin(i * Math.PI / 4))}" y2="${f1(-13 * Math.cos(i * Math.PI / 4))}" stroke="var(--sun)" stroke-width="1.6" stroke-linecap="round"/>`;
-  $("se-hands").innerHTML = `<g transform="rotate(${ah.toFixed(3)} 220 220)"><line x1="220" y1="226" x2="220" y2="80" stroke="var(--hand)" stroke-width="4.5" stroke-linecap="round"/><g transform="translate(220 64)"><circle r="7" fill="var(--sun)" stroke="var(--face)" stroke-width="1.5"/>${rays}</g></g>` +
-    `<g transform="rotate(${am.toFixed(3)} 220 220)"><line x1="220" y1="228" x2="220" y2="102" stroke="var(--hand)" stroke-width="2.4" stroke-linecap="round"/></g><circle cx="220" cy="220" r="9" fill="var(--hand)"/><text x="220" y="220.5" font-size="9" font-weight="700" text-anchor="middle" dominant-baseline="central" style="fill:var(--bg)">N</text>`;
-  const hn = `${pad(Math.floor(tu / 2400))}:${pad(Math.floor(tu % 2400 / 240))}:${pad(Math.floor(tu % 240 / 24))}`;
-  let o = `<div class="big">${D.utcNew}: ${hn}</div>`;
-  if (near0) {
-    if (U.hit) o += `<div class="small">${D.shadowAt}: ${num(Math.abs(U.lat), 1)}°${U.lat >= 0 ? "N" : "S"}, ${num(Math.abs(U.lon), 1)}°${U.lon >= 0 ? "E" : "V"} · ${fusTxt(U.lon)}</div><div class="small">${D.localNew}: ${nouaLocala(ms, U.lon)} · ${U.total ? D.total : D.annular}</div><div class="small"><code>${cod(dinUtc(ms, Math.floor(U.lon / 10 + 0.5) * 10, "F"))}</code></div><div class="small">${D.penNote.replace("{p}", num(2 * U.rhoP / 1000, 1).replace(/,0$/, ""))}</div>`;
-    else o += `<div class="small">${D.missEarth} (γ = ${num(U.gamma, 2)})</div>`;
-  } else if (near180) o += `<div class="small">${D.lunarVis}</div><div class="small">${D.subLunarAt}: ${num(Math.abs(lu.lat), 1)}°${lu.lat >= 0 ? "N" : "S"}, ${num(Math.abs(lu.lon), 1)}°${lu.lon >= 0 ? "E" : "V"} · ${fusTxt(lu.lon)}</div>`;
-  else o += `<div class="small">${D.noEclNow}</div>`;
-  $("sl-e").innerHTML = o;
+  const [sx, sy] = gproj(sub.lat, sub.lon);
+  sb += `<circle cx="${f1(sx)}" cy="${f1(sy)}" r="5.5" fill="none" stroke="var(--sun)" stroke-width="1.6"/><circle cx="${f1(sx)}" cy="${f1(sy)}" r="1.6" fill="var(--sun)"/>`;
+  $("se-vis").innerHTML = vis; $("se-shadow").innerHTML = sh; $("se-sub").innerHTML = sb; $("ec-e").innerHTML = o;
 }
 
-/* ---------- timpul precesional uman ---------- */
-const fusSel = () => parseInt($("sl-fus").value, 10) || 0;
-function tpu(ms, fusK) {
-  const k = fusK === undefined ? fusSel() : fusK, r = dinUtc(ms, k * 10, "F");
-  return {r, code: cod(r), date: `ER ${r.er} · AE ${r.ae} · ${r.lc ? r.lc + "/" + r.zn : D.yearDay + " " + r.zn}`, time: `${pad(r.hn)}:${pad(r.mn)}:${pad(r.sn)}:${pad(r.ss)}`};
+/* ---------- lista și rezumatul ---------- */
+function renderReadout() {
+  const el = $("ec-r");
+  if (!SEL) { el.innerHTML = `<div class="small">${evsOf(Y).length ? D.pick : D.noEc}</div>`; return; }
+  const ev = SEL.ev, x = Math.abs(delta(lonSoare(ev.t), nodMediu(ev.t))), dn = Math.min(x, 180 - x);
+  let o = `<div class="big">${ev.sol ? D.solarE + " " + D.tS[ev.type] : D.lunarE + " " + D.tL[ev.type]}</div>`;
+  o += `<div class="small">${dateTxt(ev.t)} · ${timeTxt(ev.t)}</div>`;
+  o += `<div class="small">${ev.sol ? D.newM : D.fullM} · ${D.gamma} = ${num(ev.gamma, 3)} · ${D.dist}: ${Math.round(ev.dist).toLocaleString(D.locale)} ${D.km}</div>`;
+  if (ev.sol) o += `<div class="small">${D.ratio}: ${num(ev.ratio, 3)} · ${ev.ratio > 1 ? D.closer : D.smaller}</div>`;
+  else o += `<div class="small">${D.mag}: ${num(ev.mag, 2)}</div>`;
+  o += `<div class="small">${D.nodeD}: ${num(dn, 1)}°</div>`;
+  el.innerHTML = o;
 }
-function renderClock(ms) {
-  const x = tpu(ms), k = fusSel();
-  $("sl-clock").innerHTML = `<span><b>UTC</b> ${fmtUtc(ms)}</span><span><b>${D.tpu}</b> (F${k >= 0 ? "+" : "−"}${pad(Math.abs(k))}): <code>${x.code}</code></span>`;
+function renderTable() {
+  const L = evsOf(Y), nS = L.filter(x => x.ev.sol).length, nL = L.length - nS;
+  $("ec-lista").textContent = `${D.listH} ${Y}`;
+  $("ec-body").innerHTML = L.map((l, i) => {
+    const e = l.ev, last = e.sol ? num(e.ratio, 3) : num(e.mag, 2);
+    return `<tr class="poss${SEL === l ? " sel" : ""}" data-i="${i}"><td>${dateTxt(e.t)}</td><td>${timeTxt(e.t)}</td><td>${e.sol ? D.solarE : D.lunarE}</td><td>${e.sol ? D.tS[e.type] : D.tL[e.type]}</td><td>${num(e.gamma, 3)}</td><td>${last}</td><td>${Math.round(e.dist).toLocaleString(D.locale)}</td></tr>`;
+  }).join("") || `<tr><td colspan="7">${D.none}</td></tr>`;
+  $("ec-sum").textContent = L.length ? D.sumTpl.replace("{y}", Y).replace("{s}", nS).replace("{l}", nL) : D.none;
+  $("ec-body").querySelectorAll("tr[data-i]").forEach(tr => tr.onclick = () => select(L[+tr.dataset.i]));
 }
-/* ---------- comenzi ---------- */
-function render() {
-  $("sl-when").value = isoLocal(T0);
-  renderClock(T0); renderRace(T0); renderNodes(T0); renderGlobe(T0);
-}
-function setT(ms) { T0 = ms; render(); }
-function nextPhase(tinta, dir) {
-  let t = T0 + dir * 36e5;
-  for (let i = 0; i < 40; i++) {
-    const a = dir > 0 ? t : t - 40 * 864e5, b = dir > 0 ? t + 40 * 864e5 : t;
-    const f = fazeLunare(a, b).filter(x => x[1] === tinta);
-    if (f.length) return dir > 0 ? f[0][0] : f[f.length - 1][0];
-    t += dir * 40 * 864e5;
-  }
-  return T0;
-}
-function stop() { if (timer) { cancelAnimationFrame(timer); timer = null; } $("sl-play").setAttribute("aria-pressed", "false"); $("sl-play").textContent = "▶ " + D.play; }
-function frame(ts) {
-  if (!timer) return;
-  const dt = Math.min(0.1, (ts - last) / 1000); last = ts;
-  T0 += dt * parseFloat($("sl-speed").value) * 864e5; render();
-  timer = requestAnimationFrame(frame);
-}
-function play() {
-  if (timer) { stop(); return; }
-  $("sl-play").setAttribute("aria-pressed", "true"); $("sl-play").textContent = "■ " + D.pause;
-  last = performance.now(); timer = requestAnimationFrame(frame);
+function select(l) { SEL = l; renderAll(); }
+function renderAll() { renderRing(); renderReadout(); renderGlobe(SEL); renderTable(); }
+function setYear(y, keepSel) {
+  Y = Math.max(1900, Math.min(2200, y || 2026)); $("ec-y").value = Y;
+  const L = evsOf(Y), now = Date.now(); SEL = L.find(l => l.ev.t >= now) || L[0] || null;
+  renderAll();
 }
 {
-  buildDials(); buildGlobe();
-  const fillSpeeds = () => {
-    const prev = parseFloat($("sl-speed").value) || 1, L = $("sl-su").value === "tpu" ? D.speedsTpu : D.speeds;
-    let best = L[0][0]; for (const [v] of L) if (Math.abs(Math.log(v / prev)) < Math.abs(Math.log(best / prev))) best = v;
-    $("sl-speed").innerHTML = L.map(([v, l]) => `<option value="${v}"${v === best ? " selected" : ""}>${l}</option>`).join("");
-  };
-  fillSpeeds(); $("sl-su").addEventListener("change", fillSpeeds);
-  $("sl-when").addEventListener("change", e => { const v = parseLocal(e.target.value); if (v !== null) { stop(); setT(v); } });
-  { let opts = ""; for (let k = -17; k <= 18; k++) opts += `<option value="${k}">F${k >= 0 ? "+" : "−"}${pad(Math.abs(k))}</option>`; $("sl-fus").innerHTML = opts; $("sl-fus").value = String(D.defaultFus); }
-  $("sl-fus").addEventListener("change", () => { render(); renderYear(); });
-  $("sl-play").onclick = play;
-  $("sl-now").onclick = () => { stop(); setT(Date.now()); };
-  document.querySelectorAll("[data-step]").forEach(b => b.onclick = () => { stop(); setT(T0 + parseFloat(b.dataset.step) * 36e5); });
-  $("sl-nextnew").onclick = () => { stop(); setT(nextPhase(0, 1)); };
-  $("sl-nextfull").onclick = () => { stop(); setT(nextPhase(180, 1)); };
-  $("sl-jump").innerHTML = D.jumps.map(([lab, iso]) => `<button type="button" data-iso="${iso}">${lab}</button>`).join("");
-  $("sl-jump").querySelectorAll("button").forEach(b => b.onclick = () => {
-    stop(); const [y, m, d] = b.dataset.iso.split("-").map(Number), x = new Date(0); x.setUTCFullYear(y, m - 1, d); x.setUTCHours(12, 0, 0, 0);
-    const f = fazeLunare(x.getTime() - 2 * 864e5, x.getTime() + 2 * 864e5).filter(z => z[1] === 0 || z[1] === 180);
-    let t = f.length ? f[0][0] : x.getTime();
-    if (f.length && f[0][1] === 0) { let best = t, bg = 9; for (let q = t - 4 * 36e5; q <= t + 4 * 36e5; q += 6e4) { const g = umbra(q).gamma; if (g < bg) { bg = g; best = q; } } t = best; }
-    setT(t);
-  });
-  const yy = new Date().getUTCFullYear(); $("sl-y").value = yy >= 1900 && yy <= 2200 ? yy : 2026;
-  $("sl-y").addEventListener("change", renderYear);
-  $("sl-yjump").querySelectorAll("button").forEach(b => b.onclick = () => { $("sl-y").value = b.dataset.y; renderYear(); });
-  render(); renderYear();
+  buildRing(); buildGlobe();
+  { let opts = ""; for (let k = -17; k <= 18; k++) opts += `<option value="${k}">F${k >= 0 ? "+" : "−"}${pad(Math.abs(k))}</option>`; $("ec-fus").innerHTML = opts; $("ec-fus").value = String(D.defaultFus); }
+  $("ec-y").addEventListener("change", () => setYear(parseInt($("ec-y").value, 10)));
+  $("ec-prev").onclick = () => setYear(Y - 1); $("ec-next").onclick = () => setYear(Y + 1);
+  $("ec-cur").onclick = () => setYear(new Date().getUTCFullYear());
+  $("ec-mon").addEventListener("change", renderAll); $("ec-fus").addEventListener("change", renderAll);
+  const qy = new Date().getUTCFullYear(); setYear(qy >= 1900 && qy <= 2200 ? qy : 2026);
 }
 
 })();

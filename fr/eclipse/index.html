@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Éclipses de Soleil et de Lune : la liste d&#x27;une année et l&#x27;ombre sur la Terre</title>
+<meta name="description" content="Pour n&#x27;importe quelle année : les éclipses réelles de Soleil et de Lune, datées en temps standard et en temps précessionnel humain, la saison des éclipses sur un cadran et le chemin de l&#x27;ombre sur l&#x27;horloge de la Terre.">
+<link rel="canonical" href="https://carstian-git.github.io/precessional-time-date-system/fr/eclipse/">
+<link rel="alternate" hreflang="ro" href="https://carstian-git.github.io/precessional-time-date-system/ro/eclipse/">
+<link rel="alternate" hreflang="en" href="https://carstian-git.github.io/precessional-time-date-system/en/eclipse/">
+<link rel="alternate" hreflang="fr" href="https://carstian-git.github.io/precessional-time-date-system/fr/eclipse/">
+<link rel="alternate" hreflang="x-default" href="https://carstian-git.github.io/precessional-time-date-system/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Temps précessionnel humain · Calendrier précessionnel humain">
+<meta property="og:title" content="Éclipses de Soleil et de Lune : la liste d&#x27;une année et l&#x27;ombre sur la Terre">
+<meta property="og:description" content="Pour n&#x27;importe quelle année : les éclipses réelles de Soleil et de Lune, datées en temps standard et en temps précessionnel humain, la saison des éclipses sur un cadran et le chemin de l&#x27;ombre sur l&#x27;horloge de la Terre.">
+<meta property="og:url" content="https://carstian-git.github.io/precessional-time-date-system/fr/eclipse/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://carstian-git.github.io/precessional-time-date-system/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/fonts.css?v=44">
+<link rel="stylesheet" href="../../assets/site.css?v=44">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Temps précessionnel humain · Calendrier précessionnel humain", "url": "https://carstian-git.github.io/precessional-time-date-system/fr/", "inLanguage": "fr", "description": "Pour n'importe quelle année : les éclipses réelles de Soleil et de Lune, datées en temps standard et en temps précessionnel humain, la saison des éclipses sur un cadran et le chemin de l'ombre sur l'horloge de la Terre."}</script>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+<header class="sitehead">
+<a class="brand" href="../">Temps précessionnel humain</a>
+<nav class="sitenav" aria-label="Menu principal"><a href="../">Accueil</a><a href="../sistem/">Le système TPH</a><a href="../tutorial/">Tutoriel</a><a href="../precesia/">Précession</a><a href="../soare-luna/">Soleil et Lune</a><a href="./" aria-current="page">Éclipses</a><a href="../planete/">Planètes et zodiaque</a><a href="../astrologie/">L'astrologie en bref</a><a href="../aplicatie/">Outils</a><a href="../despre/">À propos</a></nav>
+<div class="langsw" role="group" aria-label="Langue"><a href="../../ro/eclipse/" hreflang="ro" lang="ro">RO</a><a href="../../en/eclipse/" hreflang="en" lang="en">EN</a><a href="../../fr/eclipse/" hreflang="fr" lang="fr" aria-current="true">FR</a></div>
+</header>
+<main id="main" class="wrap sl-wrap">
+<h1 class="page sl-h1">Les éclipses : quand, pourquoi et où</h1>
+<noscript><p class="note">Les cadrans ont besoin de JavaScript. La liste des éclipses est calculée dans votre navigateur.</p></noscript>
+<section class="explorer sl-ctl" id="ec-ctl" aria-label="Choisir l'année">
+  <div class="cal-ctl">
+    <div class="field"><label for="ec-y" class="lbl">Année</label><input id="ec-y" type="number" min="1900" max="2200" step="1" value="2026"></div>
+    <div class="field"><label for="ec-mon" class="lbl">Système de temps</label><select id="ec-mon"><option value="si">Temps standard (SI)</option><option value="tpu">Temps précessionnel humain (TPH)</option></select></div>
+    <div class="field"><label for="ec-fus" class="lbl">Fuseau (mode Fuseau)</label><select id="ec-fus"></select></div>
+    <div class="field"><span class="lbl">&nbsp;</span><div class="ex-jump"><button type="button" id="ec-prev">‹ année précédente</button><button type="button" id="ec-cur">Année en cours</button><button type="button" id="ec-next">année suivante ›</button></div></div>
+  </div>
+</section>
+<p class="lead">Les éclipses n'ont lieu que lorsqu'une nouvelle ou une pleine Lune tombe près de l'un des deux nœuds, les points où son orbite coupe le chemin du Soleil. Le Soleil passe près d'un nœud deux fois par an. Vous voyez ici toutes les nouvelles et pleines lunes d'une année, lesquelles deviennent des éclipses et où tombe l'ombre.</p>
+<section class="sl-board sl-board2" aria-label="Choisir l'année">
+  <article class="sl-card"><h2>Saison des éclipses</h2><svg id="ec-ring" viewBox="-28 -28 416 416" role="img" aria-label="Saison des éclipses"></svg><div class="out" id="ec-r" aria-live="polite"></div></article>
+  <article class="sl-card"><h2>À quoi ressemble l'ombre</h2><svg id="sl-globe" viewBox="0 0 440 440" role="img" aria-label="À quoi ressemble l'ombre"></svg><div class="out" id="ec-e" aria-live="polite"></div></article>
+</section>
+<section class="prose wide sl-year">
+  <h2 id="ec-lista"></h2>
+  <div class="scroll"><table class="grid sl-tab ec-tab"><thead><tr><th>Date</th><th>Heure</th><th>Phénomène</th><th>Type</th><th>γ</th><th>Rapport / magnitude</th><th>Distance de la Lune (km)</th></tr></thead><tbody id="ec-body"></tbody></table></div>
+  <p class="note" id="ec-sum" aria-live="polite"></p>
+  <p class="note">γ (gamma) est la distance de l'axe de l'ombre au centre de la Terre, en rayons terrestres : sous 0,997 environ l'axe touche la Terre (éclipse totale ou annulaire), jusqu'à 1,55 environ seule la pénombre la touche (partielle). Pour une éclipse de Lune, la magnitude est la part du disque lunaire qui entre dans l'ombre.</p>
+</section>
+<section class="sl-help"><h2 class="sl-helph">Comment utiliser les cadrans</h2>
+<div class="sl-helpgrid">
+  <div class="sl-txt"><h3>Saison des éclipses</h3><p class="note">Le cercle est l'année, avec l'angle solaire comme sur les autres cadrans (0° au solstice de décembre, en haut). La zone colorée est la « saison des éclipses » : tant que le Soleil est à moins de 17° environ d'un nœud. L'anneau intérieur porte les nouvelles lunes, l'extérieur les pleines lunes ; celles au contour épais sont des éclipses. Touchez-en une pour la choisir.</p><ol class="steps"><li>Choisissez l'année et le système de temps. Les dates du tableau, du résumé et sous les cadrans suivent le système choisi.</li><li>Sur le cadran de gauche, vous voyez les deux fenêtres colorées de l'année. Chacune contient une, deux ou rarement trois éclipses, car une nouvelle et une pleine lune sont séparées d'environ 15 jours et une fenêtre dure environ 34 jours.</li><li>Touchez une éclipse sur le cadran ou une ligne du tableau. Le cadran de droite montre où tombe l'ombre au maximum.</li></ol></div>
+  <div class="sl-txt"><h3>À quoi ressemble l'ombre</h3><p class="note">L'horloge de la Terre à l'instant du maximum de l'éclipse choisie. Pour une éclipse de Soleil, la ligne est le chemin de l'axe de l'ombre de la Lune (quatre heures avant et après) et le disque gris la pénombre. Pour une éclipse de Lune, le cercle pointillé montre où la Lune est au-dessus de l'horizon. Les heures nouvelles du bord sont celles de l'instant du maximum.</p><ol class="steps"><li>Pour une éclipse de Soleil, la ligne va de l'ouest vers l'est sur la Terre : la Lune se déplace vers l'est plus vite que l'ombre tournante de la Terre.</li><li>Comparez l'heure nouvelle locale au moment du maximum avec l'heure du bord. En TPH, l'heure locale est celle du fuseau de 10° du lieu.</li><li>Une éclipse de Lune se voit de tout l'hémisphère où la Lune est au-dessus de l'horizon, d'où le grand cercle pointillé. Une éclipse de Soleil ne se voit que d'une bande étroite (totale, annulaire) ou d'une large zone (partielle).</li></ol></div>
+  <div class="sl-txt"><h3>Pourquoi totale ou annulaire ?</h3><p class="note">La distance Terre–Lune varie entre 356 000 et 407 000 km environ, donc le diamètre apparent de la Lune varie entre 0,49° et 0,56°, et celui du Soleil entre 0,52° et 0,54°. Si la Lune paraît plus grande que le Soleil, l'éclipse est totale ; si elle paraît plus petite, un anneau de Soleil reste autour d'elle : éclipse annulaire. Le rapport du tableau est le diamètre apparent de la Lune divisé par celui du Soleil : au-dessus de 1, totale ; en dessous, annulaire.</p></div>
+</div></section>
+<section class="prose"><h2>Limites</h2><ul><li>Nous calculons avec les séries abrégées de Meeus (les mêmes que sur le reste du site). Les instants du maximum sont bons à une minute ou deux, et le type, dans les cas limites (éclipse hybride, pénombrale très faible), peut différer du catalogue de la NASA, qui utilise les séries complètes.</li><li>Nous ne dessinons pas la bande de totalité à sa largeur exacte, seulement l'axe de l'ombre et la pénombre approchée par un cercle au maximum.</li></ul></section>
+<section class="prose"><p>Les cadrans pour lesquels cette page a été construite (la course Soleil–Lune, les nœuds, la vue latérale) sont sur la page Soleil et Lune.</p><p><a href="../soare-luna/">Retour à Soleil et Lune</a></p></section>
+<section class="prose"><h2>Pour vérifier</h2><div class="srcs"><a href="https://eclipse.gsfc.nasa.gov/SEcat5/SE2001-2100.html" rel="noopener">NASA, Five Millennium Catalog of Solar Eclipses</a><a href="https://eclipse.gsfc.nasa.gov/LEcat5/LE2001-2100.html" rel="noopener">NASA, Five Millennium Catalog of Lunar Eclipses</a><a href="https://www.willbell.com/math/mc1.htm" rel="noopener">Meeus, Astronomical Algorithms</a></div></section>
+</main>
+<script type="application/json" id="ec-data">{"dec": ",", "tpu": "Temps précessionnel humain", "yearDay": "Jour de l'année", "defaultFus": 0, "phases": ["nouvelle lune", "premier croissant", "premier quartier", "gibbeuse croissante", "pleine lune", "gibbeuse décroissante", "dernier quartier", "dernier croissant"], "locale": "fr-FR", "day": "jour", "listH": "Les éclipses de", "solarE": "Éclipse de Soleil", "lunarE": "Éclipse de Lune", "S": "Soleil", "L": "Lune", "tS": {"t": "totale", "a": "annulaire", "p": "partielle"}, "tL": {"t": "totale", "p": "partielle", "n": "pénombrale"}, "ratio": "Rapport", "mag": "Magnitude", "gamma": "γ", "dist": "Distance de la Lune", "km": "km", "sumTpl": "En {y} : {s} éclipses de Soleil et {l} de Lune.", "none": "Aucune éclipse cette année.", "newM": "nouvelle lune", "fullM": "pleine lune", "winL": "saison des éclipses", "utc": "UTC", "at": "à", "nodeD": "Soleil–nœud", "closer": "La Lune paraît plus grande que le Soleil", "smaller": "La Lune paraît plus petite que le Soleil", "inner": "Anneau intérieur : nouvelles lunes", "outer": "Anneau extérieur : pleines lunes", "monL": "mois", "yearBeg": "1er janv.", "where": "Axe de l'ombre au maximum", "near": "Point sublunaire au maximum", "localNew": "Heure nouvelle locale", "localSI": "Heure locale (soleil moyen)", "pen": "Pénombre : environ {p} mille km de diamètre", "miss": "L'axe de l'ombre manque la Terre : éclipse partielle seulement, aux hautes latitudes", "visL": "Cercle pointillé : où la Lune est au-dessus de l'horizon", "tot": "totalité ici", "ann": "annularité ici", "partialOnly": "éclipse partielle ici", "pick": "Choisissez une éclipse dans le tableau ou sur le cadran.", "noEc": "Aucune éclipse cette année.", "full": "", "siL": "Temps standard (SI)", "tpuL": "Temps précessionnel humain (TPH)"}</script>
+<script src="../../assets/eclipse.js?v=44" defer></script>
+<footer class="sitefoot">
+<p><b>Temps précessionnel humain · Calendrier précessionnel humain</b></p>
+<p>Un système personnel de mesure du temps, indépendant des dogmes : l'heure comme angle, l'année ancrée au solstice, les ères selon la précession. Il ne remplace ni l'heure civile ni les normes officielles.</p>
+<p>Mis à jour: 6 octobre 2026</p>
+<p class="license">Textes : <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr" rel="license">CC BY-SA 4.0</a> · Code : <a href="https://www.gnu.org/licenses/gpl-3.0.html" rel="license">GNU GPLv3</a></p>
+<p class="visitors">Visiteurs: <span id="gc-total">·</span></p>
+<script data-goatcounter="https://carstian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>(function(){var el=document.getElementById("gc-total");function g(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}setTimeout(function(){g("https://carstian.goatcounter.com/counter/TOTAL.json").then(function(d){el.textContent=d.count_unique||d.count}).catch(function(){el.textContent="—"})},1500)})();</script>
+</footer>
+</body>
+</html>
