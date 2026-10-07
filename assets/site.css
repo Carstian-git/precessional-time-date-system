@@ -246,6 +246,7 @@ h1.sl-h1{font-size:clamp(1.5rem,3vw,2.1rem)}
 .sl-ctl input,.sl-ctl select{min-height:34px}
 .sl-jumprow{align-items:center}
 @media (min-width:1000px) and (min-height:720px){.sl-ctl{position:sticky;top:0;z-index:5;background:var(--bg);padding-block:8px;border-bottom:1px solid var(--rule)}}
+.sl-note{margin:0;font-size:12px;opacity:.8;max-width:100ch}
 .sl-clock{display:flex;flex-wrap:wrap;gap:2px 22px;margin:0;font-size:13px}
 .sl-clock code{font-size:12px;overflow-wrap:anywhere}
 .sl-board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 20px;align-items:start}

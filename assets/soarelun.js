@@ -538,7 +538,12 @@ function play() {
 }
 {
   buildDials(); buildGlobe();
-  $("sl-speed").innerHTML = D.speeds.map(([v, l]) => `<option value="${v}"${v === 1 ? " selected" : ""}>${l}</option>`).join("");
+  const fillSpeeds = () => {
+    const prev = parseFloat($("sl-speed").value) || 1, L = $("sl-su").value === "tpu" ? D.speedsTpu : D.speeds;
+    let best = L[0][0]; for (const [v] of L) if (Math.abs(Math.log(v / prev)) < Math.abs(Math.log(best / prev))) best = v;
+    $("sl-speed").innerHTML = L.map(([v, l]) => `<option value="${v}"${v === best ? " selected" : ""}>${l}</option>`).join("");
+  };
+  fillSpeeds(); $("sl-su").addEventListener("change", fillSpeeds);
   $("sl-when").addEventListener("change", e => { const v = parseLocal(e.target.value); if (v !== null) { stop(); setT(v); } });
   { let opts = ""; for (let k = -17; k <= 18; k++) opts += `<option value="${k}">F${k >= 0 ? "+" : "−"}${pad(Math.abs(k))}</option>`; $("sl-fus").innerHTML = opts; $("sl-fus").value = String(D.defaultFus); }
   $("sl-fus").addEventListener("change", () => { render(); renderYear(); });
