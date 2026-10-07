@@ -78,7 +78,7 @@
 <p class="license">Textes : <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr" rel="license">CC BY-SA 4.0</a> · Code : <a href="https://www.gnu.org/licenses/gpl-3.0.html" rel="license">GNU GPLv3</a></p>
 <p class="visitors">Visiteurs: <span id="gc-total">·</span></p>
 <script data-goatcounter="https://carstian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
-<script>(function(){var el=document.getElementById("gc-total");function g(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}var p=encodeURIComponent(location.pathname);setTimeout(function(){g("https://carstian.goatcounter.com/counter/"+p+".json").then(function(d){el.textContent=d.count}).catch(function(){el.textContent="0"})},2500)})();</script>
+<script>(function(){var el=document.getElementById("gc-total");function g(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}setTimeout(function(){g("https://carstian.goatcounter.com/counter/TOTAL.json").then(function(d){el.textContent=d.count_unique||d.count}).catch(function(){el.textContent="—"})},1500)})();</script>
 </footer>
 </body>
 </html>
