@@ -415,7 +415,7 @@ function ingresses(b, t0, t1) {
 function renderTrace(t) {
   const b = BODIES.find(x => x.id === $("pl-planet").value), win = parseFloat($("pl-win").value) * 365.25 * 864e5, t0 = t - win / 2, t1 = t + win / 2;
   const axSel = $("pl-ax").value, nmOn = $("pl-nm").checked;
-  const w = 800, h = 500, x0 = nmOn ? 112 : 58, x1 = w - 14, yT = 34, yB = h - 26, N = 300; const pts = []; let u = b.lon(t0), prev = u;
+  const w = 640, h = 500, x0 = nmOn ? 112 : 58, x1 = w - 14, yT = 34, yB = h - 26, N = 300; const pts = []; let u = b.lon(t0), prev = u;
   for (let i = 0; i <= N; i++) { const tt = t0 + win * i / N, l = b.lon(tt); u += delta(l, prev); prev = l; pts.push([tt, u]); }
   let mn = Math.min(...pts.map(p => p[1])), mx = Math.max(...pts.map(p => p[1]));
   mn = Math.floor(mn / 30) * 30; mx = Math.max(mn + 30, Math.ceil(mx / 30) * 30);
