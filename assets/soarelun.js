@@ -385,15 +385,15 @@ function renderNodes(t) {
   s += consBand(t, c, 174, 198, sl, ml);
   $("sl-nodes-dyn").innerHTML = s;
   /* vedere laterală */
-  const w = 340, h = 150, x0 = 10, ys = 11, x = d => x0 + (mod(d + 180, 360)) / 360 * (w - 2 * x0), y = b => h / 2 - b * ys;
+  const w = 400, h = 400, x0 = 18, ys = 34, x = d => x0 + (mod(d + 180, 360)) / 360 * (w - 2 * x0), y = b => h / 2 - b * ys;
   let g = `<rect x="${x0}" y="${y(LIM_NEW)}" width="${w - 2 * x0}" height="${f1(2 * LIM_NEW * ys)}" fill="var(--sun)" opacity=".18"/>`;
   g += `<line x1="${x0}" x2="${w - x0}" y1="${h / 2}" y2="${h / 2}" stroke="var(--ink)" stroke-width="1.2"/>`;
   let p = ""; for (let d = -180; d <= 180; d += 4) p += (d === -180 ? "M" : "L") + f1(x(d)) + " " + f1(y(5.145 * Math.sin(rad(d))));
-  g += `<path d="${p}" fill="none" stroke="var(--moon)" stroke-width="1.6" opacity=".7"/>`;
-  g += `<text x="${x0}" y="${y(5.145) - 3}" font-size="10" class="mute">+5,1°</text><text x="${x0}" y="${y(-5.145) + 11}" font-size="10" class="mute">−5,1°</text>`;
-  g += `<text x="${x(0)}" y="${h - 2}" font-size="11" text-anchor="middle">☊</text><text x="${x(180)}" y="${h - 2}" font-size="11" text-anchor="middle">☋</text>`;
+  g += `<path d="${p}" fill="none" stroke="var(--moon)" stroke-width="2.4" opacity=".75"/>`;
+  g += `<text x="${x0}" y="${y(5.145) - 3}" font-size="13" class="mute">+5,1°</text><text x="${x0}" y="${y(-5.145) + 11}" font-size="13" class="mute">−5,1°</text>`;
+  g += `<text x="${x(0)}" y="${h - 4}" font-size="16" text-anchor="middle">☊</text><text x="${x(180)}" y="${h - 4}" font-size="16" text-anchor="middle">☋</text>`;
   const lat = latLuna(t), dm = delta(ml, om), ds = delta(sl, om);
-  g += `<circle cx="${f1(x(ds))}" cy="${h / 2}" r="5" fill="var(--sun)" stroke="var(--face)"/><circle cx="${f1(x(dm))}" cy="${f1(y(lat))}" r="4" fill="var(--moon)" stroke="var(--face)"/>`;
+  g += `<circle cx="${f1(x(ds))}" cy="${h / 2}" r="9" fill="var(--sun)" stroke="var(--face)" stroke-width="1.6"/><circle cx="${f1(x(dm))}" cy="${f1(y(lat))}" r="7" stroke-width="1.6" fill="var(--moon)" stroke="var(--face)"/>`;
   $("sl-side").innerHTML = g;
   const dNod = Math.min(Math.abs(mod(sl - om, 180)), 180 - Math.abs(mod(sl - om, 180)));
   const seas = dNod < LIM_SEZON;

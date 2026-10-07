@@ -250,13 +250,13 @@ h1.sl-h1{font-size:clamp(1.5rem,3vw,2.1rem)}
 .sl-note{margin:0;font-size:12px;opacity:.8;max-width:100ch}
 .sl-clock{display:flex;flex-wrap:wrap;gap:2px 22px;margin:0;font-size:13px}
 .sl-clock code{font-size:12px;overflow-wrap:anywhere}
-.pl-tab{font-size:11.5px;min-width:0}.pl-tab th{font-size:9.5px}.pl-tab td,.pl-tab th{padding:3px 8px 3px 0}.sl-card .out.scroll{overflow-x:auto}.sl-board.pl-board{grid-template-columns:repeat(2,minmax(0,1fr))}.pl-wide{grid-column:1/-1}.pl-board .sl-card svg{max-height:none}.pl-board .sl-card svg#pl-trace{max-height:none}@media (max-width:760px){.sl-board.pl-board{grid-template-columns:minmax(0,1fr)}}
+.pl-tab{font-size:11.5px;min-width:0}.pl-tab th{font-size:9.5px}.pl-tab td,.pl-tab th{padding:3px 8px 3px 0}.sl-card .out.scroll{overflow-x:auto}.sl-board.pl-board{grid-template-columns:repeat(2,minmax(0,1fr))}.pl-wide{grid-column:1/-1}.pl-board .sl-card svg{max-height:none}.pl-board .sl-card svg#pl-trace{max-height:none}.pl-board .sl-card svg#pl-trace{width:100%;max-width:none;height:auto;aspect-ratio:1000/500}.pl-board .out.scroll{height:600px;overflow:auto}.pl-board #pl-t{min-height:7em}.sl-clock{min-height:2.9em}@media (max-width:760px){.sl-clock{min-height:6.6em}.pl-board #pl-t{min-height:12.5em}}@media (max-width:760px){.sl-board.pl-board{grid-template-columns:minmax(0,1fr)}}
 .sl-board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 20px;align-items:start}
 @media (max-width:1000px){.sl-board{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}}
 .sl-card{display:flex;flex-direction:column;gap:8px;min-width:0;border-top:2px solid var(--ink);padding-top:8px}
 .sl-card h2{font:400 1.25rem/1.1 var(--f-display);margin:0}
 .sl-card svg{width:100%;height:auto;max-height:min(33vh,320px)}
-.sl-card svg#sl-side{max-height:110px}
+.sl-board2{grid-template-columns:repeat(2,minmax(0,1fr))}.sl-board2 .sl-card svg{max-height:none}.sl-board2 .sl-card svg#sl-side{border:1px solid var(--rule)}.sl-board2 #sl-r,.sl-board2 #sl-n,.sl-board2 #sl-e{min-height:9.5em}@media (max-width:760px){.sl-board2{grid-template-columns:minmax(0,1fr)}}
 .sl-card .out .big{font-size:clamp(.95rem,1.4vw,1.15rem)}
 .sl-card .out .small{font-size:11.5px}
 .sl-helph,.sl-year h2{font:400 1.6rem/1.15 var(--f-display);margin:0 0 12px;text-wrap:balance}
