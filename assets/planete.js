@@ -414,31 +414,55 @@ function ingresses(b, t0, t1) {
 }
 function renderTrace(t) {
   const b = BODIES.find(x => x.id === $("pl-planet").value), win = parseFloat($("pl-win").value) * 365.25 * 864e5, t0 = t - win / 2, t1 = t + win / 2;
-  const w = 1000, h = 500, x0 = 40, x1 = w - 14, yT = 34, yB = h - 26, N = 300; const pts = []; let u = b.lon(t0), prev = u;
+  const axSel = $("pl-ax").value, nmOn = $("pl-nm").checked;
+  const w = 1000, h = 500, x0 = nmOn ? 112 : 58, x1 = w - 14, yT = 34, yB = h - 26, N = 300; const pts = []; let u = b.lon(t0), prev = u;
   for (let i = 0; i <= N; i++) { const tt = t0 + win * i / N, l = b.lon(tt); u += delta(l, prev); prev = l; pts.push([tt, u]); }
   let mn = Math.min(...pts.map(p => p[1])), mx = Math.max(...pts.map(p => p[1]));
   mn = Math.floor(mn / 30) * 30; mx = Math.max(mn + 30, Math.ceil(mx / 30) * 30);
   const X = tt => x0 + (tt - t0) / win * (x1 - x0), Y = l => yB - (l - mn) / (mx - mn) * (yB - yT);
   let s = "";
-  for (let l = mn; l <= mx; l += 30) {
-    s += `<line x1="${x0}" x2="${x1}" y1="${f1(Y(l))}" y2="${f1(Y(l))}" stroke="var(--rule)" stroke-width="${l % 360 === 0 ? 1.4 : .7}"/>`;
-    if (l < mx) s += `<text x="${x0 - 4}" y="${f1((Y(l) + Y(l + 30)) / 2)}" font-size="${(mx - mn) > 150 ? 8 : 13}" text-anchor="end" dominant-baseline="central" fill="var(--ink)">${SG[mod(l / 30, 12)]}</text>`;
+  const pxDeg = (yB - yT) / (mx - mn), labs = [];
+  const hl = (l, w2) => `<line x1="${x0}" x2="${x1}" y1="${f1(Y(l))}" y2="${f1(Y(l))}" stroke="var(--rule)" stroke-width="${w2}"/>`;
+  if (axSel === "cn") {
+    s += hl(mn, .7) + hl(mx, .7);
+    for (let n = Math.floor(mn / 360) - 1; n <= Math.ceil(mx / 360) + 1; n++) for (let i = 0; i < 13; i++) {
+      const a = consEdge(i, t) + 360 * n; let b2 = consEdge((i + 1) % 13, t) + 360 * n; if (b2 <= a) b2 += 360;
+      if (b2 < mn || a > mx) continue;
+      if (a > mn && a < mx) s += hl(a, i === 0 ? 1.4 : .9);
+      labs.push({lo: Math.max(a, mn), hi: Math.min(b2, mx), g: "", n: consName(i), ab: CONS[i][0], big: false});
+    }
+  } else {
+    for (let l = mn; l <= mx; l += 30) { s += hl(l, l % 360 === 0 ? 1.4 : .7);
+      if (l < mx) labs.push({lo: l, hi: l + 30, g: SG[mod(l / 30, 12)], n: D.signs[mod(l / 30, 12)], ab: "", big: true}); }
   }
+  { let lastY = 1e9;
+    for (const L of labs.sort((p, q) => (q.lo + q.hi) - (p.lo + p.hi))) {
+      const band = (L.hi - L.lo) * pxDeg, yc = Y((L.lo + L.hi) / 2);
+      const fs = L.big ? Math.max(10, Math.min(24, band * .72)) : (nmOn ? 14 : 12);
+      if (band < 9 || (lastY !== 1e9 && Math.abs(lastY - yc) < fs * 1.1)) continue;
+      lastY = yc;
+      const nm = L.big ? (nmOn ? L.n.split(" (")[0] : "") : (nmOn ? L.n.split(" (")[0] : L.ab);
+      const nfs = Math.max(9, Math.min(13, fs * .6));
+      s += `<text x="${x0 - 6}" y="${f1(yc)}" text-anchor="end" dominant-baseline="central" fill="var(--ink)">` +
+        (nm ? `<tspan font-size="${f1(L.big ? nfs : fs)}"${L.big ? "" : ' font-weight="600"'}>${nm}</tspan>` : "") +
+        (L.g ? `<tspan font-size="${f1(fs)}" dx="${nm ? 5 : 0}">${L.g}</tspan>` : "") + `</text>`;
+    } }
   /* diviziuni: ani (linii verticale puternice) și luni, în sistemul ales (SI: 12 luni, TPU: 13 luni de 28 de zile) */
   const monSel = $("pl-mon").value, winY = win / (365.25 * 864e5), showM = winY <= 4 && monSel !== "no" && !["jupiter", "saturn", "chiron", "uranus", "neptune", "pluto"].includes(b.id), DAYMS = 864e5;
   const mf = new Intl.DateTimeFormat(document.documentElement.lang || "ro", {month: "short", timeZone: "UTC"});
   const inW = tt => tt >= t0 && tt <= t1;
+  const pxYr = (x1 - x0) / winY, stepL = pxYr >= 12 ? 1 : [2, 5, 10, 25, 50, 100].find(n => pxYr * n >= 12) || 100;
   const yLine = tt => `<line x1="${f1(X(tt))}" x2="${f1(X(tt))}" y1="${yT}" y2="${yB}" stroke="var(--ink)" stroke-width="1.6" opacity=".6"/>`;
   const mLine = tt => `<line x1="${f1(X(tt))}" x2="${f1(X(tt))}" y1="${yT}" y2="${yB}" stroke="var(--mute)" stroke-width=".7" stroke-dasharray="2 3" opacity=".75"/>`;
   const mLab = (ta, tb, txt) => { const a = Math.max(ta, t0), b2 = Math.min(tb, t1), wpx = X(b2) - X(a); return wpx >= 13 ? `<text x="${f1((X(a) + X(b2)) / 2)}" y="${yB - 6}" font-size="9.5" text-anchor="middle" fill="var(--mute)">${txt}</text>` : ""; };
   let gr = "";
   if (monSel === "tpu") {
     const k0 = anPentruZi(Math.floor(t0 / DAYMS)), k1 = anPentruZi(Math.floor(t1 / DAYMS)) + 1;
-    for (let k = k0; k <= k1; k++) { const ys = inceputAn(k) * DAYMS; if (inW(ys)) gr += yLine(ys);
+    for (let k = k0; k <= k1; k++) { const ys = inceputAn(k) * DAYMS; if (inW(ys) && mod(k, stepL) === 0) gr += yLine(ys);
       if (showM) for (let m = 1; m <= 13; m++) { const ta = ys + 28 * (m - 1) * DAYMS, tb = ta + 28 * DAYMS; if (m > 1 && inW(ta)) gr += mLine(ta); if (tb >= t0 && ta <= t1) gr += mLab(ta, tb, m); } }
   } else {
     const y0 = new Date(t0).getUTCFullYear(), y1 = new Date(t1).getUTCFullYear() + 1;
-    for (let y = y0; y <= y1; y++) { const ys = UTCY(y, 0, 1); if (inW(ys)) gr += yLine(ys);
+    for (let y = y0; y <= y1; y++) { const ys = UTCY(y, 0, 1); if (inW(ys) && mod(y, stepL) === 0) gr += yLine(ys);
       if (showM) for (let m = 0; m < 12; m++) { const ta = UTCY(y, m, 1), tb = UTCY(y, m + 1, 1); if (m > 0 && inW(ta)) gr += mLine(ta); if (tb >= t0 && ta <= t1) gr += mLab(ta, tb, mf.format(new Date(ta))); } }
   }
   s += gr;
@@ -505,7 +529,7 @@ function nextRetro(dir) { /* următoarea schimbare de sens a planetei alese (sta
   $("pl-play").onclick = play; $("pl-now").onclick = () => { stop(); setT(Date.now()); };
   document.querySelectorAll("[data-step]").forEach(b => b.onclick = () => { stop(); setT(T0 + parseFloat(b.dataset.step) * 864e5); });
   $("pl-chiron").checked = true;
-  for (const id of ["pl-chiron", "pl-planet", "pl-win", "pl-orb", "pl-mon"]) $(id).addEventListener("change", render);
+  for (const id of ["pl-chiron", "pl-planet", "pl-win", "pl-orb", "pl-mon", "pl-ax", "pl-nm"]) $(id).addEventListener("change", render);
   $("pl-nextretro").onclick = () => { stop(); setT(nextRetro(1)); };
   $("pl-prevretro").onclick = () => { stop(); setT(nextRetro(-1)); };
   $("pl-jump").innerHTML = D.jumps.map(([lab, iso, pl]) => `<button type="button" data-iso="${iso}" data-pl="${pl}">${lab}</button>`).join("");
