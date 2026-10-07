@@ -481,7 +481,7 @@ const latTxt = (v) => `${num(Math.abs(v), 1)}°${v >= 0 ? "N" : "S"}`, lonTxt = 
 const offTxt = m0 => { const m = Math.round(m0), nm = Math.round(Math.abs(m) * 1.5), sg = m < 0 ? "−" : "+"; return isTPU() ? `${sg}${Math.floor(nm / 60)}:${pad(nm % 60)} ${D.newUnit}` : `${sg}${Math.floor(Math.abs(m) / 60)}:${pad(Math.abs(m) % 60)}`; };
 function renderGlobe(L) {
   const c = GC;
-  $("ec-offl").textContent = offTxt(GOFF); $("ec-off").value = GOFF;
+  $("ec-offl").textContent = $("ec-offl2").textContent = offTxt(GOFF); $("ec-off").value = $("ec-off2").value = GOFF;
   if (!L) { for (const id of ["se-vis", "se-shadow", "se-sub"]) $(id).innerHTML = ""; $("se-night").setAttribute("d", ""); $("ec-e").innerHTML = `<div class="small">${D.pick}</div>`; return; }
   const ev = L.ev, ms = ev.t + GOFF * 6e4, sub = subsolar(ms), lu = sublunar(ms), dec = sub.lat, tu = mod(ms / 1000, 86400);
   const td = Math.tan(rad(Math.abs(dec) < 0.05 ? 0.05 * (dec < 0 ? -1 : 1) : dec));
@@ -513,6 +513,67 @@ function renderGlobe(L) {
   const [sx, sy] = gproj(sub.lat, sub.lon);
   sb += `<circle cx="${f1(sx)}" cy="${f1(sy)}" r="5.5" fill="none" stroke="var(--sun)" stroke-width="1.6"/><circle cx="${f1(sx)}" cy="${f1(sy)}" r="1.6" fill="var(--sun)"/>`;
   $("se-vis").innerHTML = vis; $("se-shadow").innerHTML = sh; $("se-sub").innerHTML = sb; $("ec-e").innerHTML = o;
+}
+
+/* ---------- cadranele solare: planul Pământului (planul fundamental) și cerul din locul maximului ---------- */
+const sub3 = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]], dot3 = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+const cross3 = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+const nrm3 = a => { const n = Math.hypot(...a); return a.map(x => x / n); };
+function solVecs(ms) { const T = Tcen(ms), eps = rad(23.4393 - 0.0130 * T), [ml, mb] = lunaLonLat(ms); return {Mv: vecEcl(ml, mb, distLuna(ms), eps), Sv: vecEcl(lonSoare(ms), 0, AU, eps)}; }
+/* axa umbrei în planul perpendicular pe ea, care trece prin centrul Pământului (x spre est, y spre nord, în raze ale Pământului) */
+function fund(ms) {
+  const {Mv, Sv} = solVecs(ms), dv = sub3(Mv, Sv), Dn = Math.hypot(...dv), d = dv.map(x => x / Dn), b = dot3(Mv, d), tt = -b;
+  const C = sub3(Mv, d.map(x => x * b)), yv = nrm3(sub3([0, 0, 1], d.map(x => x * d[2]))), xv = cross3(d, yv), Lu = R_LUNA * Dn / (R_SOARE - R_LUNA);
+  return {x: dot3(C, xv) / R_ECHIV, y: dot3(C, yv) / R_ECHIV, rP: (R_LUNA + tt * (R_SOARE + R_LUNA) / Dn) / R_ECHIV, rU: R_LUNA * (1 - tt / Lu) / R_ECHIV};
+}
+const FC = [220, 235], FR = 80;
+const fpx = v => FC[0] + v * FR, fpy = v => FC[1] - v * FR;
+function renderFund(L) {
+  const el = $("ec-fp"), out = $("ec-fo");
+  if (!L || !L.ev.sol) { el.innerHTML = `<circle cx="${FC[0]}" cy="${FC[1]}" r="${FR}" fill="var(--face)" stroke="var(--ink)" stroke-width="1.6"/>`; out.innerHTML = `<div class="small">${D.needSol}</div>`; return; }
+  const ev = L.ev, ms = ev.t + GOFF * 6e4;
+  if (!ev._fp) { const a = []; for (let q = -240; q <= 240; q += 6) a.push(fund(ev.t + q * 6e4)); ev._fp = a; ev._f0 = fund(ev.t); }
+  const tr = ev._fp, f0 = ev._f0, F = fund(ms), poly = tr.map((p, i) => (i ? "L" : "M") + f1(fpx(p.x)) + " " + f1(fpy(p.y))).join("");
+  const bw = (2 * f0.rP * FR).toFixed(1);
+  let s = `<defs><clipPath id="ec-fclip"><circle cx="${FC[0]}" cy="${FC[1]}" r="${FR}"/></clipPath></defs>`;
+  s += `<line x1="20" y1="${FC[1]}" x2="420" y2="${FC[1]}" stroke="var(--rule)"/><line x1="${FC[0]}" y1="40" x2="${FC[0]}" y2="430" stroke="var(--rule)"/>`;
+  s += `<path d="${poly}" fill="none" stroke="var(--sun)" stroke-opacity=".16" stroke-width="${bw}" stroke-linecap="round" stroke-linejoin="round"/>`;
+  s += `<circle cx="${FC[0]}" cy="${FC[1]}" r="${FR}" fill="var(--sea)" stroke="var(--ink)" stroke-width="1.8"/>`;
+  s += `<path d="${poly}" fill="none" stroke="var(--ink)" stroke-opacity=".22" stroke-width="${bw}" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#ec-fclip)"/>`;
+  s += `<path d="${poly}" fill="none" stroke="var(--ink)" stroke-width="1.4" stroke-dasharray="5 3"/>`;
+  s += `<line x1="${FC[0]}" y1="${FC[1]}" x2="${f1(fpx(f0.x))}" y2="${f1(fpy(f0.y))}" stroke="var(--ink)" stroke-width="1"/><circle cx="${f1(fpx(f0.x))}" cy="${f1(fpy(f0.y))}" r="3" fill="var(--ink)"/>`;
+  s += `<text x="${f1((FC[0] + fpx(f0.x)) / 2 + 6)}" y="${f1((FC[1] + fpy(f0.y)) / 2 - 4)}" font-size="12" fill="var(--ink)">γ = ${num(ev.gamma, 3)}</text>`;
+  s += `<text x="${FC[0] + 5}" y="48" font-size="12" class="mute">N</text><text x="410" y="${FC[1] - 5}" font-size="12" class="mute" text-anchor="end">E</text>`;
+  s += `<circle cx="${f1(fpx(F.x))}" cy="${f1(fpy(F.y))}" r="${f1(F.rP * FR)}" fill="none" stroke="var(--sun)" stroke-width="2"/>`;
+  s += `<circle cx="${f1(fpx(F.x))}" cy="${f1(fpy(F.y))}" r="${Math.max(2.2, Math.abs(F.rU) * FR).toFixed(1)}" fill="${F.rU > 0 ? "var(--ink)" : "none"}" stroke="var(--ink)" stroke-width="1.6"/>`;
+  s += `<text x="${FC[0]}" y="${FC[1] + FR + 18}" font-size="11" text-anchor="middle" class="mute">${D.fpEarth}</text>`;
+  el.innerHTML = s;
+  const g = Math.hypot(F.x, F.y), on = g < 1 + F.rP;
+  out.innerHTML = `<div class="big">${dateTxt(ms)} · ${timeTxt(ms)}${GOFF ? " (" + offTxt(GOFF) + ")" : ""}</div>` +
+    `<div class="small">${D.fpAxis.replace("{g}", num(g, 2))} · ${g < 1 ? D.fpIn : on ? D.fpPartial : D.fpOut}</div>` +
+    `<div class="small">${D.fpPen.replace("{p}", num(F.rP, 2))} · ${F.rU > 0 ? D.fpUmb.replace("{u}", num(F.rU * 2 * R_ECHIV, 0)) : D.fpAnt.replace("{u}", num(-F.rU * 2 * R_ECHIV, 0))}</div>`;
+}
+const gmstR = ms => rad(gmstDeg(ms));
+function renderSky(L) {
+  const el = $("ec-sk"), out = $("ec-sko");
+  if (!L || !L.ev.sol) { el.innerHTML = `<circle cx="220" cy="220" r="70" fill="var(--sun)" opacity=".3"/>`; out.innerHTML = `<div class="small">${D.needSol}</div>`; return; }
+  const ev = L.ev, ms = ev.t + GOFF * 6e4, obs = ev.U;
+  const th = rad(obs.lon) + gmstR(ms), la = rad(obs.lat), O = [R_ECHIV * Math.cos(la) * Math.cos(th), R_ECHIV * Math.cos(la) * Math.sin(th), R_ECHIV * Math.sin(la)];
+  const {Mv, Sv} = solVecs(ms), rs = sub3(Sv, O), rm = sub3(Mv, O), us = nrm3(rs), um = nrm3(rm);
+  const ss = Math.asin(R_SOARE / Math.hypot(...rs)) * 180 / Math.PI, sm = Math.asin(R_LUNA / Math.hypot(...rm)) * 180 / Math.PI, sep = Math.acos(Math.min(1, dot3(us, um))) * 180 / Math.PI;
+  const nv = nrm3(sub3([0, 0, 1], us.map(x => x * us[2]))), ev_ = nrm3(cross3([0, 0, 1], us)), dl = sub3(um, us), K = 70 / ss;
+  const px = -dot3(dl, ev_) * 180 / Math.PI * K, py = dot3(dl, nv) * 180 / Math.PI * K, alt = Math.asin(dot3(nrm3(O), us)) * 180 / Math.PI;
+  const mag = (ss + sm - sep) / (2 * ss);
+  let s = `<rect x="0" y="0" width="440" height="440" fill="var(--face)"/>`;
+  s += `<circle cx="220" cy="220" r="70" fill="var(--sun)" opacity="${alt < 0 ? .25 : .95}"/>`;
+  s += `<circle cx="${f1(220 + px)}" cy="${f1(220 - py)}" r="${f1(sm * K)}" fill="var(--ink)" opacity=".92"/>`;
+  s += `<circle cx="220" cy="220" r="70" fill="none" stroke="var(--ink)" stroke-width=".8" stroke-dasharray="3 3"/>`;
+  s += `<text x="14" y="26" font-size="12" class="mute">${D.skN}</text><text x="426" y="26" font-size="12" class="mute" text-anchor="end">${D.skUp}</text>`;
+  el.innerHTML = s;
+  out.innerHTML = `<div class="big">${dateTxt(ms)} · ${timeTxt(ms)}${GOFF ? " (" + offTxt(GOFF) + ")" : ""}</div>` +
+    `<div class="small">${D.skAt}: ${latTxt(obs.lat)}, ${lonTxt(obs.lon)}</div>` +
+    `<div class="small">${D.skSize}: ${D.S} ${num(2 * ss, 3)}° · ${D.L} ${num(2 * sm, 3)}° · ${D.ratio} ${num(sm / ss, 3)}</div>` +
+    `<div class="small">${D.skMag}: ${mag > 0 ? num(mag, 3) : "0"}${mag >= 1 && sm >= ss ? " · " + D.skTot : mag > 0 && sm < ss && sep < ss - sm ? " · " + D.skAnn : ""}</div>` + (alt < 0 ? `<div class="small">${D.skBelow}</div>` : "");
 }
 
 /* ---------- lista și rezumatul ---------- */
@@ -548,7 +609,9 @@ function renderLists() {
 }
 function pick(l) { SEL = l; GOFF = 0; renderAll(); }
 function select(l) { stopY(); stopS(); pick(l); }
-function renderAll() { renderRings(); renderLists(); renderReadout(); renderGlobe(SEL); renderTable(); }
+function renderAll() { renderRings(); renderLists(); renderReadout(); renderGlobe(SEL); renderTable(); renderFund(SEL); renderSky(SEL); setEnabled(); }
+function setEnabled() { const on = !!SEL; for (const id of ["ec-splay", "ec-splay2", "ec-off", "ec-off2"]) { $(id).disabled = !on; $(id).title = on ? "" : D.noEc; } }
+function renderTime() { renderGlobe(SEL); renderFund(SEL); renderSky(SEL); }
 function setYear(y, keep) {
   Y = Math.max(1900, Math.min(2200, y || 2026)); $("ec-y").value = Y; if (!keep) { TC = null; stopY(); }
   const L = evsOf(Y), now = Date.now(); SEL = L.find(l => l.ev.t >= now) || L[0] || null; GOFF = 0;
@@ -575,18 +638,18 @@ function playY() {
   yLast = performance.now(); yTimer = requestAnimationFrame(frameY);
 }
 /* animația umbrei: de la −4 h la +4 h față de maximul eclipsei alese */
-function stopS() { if (sTimer) { cancelAnimationFrame(sTimer); sTimer = null; } $("ec-splay").textContent = "▶ " + D.playS; }
+function stopS() { if (sTimer) { cancelAnimationFrame(sTimer); sTimer = null; } $("ec-splay").textContent = $("ec-splay2").textContent = "▶ " + D.playS; }
 function frameS(ts) {
   if (!sTimer) return;
   const dt = Math.min(.1, (ts - sLast) / 1000); sLast = ts; GOFF = Math.min(240, GOFF + dt * 48);
-  renderGlobe(SEL);
+  renderTime();
   if (GOFF >= 240) { stopS(); return; }
   sTimer = requestAnimationFrame(frameS);
 }
 function playS() {
   if (sTimer) { stopS(); return; }
-  stopY(); if (!SEL) return; if (GOFF >= 240) GOFF = -240; else if (GOFF === 0) GOFF = -240;
-  $("ec-splay").textContent = "■ " + D.pauseS; sLast = performance.now(); sTimer = requestAnimationFrame(frameS);
+  stopY(); if (!SEL) { const L = evsOf(Y)[0]; if (!L) return; pick(L); } if (GOFF >= 240) GOFF = -240; else if (GOFF === 0) GOFF = -240;
+  $("ec-splay").textContent = $("ec-splay2").textContent = "■ " + D.pauseS; sLast = performance.now(); sTimer = requestAnimationFrame(frameS);
 }
 {
   buildRings(); buildGlobe();
@@ -595,8 +658,8 @@ function playS() {
   $("ec-y").addEventListener("change", () => setYear(parseInt($("ec-y").value, 10)));
   $("ec-prev").onclick = () => setYear(Y - 1); $("ec-next").onclick = () => setYear(Y + 1);
   $("ec-cur").onclick = () => setYear(new Date().getUTCFullYear());
-  $("ec-play").onclick = playY; $("ec-splay").onclick = playS;
-  $("ec-off").addEventListener("input", e => { stopS(); GOFF = +e.target.value; renderGlobe(SEL); });
+  $("ec-play").onclick = playY; $("ec-splay").onclick = playS; $("ec-splay2").onclick = playS;
+  for (const id of ["ec-off", "ec-off2"]) $(id).addEventListener("input", e => { stopS(); GOFF = +e.target.value; renderTime(); });
   $("ec-mon").addEventListener("change", renderAll); $("ec-fus").addEventListener("change", renderAll);
   let rt = null; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (showDays() !== daysShown) renderRings(); }, 150); });
   const qy = new Date().getUTCFullYear(); setYear(qy >= 1900 && qy <= 2200 ? qy : 2026);
