@@ -20,8 +20,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../../assets/fonts.css?v=51">
-<link rel="stylesheet" href="../../assets/site.css?v=51">
+<link rel="stylesheet" href="../../assets/fonts.css?v=52">
+<link rel="stylesheet" href="../../assets/site.css?v=52">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Temps précessionnel humain · Calendrier précessionnel humain", "url": "https://carstian-git.github.io/precessional-time-date-system/fr/", "inLanguage": "fr", "description": "Les quatre repères de l'année, solstices et équinoxes, sur la roue de l'année en calendrier standard et en temps précessionnel humain, avec la déclinaison du Soleil et la durée du jour pour n'importe quelle latitude."}</script>
 </head>
 <body>
@@ -41,6 +41,7 @@
     <div class="field"><label for="an-fus" class="lbl">Fuseau (mode Fuseau)</label><select id="an-fus"></select></div>
     <div class="field"><label for="an-hem" class="lbl">Hémisphère</label><select id="an-hem"><option value="N">Nord</option><option value="S">Sud</option></select></div>
     <div class="field"><label for="an-lat" class="lbl">Latitude (°, + nord)</label><input id="an-lat" type="number" min="-89" max="89" step="1" value="45"></div>
+    <div class="field"><label for="an-lon" class="lbl">Longitude (°, + est)</label><input id="an-lon" type="number" min="-180" max="180" step="1" value="25"></div>
     <div class="field"><span class="lbl">&nbsp;</span><div class="ex-jump"><button type="button" id="an-prev">‹ année précédente</button><button type="button" id="an-cur">Année en cours</button><button type="button" id="an-next">année suivante ›</button></div></div>
     <div class="field"><span class="lbl">&nbsp;</span><button type="button" id="an-play" class="playbtn">▶ Parcourir l'année</button></div>
     <div class="field"><label for="an-sp" class="lbl">Vitesse</label><select id="an-sp"></select></div>
@@ -51,6 +52,10 @@
 <section class="sl-board sl-board2" aria-label="La roue de l'année">
   <article class="sl-card"><h2>La roue de l'année</h2><svg id="an-ring" viewBox="-28 -28 416 416" role="img" aria-label="La roue de l'année"></svg><p class="note">Sur la roue, l'année commence en haut, au solstice de décembre, comme dans le temps précessionnel humain. Les anneaux extérieurs sont les mois, les semaines et, s'il y a de la place, les jours. Le repère ☉ est le Soleil au jour choisi.</p><div class="out" id="an-r" aria-live="polite"></div></article>
   <article class="sl-card"><h2>Déclinaison du Soleil et durée du jour</h2><svg id="an-chart" viewBox="0 0 440 348" role="img" aria-label="Déclinaison du Soleil et durée du jour"></svg><div class="out" id="an-c" aria-live="polite"></div></article>
+</section>
+<section class="sl-board sl-board2" aria-label="L'analemme">
+  <article class="sl-card"><h2>L'analemme</h2><svg id="an-analema" viewBox="0 0 440 400" role="img" aria-label="L'analemme"></svg><div class="out" id="an-a" aria-live="polite"></div></article>
+  <article class="sl-card sl-txt"><h2>Ce qu'est l'analemme</h2><p class="note">L'analemme est la figure en huit que le Soleil trace dans le ciel si on le photographie chaque jour à la même heure. L'axe vertical est la déclinaison (les saisons), l'axe horizontal est l'équation du temps : de combien de minutes le midi solaire vrai s'écarte du midi moyen de l'horloge. Le point est le jour choisi, les cercles sont les quatre repères de l'année.</p><p class="note">Notre horloge mesure un Soleil imaginaire qui se déplace uniformément. Le vrai Soleil s'en écarte pour deux raisons : l'orbite de la Terre est elliptique, donc sa vitesse varie, et l'axe incliné fait que l'écliptique se projette sur l'équateur à des vitesses inégales. Ensemble, elles donnent un écart allant jusqu'à 16 minutes 25 secondes début novembre et −14 minutes 15 secondes à la mi-février. Pour trouver le midi vrai chez vous, saisissez la longitude.</p></article>
 </section>
 <section class="prose wide sl-year">
   <h2>Les points de bascule de l'année</h2>
@@ -66,8 +71,8 @@
 <section class="prose"><p>Pour le Soleil, la Lune et les nœuds lunaires, voyez la page ci-dessous.</p><p><a href="../soare-luna/">Soleil et Lune</a></p></section>
 <section class="prose"><h2>Sources</h2><div class="srcs"><a href="https://www.willbell.com/math/mc1.htm" rel="noopener">Jean Meeus, Astronomical Algorithms (Willmann-Bell)</a><a href="https://aa.usno.navy.mil/data/EarthSeasons" rel="noopener">Earth's Seasons, U.S. Naval Observatory</a></div></section>
 </main>
-<script type="application/json" id="an-data">{"dec": ",", "yearDay": "Jour de l'année", "defaultFus": 0, "seas": ["Hiver", "Printemps", "Été", "Automne"], "evN": ["Solstice de décembre", "Équinoxe de mars", "Solstice de juin", "Équinoxe de septembre"], "utc": "UTC", "doy": "Jour {n} sur {m}", "began": "Commencé", "lasts": "Dure {d} jours", "passed": "{a} écoulés, {b} jours restants", "sunLon": "Longitude du Soleil", "sunAng": "Angle sur la roue", "monthL": "mois", "dayL": "jour", "decL": "Déclinaison du Soleil", "dayLenL": "Durée du jour", "latL": "latitude", "newH": "heures nouvelles", "hours": "heures", "noonAlt": "Hauteur du Soleil à midi", "xNote": "Axe horizontal : l'année, avec les mois du système choisi.", "polarNight": "Nuit polaire : le Soleil ne se lève pas.", "polarDay": "Jour polaire : le Soleil ne se couche pas.", "thTPU": "Date (TPH) · heure nouvelle,", "play": "Parcourir l'année", "pause": "Arrêter", "speeds": [[3, "3 jours par seconde"], [10, "10 jours par seconde"], [30, "30 jours par seconde"]]}</script>
-<script src="../../assets/anotimpuri.js?v=51" defer></script>
+<script type="application/json" id="an-data">{"dec": ",", "yearDay": "Jour de l'année", "defaultFus": 0, "seas": ["Hiver", "Printemps", "Été", "Automne"], "evN": ["Solstice de décembre", "Équinoxe de mars", "Solstice de juin", "Équinoxe de septembre"], "utc": "UTC", "doy": "Jour {n} sur {m}", "began": "Commencé", "lasts": "Dure {d} jours", "passed": "{a} écoulés, {b} jours restants", "sunLon": "Longitude du Soleil", "sunAng": "Angle sur la roue", "monthL": "mois", "dayL": "jour", "decL": "Déclinaison du Soleil", "dayLenL": "Durée du jour", "latL": "latitude", "newH": "heures nouvelles", "hours": "heures", "noonAlt": "Hauteur du Soleil à midi", "xNote": "Axe horizontal : l'année, avec les mois du système choisi.", "polarNight": "Nuit polaire : le Soleil ne se lève pas.", "polarDay": "Jour polaire : le Soleil ne se couche pas.", "thTPU": "Date (TPH) · heure nouvelle,", "play": "Parcourir l'année", "pause": "Arrêter", "speeds": [[3, "3 jours par seconde"], [10, "10 jours par seconde"], [30, "30 jours par seconde"]], "eotL": "Équation du temps", "min": "min", "sec": "s", "fast": "le Soleil passe au méridien plus tôt que l'horloge", "slow": "le Soleil passe au méridien plus tard que l'horloge", "meanNoon": "Midi moyen", "trueNoon": "Midi solaire vrai", "lonL": "longitude"}</script>
+<script src="../../assets/anotimpuri.js?v=52" defer></script>
 <footer class="sitefoot">
 <p><b>Temps précessionnel humain · Calendrier précessionnel humain</b></p>
 <p>Un système personnel de mesure du temps, indépendant des dogmes : l'heure comme angle, l'année ancrée au solstice, les ères selon la précession. Il ne remplace ni l'heure civile ni les normes officielles.</p>

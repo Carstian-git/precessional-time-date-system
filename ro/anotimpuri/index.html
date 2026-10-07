@@ -20,8 +20,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../../assets/fonts.css?v=51">
-<link rel="stylesheet" href="../../assets/site.css?v=51">
+<link rel="stylesheet" href="../../assets/fonts.css?v=52">
+<link rel="stylesheet" href="../../assets/site.css?v=52">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Timpul precesional uman · Calendarul precesional uman", "url": "https://carstian-git.github.io/precessional-time-date-system/ro/", "inLanguage": "ro", "description": "Cele patru repere ale anului, solstițiile și echinocțiile, pe roata anului în calendarul standard și în Timpul precesional uman, cu declinația Soarelui și durata zilei pentru orice latitudine."}</script>
 </head>
 <body>
@@ -41,6 +41,7 @@
     <div class="field"><label for="an-fus" class="lbl">Fus (modul Fus)</label><select id="an-fus"></select></div>
     <div class="field"><label for="an-hem" class="lbl">Emisfera</label><select id="an-hem"><option value="N">Nordică</option><option value="S">Sudică</option></select></div>
     <div class="field"><label for="an-lat" class="lbl">Latitudine (°, + nord)</label><input id="an-lat" type="number" min="-89" max="89" step="1" value="45"></div>
+    <div class="field"><label for="an-lon" class="lbl">Longitudine (°, + est)</label><input id="an-lon" type="number" min="-180" max="180" step="1" value="25"></div>
     <div class="field"><span class="lbl">&nbsp;</span><div class="ex-jump"><button type="button" id="an-prev">‹ anul dinainte</button><button type="button" id="an-cur">Anul curent</button><button type="button" id="an-next">anul următor ›</button></div></div>
     <div class="field"><span class="lbl">&nbsp;</span><button type="button" id="an-play" class="playbtn">▶ Parcurge anul</button></div>
     <div class="field"><label for="an-sp" class="lbl">Viteza</label><select id="an-sp"></select></div>
@@ -51,6 +52,10 @@
 <section class="sl-board sl-board2" aria-label="Roata anului">
   <article class="sl-card"><h2>Roata anului</h2><svg id="an-ring" viewBox="-28 -28 416 416" role="img" aria-label="Roata anului"></svg><p class="note">Pe roată, anul începe sus, la solstițiul din decembrie, ca în Timpul precesional uman. Inelele de pe margine sunt lunile, săptămânile și, dacă încape, zilele. Cursorul ☉ este Soarele în ziua aleasă.</p><div class="out" id="an-r" aria-live="polite"></div></article>
   <article class="sl-card"><h2>Declinația Soarelui și durata zilei</h2><svg id="an-chart" viewBox="0 0 440 348" role="img" aria-label="Declinația Soarelui și durata zilei"></svg><div class="out" id="an-c" aria-live="polite"></div></article>
+</section>
+<section class="sl-board sl-board2" aria-label="Analema">
+  <article class="sl-card"><h2>Analema</h2><svg id="an-analema" viewBox="0 0 440 400" role="img" aria-label="Analema"></svg><div class="out" id="an-a" aria-live="polite"></div></article>
+  <article class="sl-card sl-txt"><h2>Ce este analema</h2><p class="note">Analema este figura în formă de 8 pe care o desenează Soarele pe cer dacă îl fotografiezi în fiecare zi la aceeași oră. Verticala este declinația (anotimpurile), orizontala este ecuația timpului: cu cât minute amiaza solară adevărată se abate de la amiaza medie a ceasului. Punctul este ziua aleasă, cercurile sunt cele patru repere ale anului.</p><p class="note">Ceasul nostru măsoară un Soare imaginar care se mișcă uniform. Soarele adevărat se abate de la el din două motive: orbita Pământului este eliptică, deci viteza lui variază, iar axa înclinată face ca ecliptica să se proiecteze pe ecuator cu viteze diferite. Suma lor dă abaterea de până la 16 minute 25 de secunde, spre începutul lui noiembrie, și −14 minute 15 secunde, spre mijlocul lui februarie. Ca să afli amiaza adevărată la locul tău, introdu longitudinea.</p></article>
 </section>
 <section class="prose wide sl-year">
   <h2>Momentele de cotitură ale anului</h2>
@@ -66,8 +71,8 @@
 <section class="prose"><p>Pentru Soare, Lună și nodurile lunare vezi pagina de mai jos.</p><p><a href="../soare-luna/">Soarele și Luna</a></p></section>
 <section class="prose"><h2>Surse</h2><div class="srcs"><a href="https://www.willbell.com/math/mc1.htm" rel="noopener">Jean Meeus, Astronomical Algorithms (Willmann-Bell)</a><a href="https://aa.usno.navy.mil/data/EarthSeasons" rel="noopener">Earth's Seasons, U.S. Naval Observatory</a></div></section>
 </main>
-<script type="application/json" id="an-data">{"dec": ",", "yearDay": "Ziua anului", "defaultFus": 3, "seas": ["Iarna", "Primăvara", "Vara", "Toamna"], "evN": ["Solstițiul din decembrie", "Echinocțiul din martie", "Solstițiul din iunie", "Echinocțiul din septembrie"], "utc": "UTC", "doy": "Ziua {n} din {m}", "began": "A început", "lasts": "Durează {d} zile", "passed": "au trecut {a}, mai sunt {b} zile", "sunLon": "Longitudinea Soarelui", "sunAng": "Unghiul pe roată", "monthL": "luna", "dayL": "ziua", "decL": "Declinația Soarelui", "dayLenL": "Durata zilei", "latL": "latitudinea", "newH": "ore noi", "hours": "ore", "noonAlt": "Înălțimea Soarelui la amiază", "xNote": "Axa orizontală: anul, cu lunile sistemului ales.", "polarNight": "Noapte polară: Soarele nu răsare.", "polarDay": "Zi polară: Soarele nu apune.", "thTPU": "Data (TPU) · ora nouă,", "play": "Parcurge anul", "pause": "Oprește", "speeds": [[3, "3 zile pe secundă"], [10, "10 zile pe secundă"], [30, "30 de zile pe secundă"]]}</script>
-<script src="../../assets/anotimpuri.js?v=51" defer></script>
+<script type="application/json" id="an-data">{"dec": ",", "yearDay": "Ziua anului", "defaultFus": 3, "seas": ["Iarna", "Primăvara", "Vara", "Toamna"], "evN": ["Solstițiul din decembrie", "Echinocțiul din martie", "Solstițiul din iunie", "Echinocțiul din septembrie"], "utc": "UTC", "doy": "Ziua {n} din {m}", "began": "A început", "lasts": "Durează {d} zile", "passed": "au trecut {a}, mai sunt {b} zile", "sunLon": "Longitudinea Soarelui", "sunAng": "Unghiul pe roată", "monthL": "luna", "dayL": "ziua", "decL": "Declinația Soarelui", "dayLenL": "Durata zilei", "latL": "latitudinea", "newH": "ore noi", "hours": "ore", "noonAlt": "Înălțimea Soarelui la amiază", "xNote": "Axa orizontală: anul, cu lunile sistemului ales.", "polarNight": "Noapte polară: Soarele nu răsare.", "polarDay": "Zi polară: Soarele nu apune.", "thTPU": "Data (TPU) · ora nouă,", "play": "Parcurge anul", "pause": "Oprește", "speeds": [[3, "3 zile pe secundă"], [10, "10 zile pe secundă"], [30, "30 de zile pe secundă"]], "eotL": "Ecuația timpului", "min": "min", "sec": "s", "fast": "Soarele ajunge la meridian mai devreme decât ceasul", "slow": "Soarele ajunge la meridian mai târziu decât ceasul", "meanNoon": "Amiaza medie", "trueNoon": "Amiaza solară adevărată", "lonL": "longitudine"}</script>
+<script src="../../assets/anotimpuri.js?v=52" defer></script>
 <footer class="sitefoot">
 <p><b>Timpul precesional uman · Calendarul precesional uman</b></p>
 <p>Un sistem personal de măsurare a timpului, independent de dogme: ora ca unghi, anul ancorat în solstițiu, erele după precesie. Nu înlocuiește timpul civil sau standardele oficiale.</p>

@@ -301,6 +301,9 @@ function dayLen(lat, dec) {
   const p = rad(lat), d = rad(dec), c = (Math.sin(rad(-0.833)) - Math.sin(p) * Math.sin(d)) / (Math.cos(p) * Math.cos(d));
   return c >= 1 ? 0 : c <= -1 ? 24 : 2 * Math.acos(c) * 180 / Math.PI / 15;
 }
+/* ecuația timpului (min): timp solar adevărat − timp solar mediu, din longitudinea subsolară */
+function eot(ms) { const d = new Date(ms), h = d.getUTCHours() + d.getUTCMinutes() / 60 + d.getUTCSeconds() / 3600, w = 15 * (12 - h) - subsolar(ms).lon; return 4 * (mod(w + 180, 360) - 180); }
+const lonSel = () => Math.max(-180, Math.min(180, parseFloat($("an-lon").value) || 0));
 const serCache = {};
 function series(an, lat) {
   const key = an + "|" + lat; if (serCache[key]) return serCache[key];
@@ -409,6 +412,33 @@ function renderChartCursor() {
 }
 
 /* ---------- tabelul evenimentelor ---------- */
+/* ---------- cadranul 3: analema ---------- */
+const AW = 440, AH = 400, AX0 = 60, AX1 = 400, AY0 = 24, AY1 = 330;
+function renderAnalema() {
+  const a = UTCY(Y), n = Math.round((UTCY(Y + 1) - a) / DAY), pts = [], xE = e => (AX0 + AX1) / 2 + e * (AX1 - AX0) / 2 / 20, yD = d => AY1 - (d + 25) / 50 * (AY1 - AY0);
+  for (let i = 0; i < n; i++) { const t = a + i * DAY + 12 * 36e5; pts.push([t, eot(t), decOf(t)]); }
+  let s = `<rect x="${AX0}" y="${AY0}" width="${AX1 - AX0}" height="${AY1 - AY0}" fill="var(--face)" stroke="var(--rule)"/>`;
+  for (const d of [-20, -10, 0, 10, 20]) s += `<line x1="${AX0}" x2="${AX1}" y1="${f1(yD(d))}" y2="${f1(yD(d))}" stroke="var(--rule)" ${d ? 'stroke-dasharray="2 3"' : ""}/><text x="${AX0 - 5}" y="${f1(yD(d))}" font-size="10.5" text-anchor="end" dominant-baseline="central" style="fill:#c0701a">${d > 0 ? "+" : d < 0 ? "−" : ""}${Math.abs(d)}°</text>`;
+  for (const e of [-15, -10, -5, 0, 5, 10, 15]) s += `<line x1="${f1(xE(e))}" x2="${f1(xE(e))}" y1="${AY0}" y2="${AY1}" stroke="var(--rule)" ${e ? 'stroke-dasharray="2 3"' : ""}/><text x="${f1(xE(e))}" y="${AY1 + 14}" font-size="10.5" text-anchor="middle" class="mute">${e > 0 ? "+" : e < 0 ? "−" : ""}${Math.abs(e)}</text>`;
+  s += `<text x="${(AX0 + AX1) / 2}" y="${AY1 + 30}" font-size="11" text-anchor="middle" class="mute">${D.eotL} (${D.min})</text>`;
+  let d = ""; pts.forEach((p, i) => d += (i ? "L" : "M") + f1(xE(p[1])) + " " + f1(yD(p[2]))); s += `<path d="${d}" fill="none" stroke="var(--ink)" stroke-width="2"/>`;
+  const ev = events(Y);
+  for (let i = 1; i <= 4; i++) { const t = ev[i]; if (t < a || t >= b0(a)) continue; const e = eot(t), dd = decOf(t); s += `<circle cx="${f1(xE(e))}" cy="${f1(yD(dd))}" r="3.5" fill="var(--face)" stroke="var(--ink)" stroke-width="1.5"/><text x="${f1(xE(e) + (i % 2 ? 7 : -7))}" y="${f1(yD(dd) - 6)}" font-size="9.5" text-anchor="${i % 2 ? "start" : "end"}" fill="var(--ink)">${shortTxt(t)}</text>`; }
+  s += `<g id="an-an-cur"></g>`; $("an-analema").innerHTML = s; renderAnalemaCursor();
+}
+const b0 = a => UTCY(new Date(a).getUTCFullYear() + 1);
+function renderAnalemaCursor() {
+  const xE = e => (AX0 + AX1) / 2 + e * (AX1 - AX0) / 2 / 20, yD = d => AY1 - (d + 25) / 50 * (AY1 - AY0);
+  const t = UTCY(Y) + Math.max(0, Math.min(Math.round((UTCY(Y + 1) - UTCY(Y)) / DAY) - 1, Math.floor((TC - UTCY(Y)) / DAY))) * DAY + 12 * 36e5, e = eot(t), dd = decOf(t);
+  $("an-an-cur").innerHTML = `<circle cx="${f1(xE(e))}" cy="${f1(yD(dd))}" r="7" fill="var(--sun)" stroke="var(--face)" stroke-width="1.6"/>`;
+  const lon = lonSel(), noon = t - 12 * 36e5 + 12 * 36e5 - lon * 240000 - e * 60000, mean = t - lon * 240000, ab = e;
+  const hm = ms => isTPU() ? timeTxt(ms) : `${hhmm(ms)} ${D.utc}`;
+  $("an-a").innerHTML = `<div class="big">${dateTxt(t)}</div>` +
+    `<div class="small">${D.eotL}: ${ab >= 0 ? "+" : "−"}${Math.floor(Math.abs(ab))} ${D.min} ${pad(Math.round(Math.abs(ab) % 1 * 60))} ${D.sec} · ${ab >= 0 ? D.fast : D.slow}</div>` +
+    `<div class="small">${D.decL}: ${dd >= 0 ? "+" : "−"}${num(Math.abs(dd), 2)}°</div>` +
+    `<div class="small">${D.meanNoon} (${D.lonL} ${num(lon, 1)}°): ${hm(mean)}</div>` +
+    `<div class="small">${D.trueNoon}: ${hm(noon)}</div>`;
+}
 function renderTable() {
   const ev = events(Y); let rows = "";
   for (let i = 0; i < 5; i++) {
@@ -417,15 +447,15 @@ function renderTable() {
   }
   $("an-body").innerHTML = rows; $("an-thT").textContent = `${D.thTPU} ${fusLab()}`;
 }
-function renderAll() { renderRing(); renderChart(); renderTable(); }
+function renderAll() { renderRing(); renderChart(); renderAnalema(); renderTable(); }
 function setYear(y) { Y = Math.max(1900, Math.min(2200, y || 2026)); $("an-y").value = Y; const n = new Date().getUTCFullYear(); TC = Y === n ? Date.now() : UTCY(Y, 5, 21) ; renderAll(); }
-function setDay(i) { TC = UTCY(Y) + i * DAY + 12 * 36e5; renderCursor(); renderChartCursor(); }
+function setDay(i) { TC = UTCY(Y) + i * DAY + 12 * 36e5; renderCursor(); renderChartCursor(); renderAnalemaCursor(); }
 function stop() { if (timer) { cancelAnimationFrame(timer); timer = null; } $("an-play").textContent = "▶ " + D.play; }
 function frame(ts) {
   if (!timer) return;
   const dt = Math.min(.1, (ts - last) / 1000); last = ts; TC += dt * parseFloat($("an-sp").value) * DAY;
   if (TC >= UTCY(Y + 1)) { if (Y >= 2200) { stop(); return; } Y++; $("an-y").value = Y; const c = TC; renderAll(); TC = c; }
-  renderCursor(); renderChartCursor();
+  renderCursor(); renderChartCursor(); renderAnalemaCursor();
   timer = requestAnimationFrame(frame);
 }
 function play() { if (timer) { stop(); return; } $("an-play").textContent = "■ " + D.pause; last = performance.now(); timer = requestAnimationFrame(frame); }
@@ -434,8 +464,8 @@ function play() { if (timer) { stop(); return; } $("an-play").textContent = "■
   $("an-sp").innerHTML = D.speeds.map(([v, l], i) => `<option value="${v}"${i === 1 ? " selected" : ""}>${l}</option>`).join("");
   $("an-y").addEventListener("change", () => { stop(); setYear(parseInt($("an-y").value, 10)); });
   $("an-prev").onclick = () => { stop(); setYear(Y - 1); }; $("an-next").onclick = () => { stop(); setYear(Y + 1); }; $("an-cur").onclick = () => { stop(); setYear(new Date().getUTCFullYear()); };
-  for (const id of ["an-mon", "an-fus", "an-hem", "an-lat"]) $(id).addEventListener("change", renderAll);
-  $("an-lat").addEventListener("input", renderAll);
+  for (const id of ["an-mon", "an-fus", "an-hem", "an-lat", "an-lon"]) $(id).addEventListener("change", renderAll);
+  $("an-lat").addEventListener("input", renderAll); $("an-lon").addEventListener("input", renderAnalemaCursor);
   $("an-day").addEventListener("input", e => { stop(); setDay(+e.target.value); });
   $("an-play").onclick = play;
   let rt = null; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (showDays() !== daysShown) renderRing(); }, 150); });

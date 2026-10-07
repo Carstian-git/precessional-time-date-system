@@ -20,8 +20,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../../assets/fonts.css?v=51">
-<link rel="stylesheet" href="../../assets/site.css?v=51">
+<link rel="stylesheet" href="../../assets/fonts.css?v=52">
+<link rel="stylesheet" href="../../assets/site.css?v=52">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Human precessional time · Human precessional calendar", "url": "https://carstian-git.github.io/precessional-time-date-system/en/", "inLanguage": "en", "description": "The four turning points of the year, the solstices and equinoxes, on the year wheel in the standard calendar and in the human precessional time, with the Sun's declination and the day length for any latitude."}</script>
 </head>
 <body>
@@ -41,6 +41,7 @@
     <div class="field"><label for="an-fus" class="lbl">Zone (Zone mode)</label><select id="an-fus"></select></div>
     <div class="field"><label for="an-hem" class="lbl">Hemisphere</label><select id="an-hem"><option value="N">Northern</option><option value="S">Southern</option></select></div>
     <div class="field"><label for="an-lat" class="lbl">Latitude (°, + north)</label><input id="an-lat" type="number" min="-89" max="89" step="1" value="45"></div>
+    <div class="field"><label for="an-lon" class="lbl">Longitude (°, + east)</label><input id="an-lon" type="number" min="-180" max="180" step="1" value="25"></div>
     <div class="field"><span class="lbl">&nbsp;</span><div class="ex-jump"><button type="button" id="an-prev">‹ previous year</button><button type="button" id="an-cur">Current year</button><button type="button" id="an-next">next year ›</button></div></div>
     <div class="field"><span class="lbl">&nbsp;</span><button type="button" id="an-play" class="playbtn">▶ Run through the year</button></div>
     <div class="field"><label for="an-sp" class="lbl">Speed</label><select id="an-sp"></select></div>
@@ -51,6 +52,10 @@
 <section class="sl-board sl-board2" aria-label="The year wheel">
   <article class="sl-card"><h2>The year wheel</h2><svg id="an-ring" viewBox="-28 -28 416 416" role="img" aria-label="The year wheel"></svg><p class="note">On the wheel the year starts at the top, at the December solstice, as in the human precessional time. The outer rings are months, weeks and, if there is room, days. The ☉ marker is the Sun on the chosen day.</p><div class="out" id="an-r" aria-live="polite"></div></article>
   <article class="sl-card"><h2>The Sun's declination and the day length</h2><svg id="an-chart" viewBox="0 0 440 348" role="img" aria-label="The Sun's declination and the day length"></svg><div class="out" id="an-c" aria-live="polite"></div></article>
+</section>
+<section class="sl-board sl-board2" aria-label="The analemma">
+  <article class="sl-card"><h2>The analemma</h2><svg id="an-analema" viewBox="0 0 440 400" role="img" aria-label="The analemma"></svg><div class="out" id="an-a" aria-live="polite"></div></article>
+  <article class="sl-card sl-txt"><h2>What the analemma is</h2><p class="note">The analemma is the figure-eight the Sun traces in the sky if you photograph it every day at the same clock time. The vertical axis is the declination (the seasons), the horizontal axis is the equation of time: how many minutes true solar noon departs from the clock's mean noon. The dot is the chosen day, the circles are the year's four turning points.</p><p class="note">Our clock measures an imaginary Sun moving uniformly. The real Sun departs from it for two reasons: the Earth's orbit is elliptical, so its speed varies, and the tilted axis makes the ecliptic project onto the equator at unequal rates. Together they give a departure of up to 16 minutes 25 seconds in early November and −14 minutes 15 seconds in mid-February. To find true noon at your place, enter the longitude.</p></article>
 </section>
 <section class="prose wide sl-year">
   <h2>The turning points of the year</h2>
@@ -66,8 +71,8 @@
 <section class="prose"><p>For the Sun, the Moon and the lunar nodes see the page below.</p><p><a href="../soare-luna/">Sun and Moon</a></p></section>
 <section class="prose"><h2>Sources</h2><div class="srcs"><a href="https://www.willbell.com/math/mc1.htm" rel="noopener">Jean Meeus, Astronomical Algorithms (Willmann-Bell)</a><a href="https://aa.usno.navy.mil/data/EarthSeasons" rel="noopener">Earth's Seasons, U.S. Naval Observatory</a></div></section>
 </main>
-<script type="application/json" id="an-data">{"dec": ".", "yearDay": "Year Day", "defaultFus": 0, "seas": ["Winter", "Spring", "Summer", "Autumn"], "evN": ["December solstice", "March equinox", "June solstice", "September equinox"], "utc": "UTC", "doy": "Day {n} of {m}", "began": "Began", "lasts": "Lasts {d} days", "passed": "{a} elapsed, {b} days left", "sunLon": "Sun's longitude", "sunAng": "Angle on the wheel", "monthL": "month", "dayL": "day", "decL": "Sun's declination", "dayLenL": "Day length", "latL": "latitude", "newH": "new hours", "hours": "hours", "noonAlt": "Sun's noon altitude", "xNote": "Horizontal axis: the year, with the months of the chosen system.", "polarNight": "Polar night: the Sun does not rise.", "polarDay": "Polar day: the Sun does not set.", "thTPU": "Date (HPT) · new time,", "play": "Run through the year", "pause": "Stop", "speeds": [[3, "3 days per second"], [10, "10 days per second"], [30, "30 days per second"]]}</script>
-<script src="../../assets/anotimpuri.js?v=51" defer></script>
+<script type="application/json" id="an-data">{"dec": ".", "yearDay": "Year Day", "defaultFus": 0, "seas": ["Winter", "Spring", "Summer", "Autumn"], "evN": ["December solstice", "March equinox", "June solstice", "September equinox"], "utc": "UTC", "doy": "Day {n} of {m}", "began": "Began", "lasts": "Lasts {d} days", "passed": "{a} elapsed, {b} days left", "sunLon": "Sun's longitude", "sunAng": "Angle on the wheel", "monthL": "month", "dayL": "day", "decL": "Sun's declination", "dayLenL": "Day length", "latL": "latitude", "newH": "new hours", "hours": "hours", "noonAlt": "Sun's noon altitude", "xNote": "Horizontal axis: the year, with the months of the chosen system.", "polarNight": "Polar night: the Sun does not rise.", "polarDay": "Polar day: the Sun does not set.", "thTPU": "Date (HPT) · new time,", "play": "Run through the year", "pause": "Stop", "speeds": [[3, "3 days per second"], [10, "10 days per second"], [30, "30 days per second"]], "eotL": "Equation of time", "min": "min", "sec": "s", "fast": "the Sun crosses the meridian earlier than the clock", "slow": "the Sun crosses the meridian later than the clock", "meanNoon": "Mean noon", "trueNoon": "True solar noon", "lonL": "longitude"}</script>
+<script src="../../assets/anotimpuri.js?v=52" defer></script>
 <footer class="sitefoot">
 <p><b>Human precessional time · Human precessional calendar</b></p>
 <p>A personal, dogma-independent way of measuring time: the hour as an angle, the year anchored to the solstice, eras from precession. It does not replace civil time or official standards.</p>
