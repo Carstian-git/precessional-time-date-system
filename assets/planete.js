@@ -344,7 +344,13 @@ const consName = i => D.cons[(i + 12) % 13];
 const pad = n => String(n).padStart(2, "0");
 const isoLocal = ms => { const d = new Date(ms); return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}T${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}`; };
 const fmtUtc = ms => { const d = new Date(ms); return `${pad(d.getUTCDate())}.${pad(d.getUTCMonth() + 1)}.${d.getUTCFullYear()} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())} UTC`; };
-const fmtDay = ms => { const d = new Date(ms); return `${pad(d.getUTCDate())}.${pad(d.getUTCMonth() + 1)}.${d.getUTCFullYear()}`; };
+const fmtSI = ms => { const d = new Date(ms); return `${pad(d.getUTCDate())}.${pad(d.getUTCMonth() + 1)}.${d.getUTCFullYear()}`; };
+const isTPU = () => { const e = document.getElementById("pl-mon"); return !!e && e.value === "tpu"; };
+/* data în sistemul ales la „Diviziuni pe axa timpului”: SI (zz.ll.aaaa) sau TPU (ER·AE · lună/zi) */
+function tpuDay(ms) { const r = dinUtc(ms, D.defaultFus * 10, "F"); return `${r.er}·${r.ae} · ${r.lc ? r.lc + "/" + r.zn : D.yearDay + " " + r.zn}`; }
+const fmtDay = ms => isTPU() ? tpuDay(ms) : fmtSI(ms);
+/* an aproximativ: număr SI sau ER·AE */
+function yrTxt(Y) { if (!isTPU()) return String(Y); try { const k = anPentruZi(Math.floor(UTCY(Y, 6, 1) / 864e5)), [er, ae] = eraAeDinK(k); return `${er}·${ae}`; } catch (e) { return String(Y); } }
 const parseLocal = v => { const m = /^(\d{4,})-(\d\d)-(\d\d)T(\d\d):(\d\d)/.exec(v); if (!m) return null; const x = new Date(0); x.setUTCFullYear(+m[1], +m[2] - 1, +m[3]); x.setUTCHours(+m[4], +m[5], 0, 0); return x.getTime(); };
 const degTxt = lon => `${Math.floor(mod(lon, 30))}°${pad(Math.floor(mod(lon, 1) * 60))}′`;
 /* corp desenat ca disc plin (Soarele galben-portocaliu și Luna albastră, ca în cadranele Soare–Lună) */
@@ -388,7 +394,7 @@ function renderCons(t) {
   $("pl-cons").innerHTML = s;
   /* punctul vernal (0° tropical) și constelația în care se află */
   const vi = consIdx(0, t), d = mod(0 - consEdge(vi, t), 360), yrs = d / (50.29 / 3600), y0 = new Date(t).getUTCFullYear() + yrs;
-  return `<div class="small"><b>${D.vernal}</b>: ${consName(vi)} · ${D.vernalOut.replace("{c}", consName((vi + 12) % 13)).replace("{y}", String(Math.round(y0)))}</div>`;
+  return `<div class="small"><b>${D.vernal}</b>: ${consName(vi)} · ${D.vernalOut.replace("{c}", consName((vi + 12) % 13)).replace("{y}", yrTxt(Math.round(y0)))}</div>`;
 }
 function renderZod(t) {
   const c = 180; let s = "", rows = "";
@@ -525,6 +531,27 @@ function renderAsp(t) {
   $("pl-a").innerHTML = found.length ? `<table class="grid pl-tab"><thead><tr>${D.th3.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${found.map(([a, b, k, sep, dev]) => `<tr><td>${a.b.g} ${D.bodies[a.b.id]} – ${b.b.g} ${D.bodies[b.b.id]}</td><td>${D.asp[k]} (${ASP.find(x => x[0] === k)[1]}°)</td><td>${num(sep, 1)}°</td><td>${num(dev, 1)}°</td></tr>`).join("")}</tbody></table>` : `<div class="small">${D.noAsp}</div>`;
 }
 
+
+/* inel de repere pe cerc: semne (12) sau constelații (13), cu nume opțional; folosit în cadranele 4 și 5 */
+function ringBands(c, R1, R2, t, axSel, nmOn, fsG, fsC) {
+  let s = "";
+  if (axSel === "cn") {
+    for (let i = 0; i < 13; i++) {
+      const a = ang(consEdge(i, t)), e = ang(consEdge((i + 1) % 13, t)), span = mod(e - a, 360), nm = consName(i).split(" (")[0];
+      s += `<path d="${arcPath(c, c, R1, R2, a, a + span)}" fill="var(--ink)" opacity="${i === 9 ? .3 : i % 2 ? .16 : .07}" stroke="var(--rule)" stroke-width=".6"><title>${consName(i)}</title></path>`;
+      s += txt(c, c, (R1 + R2) / 2, a + span / 2, nmOn && span > 14 ? nm.slice(0, 9) : CONS[i][0], nmOn && span > 14 ? fsC - 2 : fsC, "", 'font-weight="600" fill="var(--ink)"');
+    }
+  } else {
+    for (let i = 0; i < 12; i++) {
+      const a1 = ang(i * 30);
+      s += `<path d="${arcPath(c, c, R1, R2, a1, a1 + 30)}" fill="var(--ink)" opacity="${i % 2 ? .13 : .05}" stroke="var(--rule)" stroke-width=".6"><title>${D.signs[i]}</title></path>`;
+      s += txt(c, c, (R1 + R2) / 2 + (nmOn ? 5 : 0), a1 + 15, SG[i], nmOn ? fsG - 3 : fsG, "", 'fill="var(--ink)"');
+      if (nmOn) s += txt(c, c, (R1 + R2) / 2 - 10, a1 + 15, D.signs[i].split(" (")[0].slice(0, 8), 7.5, "", 'fill="var(--mute)"');
+      s += tick(c, c, R1, R2, a1, .9, "var(--mute)");
+    }
+  }
+  return s;
+}
 /* ---------- cadranul 4: traseul circular (spirală: centrul = începutul ferestrei, marginea = sfârșitul) ---------- */
 function renderCirc(t) {
   const b = BODIES.find(x => x.id === $("pl-planet").value), win = parseFloat($("pl-win").value) * 365.25 * 864e5, t0 = t - win / 2, t1 = t + win / 2;
@@ -538,21 +565,7 @@ function renderCirc(t) {
     for (let a = 0; a < 360; a += 30) if (a % 90) s += txt(c, c, (R1 + R2) / 2 + 2, a, a + "°", 9, "", 'fill="var(--mute)"');
     [0, 90, 180, 270].forEach((a, i) => { s += txt(c, c, (R1 + R2) / 2 + 2, a, D.elo[i], 10, "", 'font-weight="600" fill="var(--ink)"'); s += tick(c, c, 0, R1, a, .6, "var(--rule)"); });
     const [sx, sy] = P(c, c, R1 - 8, 0); s += dot(sx, sy, sun, 9, false);
-  } else if (axSel === "cn") {
-    for (let i = 0; i < 13; i++) {
-      const a = ang(consEdge(i, t)), e = ang(consEdge((i + 1) % 13, t)), span = mod(e - a, 360);
-      s += `<path d="${arcPath(c, c, R1, R2, a, a + span)}" fill="var(--ink)" opacity="${i === 9 ? .3 : i % 2 ? .16 : .07}" stroke="var(--rule)" stroke-width=".6"><title>${consName(i)}</title></path>`;
-      s += txt(c, c, (R1 + R2) / 2, a + span / 2, nmOn && span > 14 ? consName(i).split(" (")[0].slice(0, 9) : CONS[i][0], nmOn && span > 14 ? 8 : 10, "", 'font-weight="600" fill="var(--ink)"');
-    }
-  } else {
-    for (let i = 0; i < 12; i++) {
-      const a1 = ang(i * 30);
-      s += `<path d="${arcPath(c, c, R1, R2, a1, a1 + 30)}" fill="var(--ink)" opacity="${i % 2 ? .13 : .05}" stroke="var(--rule)" stroke-width=".6"><title>${D.signs[i]}</title></path>`;
-      s += txt(c, c, (R1 + R2) / 2 + (nmOn ? 5 : 0), a1 + 15, SG[i], nmOn ? 15 : 18, "", 'fill="var(--ink)"');
-      if (nmOn) s += txt(c, c, (R1 + R2) / 2 - 10, a1 + 15, D.signs[i].split(" (")[0].slice(0, 8), 7.5, "", 'fill="var(--mute)"');
-      s += tick(c, c, R1, R2, a1, .9, "var(--mute)");
-    }
-  }
+  } else s += ringBands(c, R1, R2, t, axSel, nmOn, 18, 10);
   /* cercuri-reper */
   s += `<circle cx="${c}" cy="${c}" r="${rOut}" fill="none" stroke="var(--rule)" stroke-width=".6" stroke-dasharray="1 3"/><circle cx="${c}" cy="${c}" r="${rIn}" fill="none" stroke="var(--rule)" stroke-width=".6" stroke-dasharray="1 3"/>`;
   const self = mode === "sun" && b.id === "sun";
@@ -590,22 +603,16 @@ const HNAME = {mercury: "Mercury", venus: "Venus", mars: "Mars", jupiter: "Jupit
 function renderRetro(t) {
   const id = $("pl-planet").value, b = BODIES.find(x => x.id === id), c = 200, svg = $("pl-retro");
   const nm = HNAME[id];
-  if (!nm) { svg.innerHTML = ""; svg.style.display = "none"; $("pl-r").innerHTML = `<div class="small">${D.r5Skip}</div>`; return; }
-  svg.style.display = "";
+  if (!nm) { svg.innerHTML = `<circle cx="${c}" cy="${c}" r="198" fill="var(--face)" stroke="var(--ink)" stroke-width="1.2"/>` + ringBands(c, 174, 198, t, $("pl-ax").value, $("pl-nm").checked, 15, 9) + `<circle cx="${c}" cy="${c}" r="174" fill="none" stroke="var(--rule)" stroke-width=".8"/>` + dot(c, c, BODIES.find(x => x.id === "sun"), 8, false); $("pl-r").innerHTML = `<div class="small">${D.r5Skip}</div>`; return; }
   const aP = PL_EL[nm][0], outer = aP > 1, sc = outer ? Math.min(100, 128 / aP) : 100;
   const Pp = Math.pow(aP, 1.5) * 365.25, S = 1 / Math.abs(1 / 365.25 - 1 / Pp), half = .25 * S * 864e5, N = 26;
-  const R1 = 152, R2 = 178, sun = BODIES.find(x => x.id === "sun");
+  const R1 = 146, R2 = 170, sun = BODIES.find(x => x.id === "sun");
   const hp = (name, ms) => { const T = (ms - Date.UTC(2000, 0, 1, 12)) / 864e5 / 36525, h = helio(name, T); return {x: h[0], y: h[1], z: h[2], lon: mod(Math.atan2(h[1], h[0]) * 180 / Math.PI + PREC * dJ(ms), 360), r: Math.hypot(h[0], h[1])}; };
   const scr = (name, ms) => { const h = hp(name, ms); return P(c, c, h.r * sc, ang(h.lon)); };
   let s = `<circle cx="${c}" cy="${c}" r="198" fill="var(--face)" stroke="var(--ink)" stroke-width="1.2"/>`;
-  /* inelul stelelor: semnele, cu glife și gradații */
-  for (let i = 0; i < 12; i++) {
-    const a1 = ang(i * 30);
-    s += `<path d="${arcPath(c, c, R1 - 2, 198, a1, a1 + 30)}" fill="var(--ink)" opacity="${i % 2 ? .12 : .04}" stroke="none"/>`;
-    s += txt(c, c, 190, a1 + 15, SG[i], 13, "", 'fill="var(--ink)"');
-    s += tick(c, c, R2 + 2, 184, a1, .9, "var(--mute)");
-  }
-  s += `<circle cx="${c}" cy="${c}" r="${R1 - 2}" fill="none" stroke="var(--rule)" stroke-width=".8"/>`;
+  /* inelul stelelor: semne sau constelații (ca în Cadranul 4) */
+  s += ringBands(c, 174, 198, t, $("pl-ax").value, $("pl-nm").checked, 15, 9);
+  s += `<circle cx="${c}" cy="${c}" r="174" fill="none" stroke="var(--rule)" stroke-width=".8"/>`;
   /* orbitele (la scară; planetele exterioare îndepărtate sunt mici) */
   s += `<circle cx="${c}" cy="${c}" r="${f1(sc)}" fill="none" stroke="var(--rule)" stroke-width="1"/><circle cx="${c}" cy="${c}" r="${f1(aP * sc)}" fill="none" stroke="var(--rule)" stroke-width="1" stroke-dasharray="3 3"/>`;
   /* traseele pe orbite în fereastră */

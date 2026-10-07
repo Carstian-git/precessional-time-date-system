@@ -390,10 +390,15 @@ function renderNodes(t) {
   g += `<line x1="${x0}" x2="${w - x0}" y1="${h / 2}" y2="${h / 2}" stroke="var(--ink)" stroke-width="1.2"/>`;
   let p = ""; for (let d = -180; d <= 180; d += 4) p += (d === -180 ? "M" : "L") + f1(x(d)) + " " + f1(y(5.145 * Math.sin(rad(d))));
   g += `<path d="${p}" fill="none" stroke="var(--moon)" stroke-width="2.4" opacity=".75"/>`;
-  g += `<text x="${x0}" y="${y(5.145) - 3}" font-size="13" class="mute">+5,1°</text><text x="${x0}" y="${y(-5.145) + 11}" font-size="13" class="mute">−5,1°</text>`;
-  g += `<text x="${x(0)}" y="${h - 4}" font-size="16" text-anchor="middle">☊</text><text x="${x(180)}" y="${h - 4}" font-size="16" text-anchor="middle">☋</text>`;
+  g += `<text x="${x0 + 26}" y="${y(5.145) - 3}" font-size="13" class="mute">+5,1°</text><text x="${x0 + 26}" y="${y(-5.145) + 11}" font-size="13" class="mute">−5,1°</text>`;
+  g += `<text x="${x(0)}" y="${h - 4}" font-size="16" text-anchor="middle">☊</text><text x="${x(180)}" y="${h - 4}" font-size="16" text-anchor="middle">☋</text><text x="${w - x0}" y="${h - 4}" font-size="16" text-anchor="middle">☋</text>`;
   const lat = latLuna(t), dm = delta(ml, om), ds = delta(sl, om);
-  g += `<circle cx="${f1(x(ds))}" cy="${h / 2}" r="9" fill="var(--sun)" stroke="var(--face)" stroke-width="1.6"/><circle cx="${f1(x(dm))}" cy="${f1(y(lat))}" r="7" stroke-width="1.6" fill="var(--moon)" stroke="var(--face)"/>`;
+  g += `<circle cx="${f1(x(ds))}" cy="${h / 2}" r="9" fill="var(--sun)" stroke="var(--face)" stroke-width="1.6"/>`;
+  /* fazele: unde ar fi Luna la lună nouă / lună plină cu Soarele unde este acum, și Luna reală cu faza ei */
+  const uPh = mod(ml - sl, 360), dNew = ds, dFull = delta(ds + 180, 0), nx = x(dNew), ny = y(5.145 * Math.sin(rad(dNew))), fx = x(dFull), fy = y(5.145 * Math.sin(rad(dFull)));
+  g += `<g opacity=".95"><title>${D.newM}</title>${faseIcon(0, +f1(nx), +f1(ny), 8)}</g><g><title>${D.fullM}</title>${faseIcon(180, +f1(fx), +f1(fy), 8)}</g>`;
+  g += `<g><title>${D.moonAng}: ${num(uPh, 1)}° · ${D.phase}: ${phaseTxt(uPh)}</title>${faseIcon(uPh, +f1(x(dm)), +f1(y(lat)), 11)}</g>`;
+  g += `<text x="${w - x0}" y="20" font-size="13" text-anchor="end" fill="var(--ink)">${phaseTxt(uPh)} · ${num(uPh, 0)}°</text>`;
   $("sl-side").innerHTML = g;
   const dNod = Math.min(Math.abs(mod(sl - om, 180)), 180 - Math.abs(mod(sl - om, 180)));
   const seas = dNod < LIM_SEZON;
