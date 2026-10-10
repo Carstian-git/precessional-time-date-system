@@ -258,8 +258,8 @@ ro: {
  hourL: "Ora", modeF: "Fus (F)", modeL: "Local (L)", modeFt: "Fus nou de 10°, număr întreg de ore noi", modeLt: "Timp solar mediu local",
  whenL: "Moment (UTC)", nowB: "Acum",
  earthH: "Ceasul Pământului", earthP: "Privit de deasupra Polului Nord, care e în centru. <b>Cum se citește:</b><ul class=\"rd\"><li><b>Ora ta</b>: numărul de pe inelul exterior, în fusul încadrat cu galben (de exemplu 8 în F+03). <b>Minutele (MN)</b> și <b>secundele (SN)</b> se citesc pe cele două scări mici cu cifre de la 0 la 9, din interior.</li><li><b>Acul gros cu Soarele</b> arată fusul în care este acum amiază, adică ora 18. Soarele merge spre vest, așa că amiaza trece de la un fus la cel cu număr mai mic (F+13, apoi F+12), iar orele de pe inel cresc spre est, în sens trigonometric.</li><li><b>Acul subțire și scurt</b> este minutarul (un tur pe oră nouă, 40 de minute). <b>Acul portocaliu subțire și lung</b> este secundarul (un tur pe minut nou, 4 minute).</li><li><b>Cercul portocaliu cu punct</b> este locul în care Soarele este la zenit: se mută pe rază cu anotimpurile (între 23,4° N și 23,4° S) și în jurul cercului o dată pe zi.</li><li><b>Luna mică</b> arată punctul de pe Pământ aflat sub ea, cu faza ei reală; <b>punctul negru</b> este locul ales.</li></ul>", noonZ: "Amiaza solară (ora 18) este acum în fusul", noonNext: "centrul Soarelui ajunge în centrul fusului", noonIn: "peste", solarTrue: "Ora solară adevărată la locul ales", eotT: "ecuația timpului", min: "min", hnU: "h noi",
- d36H: "Ziua întreagă, 36 h", d36P: "Un tur al acului orar este o rotație completă a Pământului. Amiaza este la 18.",
- d18H: "Jumătate de zi, 18 h", d18P: "Ca un ceas clasic: orele 19–36 sunt pe inelul interior, la fel cum 13–24 sunt pe cel de 12 ore.",
+ d36H: "Ziua întreagă, 36 h", d36P: "Un tur al acului orar este o rotație completă a Pământului (36 de ore noi). Amiaza este la 18, jos. <b>Cum se citește:</b> ora este numărul de pe inelul exterior spre care arată acul gros și scurt; minutul și secunda se citesc pe cele două inele mici, 0–9; sub ele este fereastra cu data. Dedesubt vezi, pe rând, fiecare ac și ce arată.", rdBtnOn: "Arată citirea", rdBtnOff: "Ascunde citirea", wH: "Ceasul de mână", wP: "Un ceas mecanic cu trei ace, ca cel de la mână. <b>Acul scurt</b> arată ora, pe numerele mari. <b>Acul lung</b> arată minutul, iar <b>acul subțire portocaliu</b> secunda; ambele se citesc pe același inel exterior, 0–9. Un minut nou are 4 minute obișnuite (acul lung face un tur în 40 de minute), iar o secundă nouă are 24 de secunde (acul portocaliu face un tur în 4 minute). Cadranul de 18 ore are două inele de numere, ca un ceas de 12 ore care face două ture pe zi: orele 1–18 pe cel mare, orele 19–36 pe cel mic dinăuntru.", w36: "36 h", w18: "18 h", wHalf: "Jumătatea", wLogo: "TPU · 36 h",
+ d18H: "Jumătate de zi, 18 h", d18P: "Același moment, dar ca un ceas clasic de 18 ore noi: acul orar face două ture pe zi. <b>Cum se citește:</b> orele 1–18 (până la amiază) se citesc pe numerele mari de pe inelul exterior; orele 19–36 (după amiază) pe numerele mici de pe inelul interior. Miezul nopții este 36, adică 0. Minutul, secunda și data se citesc la fel ca pe cadranul de 36 h.", rdH: "Ora", rdM: "Minutul", rdS: "Secunda", rdSS: "Subsecunda", rdC: "Ora clasică", rdHw: "acul gros, scurt", rdMw: "acul gros, lung", rdSw: "acul portocaliu, lung și subțire", rdSSw: "cadranul mic de sus", rdHr36: "citește pe inelul exterior, 0–35", rdHr18a: "citește pe inelul mare, 1–18", rdHr18b: "citește pe inelul mic, 19–36", rdMr: "inelul din mijloc, 0–9 (un tur = 40 min)", rdSr: "inelul interior, 0–9 (un tur = 4 min)", rdSSr: "24 de diviziuni (1 SS = 1 s)",
  yH: "Anul", yP: "De la solstițiul din decembrie: 13 luni, 73 de arce de 5 zile, cadranele Soarelui și fazele reale ale Lunii.",
  eH: "Erele", eP: "Ciclul precesiei de 25.772 de ani, în 12 ere. Pe inelul mare, numerele sunt miile de ani de la ER 1 · AE 1. Inelul interior desfășoară era curentă, cu zeci, sute și mii de ani.",
  nextH: "Următoarele fenomene", skyH: "Acum, pe cer",
@@ -322,8 +322,8 @@ en: {
  hourL: "Time", modeF: "Zone (F)", modeL: "Local (L)", modeFt: "New 10° zone, whole number of new hours", modeLt: "Local mean solar time",
  whenL: "Moment (UTC)", nowB: "Now",
  earthH: "Earth clock", earthP: "Seen from above the North Pole, which sits at the centre. <b>How to read it:</b><ul class=\"rd\"><li><b>Your hour</b>: the number on the outer ring, in the zone framed in yellow (for example 8 in F+03). <b>Minutes (MN)</b> and <b>seconds (SN)</b> are read on the two small inner scales numbered 0 to 9.</li><li><b>The thick hand with the Sun</b> points to the zone where it is noon now, hour 18. The Sun moves west, so noon passes from one zone to the one with the lower number (F+13, then F+12), and the hours on the ring grow toward the east, counter-clockwise.</li><li><b>The short thin hand</b> is the minute hand (one turn per new hour, 40 minutes). <b>The long thin orange hand</b> is the second hand (one turn per new minute, 4 minutes).</li><li><b>The orange circle with a dot</b> is where the Sun is at the zenith: it moves along the radius with the seasons (between 23.4° N and 23.4° S) and round the circle once a day.</li><li><b>The small moon</b> shows the point on Earth beneath it, with its real phase; <b>the black dot</b> is the chosen place.</li></ul>", noonZ: "Solar noon (hour 18) is now in zone", noonNext: "the Sun reaches the centre of zone", noonIn: "in", solarTrue: "True solar time at the chosen place", eotT: "equation of time", min: "min", hnU: "new h",
- d36H: "The whole day, 36 h", d36P: "One turn of the hour hand is one full rotation of the Earth. Noon is at 18.",
- d18H: "Half a day, 18 h", d18P: "Like a classic clock: hours 19–36 sit on the inner ring, just as 13–24 do on a 12-hour dial.",
+ d36H: "The whole day, 36 h", d36P: "One turn of the hour hand is one full rotation of the Earth (36 new hours). Noon is at 18, at the bottom. <b>How to read it:</b> the hour is the number on the outer ring that the short thick hand points to; minutes and seconds are read on the two small rings, 0–9; below them is the date window. Underneath, each hand is listed with what it shows.", rdBtnOn: "Show the reading", rdBtnOff: "Hide the reading", wH: "The wristwatch", wP: "A mechanical watch with three hands, like the one on your wrist. <b>The short hand</b> shows the hour on the large numbers. <b>The long hand</b> shows the minute and <b>the thin orange hand</b> the second; both are read on the same outer ring, 0–9. A new minute is 4 ordinary minutes (the long hand turns once in 40 minutes), and a new second is 24 seconds (the orange hand turns once in 4 minutes). The 18 h dial has two rings of numbers, like a 12-hour watch that turns twice a day: hours 1–18 on the large one, hours 19–36 on the small inner one.", w36: "36 h", w18: "18 h", wHalf: "Half", wLogo: "HPT · 36 h",
+ d18H: "Half a day, 18 h", d18P: "The same moment, but as a classic 18-new-hour clock: the hour hand makes two turns a day. <b>How to read it:</b> hours 1–18 (up to noon) are read on the large numbers of the outer ring; hours 19–36 (after noon) on the small numbers of the inner ring. Midnight is 36, that is 0. Minutes, seconds and date are read as on the 36 h dial.", rdH: "Hour", rdM: "Minute", rdS: "Second", rdSS: "Subsecond", rdC: "Classic time", rdHw: "short thick hand", rdMw: "long thick hand", rdSw: "long thin orange hand", rdSSw: "small dial at the top", rdHr36: "read on the outer ring, 0–35", rdHr18a: "read on the large ring, 1–18", rdHr18b: "read on the small ring, 19–36", rdMr: "middle ring, 0–9 (one turn = 40 min)", rdSr: "inner ring, 0–9 (one turn = 4 min)", rdSSr: "24 divisions (1 SS = 1 s)",
  yH: "The year", yP: "From the December solstice: 13 months, 73 arcs of 5 days, the Sun's quadrants and the real phases of the Moon.",
  eH: "The eras", eP: "The 25,772-year precession cycle, in 12 eras. On the large ring, numbers are thousands of years since ER 1 · AE 1. The inner ring unrolls the current era in decades, centuries and millennia.",
  nextH: "Upcoming events", skyH: "In the sky now",
@@ -386,8 +386,8 @@ fr: {
  hourL: "Heure", modeF: "Fuseau (F)", modeL: "Local (L)", modeFt: "Nouveau fuseau de 10°, nombre entier d'heures nouvelles", modeLt: "Temps solaire moyen local",
  whenL: "Moment (UTC)", nowB: "Maintenant",
  earthH: "Horloge de la Terre", earthP: "Vue au-dessus du pôle Nord, au centre. <b>Comment lire :</b><ul class=\"rd\"><li><b>Votre heure</b> : le nombre de l'anneau extérieur, dans le fuseau encadré en jaune (par exemple 8 en F+03). Les <b>minutes (MN)</b> et les <b>secondes (SN)</b> se lisent sur les deux petites échelles intérieures numérotées de 0 à 9.</li><li><b>L'aiguille épaisse avec le Soleil</b> montre le fuseau où il est midi maintenant, heure 18. Le Soleil va vers l'ouest : midi passe d'un fuseau à celui de numéro inférieur (F+13, puis F+12), et les heures de l'anneau croissent vers l'est, dans le sens trigonométrique.</li><li><b>L'aiguille fine et courte</b> est la trotteuse des minutes (un tour par heure nouvelle, 40 minutes). <b>L'aiguille orange fine et longue</b> est la trotteuse des secondes (un tour par minute nouvelle, 4 minutes).</li><li><b>Le cercle orange avec un point</b> est l'endroit où le Soleil est au zénith : il se déplace sur le rayon avec les saisons (entre 23,4° N et 23,4° S) et autour du cercle une fois par jour.</li><li><b>La petite lune</b> montre le point de la Terre situé sous elle, avec sa phase réelle ; <b>le point noir</b> est le lieu choisi.</li></ul>", noonZ: "Le midi solaire (heure 18) est maintenant dans le fuseau", noonNext: "le Soleil atteint le centre du fuseau", noonIn: "dans", solarTrue: "Heure solaire vraie au lieu choisi", eotT: "équation du temps", min: "min", hnU: "h nouvelles",
- d36H: "Le jour entier, 36 h", d36P: "Un tour de l'aiguille des heures est une rotation complète de la Terre. Midi est à 18.",
- d18H: "Un demi-jour, 18 h", d18P: "Comme une horloge classique : les heures 19–36 sont sur l'anneau intérieur, comme 13–24 sur un cadran de 12 heures.",
+ d36H: "Le jour entier, 36 h", d36P: "Un tour de l’aiguille des heures est une rotation complète de la Terre (36 heures nouvelles). Midi est à 18, en bas. <b>Comment lire :</b> l’heure est le nombre de l’anneau extérieur que montre l’aiguille courte et épaisse ; minutes et secondes se lisent sur les deux petits anneaux, 0–9 ; en dessous, la fenêtre de la date. Plus bas, chaque aiguille est détaillée.", rdBtnOn: "Montrer la lecture", rdBtnOff: "Masquer la lecture", wH: "La montre", wP: "Une montre mécanique à trois aiguilles, comme celle du poignet. <b>L’aiguille courte</b> montre l’heure sur les grands nombres. <b>L’aiguille longue</b> montre la minute et <b>la fine aiguille orange</b> la seconde ; les deux se lisent sur le même anneau extérieur, 0–9. Une minute nouvelle vaut 4 minutes ordinaires (l’aiguille longue fait un tour en 40 minutes) et une seconde nouvelle 24 secondes (l’aiguille orange fait un tour en 4 minutes). Le cadran de 18 h a deux anneaux de nombres, comme une montre de 12 h qui fait deux tours par jour : les heures 1–18 sur le grand, les heures 19–36 sur le petit anneau intérieur.", w36: "36 h", w18: "18 h", wHalf: "Moitié", wLogo: "TPH · 36 h",
+ d18H: "Un demi-jour, 18 h", d18P: "Le même instant, mais comme une horloge classique de 18 heures nouvelles : l’aiguille des heures fait deux tours par jour. <b>Comment lire :</b> les heures 1–18 (jusqu’à midi) se lisent sur les grands nombres de l’anneau extérieur ; les heures 19–36 (après midi) sur les petits nombres de l’anneau intérieur. Minuit est 36, c’est-à-dire 0. Minutes, secondes et date se lisent comme sur le cadran de 36 h.", rdH: "Heure", rdM: "Minute", rdS: "Seconde", rdSS: "Sous-seconde", rdC: "Heure classique", rdHw: "aiguille courte et épaisse", rdMw: "aiguille longue et épaisse", rdSw: "aiguille orange longue et fine", rdSSw: "petit cadran du haut", rdHr36: "se lit sur l’anneau extérieur, 0–35", rdHr18a: "se lit sur le grand anneau, 1–18", rdHr18b: "se lit sur le petit anneau, 19–36", rdMr: "anneau du milieu, 0–9 (un tour = 40 min)", rdSr: "anneau intérieur, 0–9 (un tour = 4 min)", rdSSr: "24 divisions (1 SS = 1 s)",
  yH: "L'année", yP: "Depuis le solstice de décembre : 13 mois, 73 arcs de 5 jours, les quadrants du Soleil et les phases réelles de la Lune.",
  eH: "Les ères", eP: "Le cycle de précession de 25 772 ans, en 12 ères. Sur le grand anneau, les nombres sont des milliers d'années depuis ER 1 · AE 1. L'anneau intérieur déroule l'ère en cours en décennies, siècles et millénaires.",
  nextH: "Prochains phénomènes", skyH: "Dans le ciel maintenant",
@@ -498,6 +498,7 @@ function buildHour(svg, turn) {
   // inel secunde noi: 0-9 într-un minut
   s += `<circle cx="200" cy="200" r="86" fill="none" stroke="var(--rule)"/>`;
   for (let m = 0; m < 10; m++) { s += tick(200, 200, 86, 79, m * 36, 1.3, "var(--sun)"); s += txt(200, 200, 70, m * 36, m, 8, "mute"); }
+  s += txt(200, 200, 100, 18, "MN", 6.5, "mute", 'style="font-weight:600"') + txt(200, 200, 70, 18, "SN", 6.5, "mute", 'style="font-weight:600"');
   // subcadran: subsecunde (24)
   s += `<circle cx="200" cy="158" r="19" fill="var(--bg)" stroke="var(--rule)"/>`;
   for (let i = 0; i < 24; i++) s += tick(200, 158, 19, i % 6 === 0 ? 14 : 16.5, i * 15, i % 6 === 0 ? 1.3 : .7, "var(--mute)");
@@ -509,12 +510,26 @@ function buildHour(svg, turn) {
   s += `<g id="${svg.id}-h"><line x1="200" y1="214" x2="200" y2="${half ? 140 : 148}" stroke="var(--hand)" stroke-width="5.5" stroke-linecap="round"/></g>`;
   s += `<g id="${svg.id}-m"><line x1="200" y1="218" x2="200" y2="96" stroke="var(--hand)" stroke-width="3" stroke-linecap="round"/></g>`;
   s += `<g id="${svg.id}-s"><line x1="200" y1="226" x2="200" y2="66" stroke="var(--sun)" stroke-width="1.4" stroke-linecap="round"/></g>`;
+  s += `<g id="${svg.id}-rd"></g>`;
   s += `<circle cx="200" cy="200" r="5.5" fill="var(--hand)"/><circle cx="200" cy="200" r="2.2" fill="var(--sun)"/>`;
   svg.innerHTML = s;
 }
 const rot = (id, a) => $(id).setAttribute("transform", `rotate(${a.toFixed(3)} 200 200)`);
+let showRd = false;
+function rdMarks(turn, r) {
+  const ring = (cx, cy, rad, ang, rr, col, w) => { const [x, y] = P(cx, cy, rad, ang); return `<circle cx="${f1(x)}" cy="${f1(y)}" r="${rr}" fill="none" stroke="${col}" stroke-width="${w}"/>`; };
+  const per = 360 / turn;
+  let hp, hr;
+  if (turn === 36) { hp = r.hn * per; hr = 160; }
+  else if (r.hn >= 1 && r.hn <= 18) { hp = (r.hn % 18) * per; hr = 160; }
+  else { hp = (r.hn % 18) * per; hr = 138; }
+  return ring(200, 200, hr, hp, 12, "var(--hand)", 2.2) + ring(200, 200, 100, r.mn * 36, 9, "var(--hand)", 2) + ring(200, 200, 70, r.sn * 36, 8, "var(--sun)", 2)
+    + ring(200, 158, 16.5, r.ss * 15, 3.2, "var(--sun)", 1.6);
+}
 function updHour(svg, turn, t, r) {
-  const id = svg.id, per = 43200 * turn / 36;      // secunde standard pe tur al acului orar
+  const id = svg.id;
+  $(id + "-rd").innerHTML = showRd ? rdMarks(turn, r) : "";
+  const per = 43200 * turn / 36;      // secunde standard pe tur al acului orar
   rot(id + "-h", mod(t, per) / per * 360);
   rot(id + "-m", mod(t, 2400) / 2400 * 360);
   rot(id + "-s", mod(t, 240) / 240 * 360);
@@ -683,7 +698,7 @@ function buildGlobe() {
   s += `<circle cx="220" cy="220" r="122" fill="none" stroke="var(--ink)" stroke-opacity=".45" stroke-width=".8"/><circle cx="220" cy="220" r="157" fill="none" stroke="var(--sun)" stroke-opacity=".6" stroke-width=".8"/>`;
   for (let i = 0; i < 10; i++) { s += tick(c, c, 122, 128, i * 36, 1.2, "var(--ink)") + txt(c, c, 135, i * 36, i, 8, "", `fill="var(--ink)" ${halo}`) + tick(c, c, 157, 152, i * 36, 1.2, "var(--sun)") + txt(c, c, 146, i * 36, i, 7, "", `fill="var(--ink)" ${halo}`); }
   s += txt(c, c, 112, 18, "MN", 7, "", `fill="var(--ink)" ${halo}`) + txt(c, c, 112, 342, "SN", 7, "", `fill="var(--ink)" ${halo}`);
-  s += `<g id="g-zone"></g><g id="g-sub"></g><g id="g-moon"></g><g id="g-pin"></g><g id="g-hands"></g>`;
+  s += `<g id="g-zone"></g><g id="g-sub"></g><g id="g-moon"></g><g id="g-pin"></g><g id="g-hands"></g><g id="g-rd"></g>`;
   $("dg").innerHTML = s;
   gHours = Array.from({length: 36}, (_, i) => ({k: i - 17, el: $("gh" + (i - 17)), v: -1}));
 }
@@ -727,6 +742,9 @@ function updGlobe(ms, r) {
     `<g transform="rotate(${am.toFixed(3)} 220 220)"><line x1="220" y1="228" x2="220" y2="${220 - 122}" stroke="var(--hand)" stroke-width="2.4" stroke-linecap="round"/></g>` +
     `<g transform="rotate(${as.toFixed(3)} 220 220)"><line x1="220" y1="232" x2="220" y2="${220 - 157}" stroke="var(--sun)" stroke-width="1.2" stroke-linecap="round"/></g>` +
     `<circle cx="220" cy="220" r="9" fill="var(--hand)"/><text x="220" y="220.5" font-size="9" font-weight="700" text-anchor="middle" dominant-baseline="central" style="fill:var(--bg)">N</text>`;
+  { const ring = (rad, ang, rr, col, w, dash) => { const [x, y] = P(c, c, rad, ang); return `<circle cx="${f1(x)}" cy="${f1(y)}" r="${rr}" fill="none" stroke="${col}" stroke-width="${w}"${dash ? ' stroke-dasharray="3 2"' : ""}/>`; };
+    const kN = Math.floor(sub.lon / 10 + 0.5);
+    $("g-rd").innerHTML = showRd ? ring(199, zoneAng(zkk), 13, "var(--hand)", 2.2) + ring(135, r.mn * 36, 9, "var(--hand)", 2) + ring(146, r.sn * 36, 8, "var(--sun)", 2) + ring(199, zoneAng(kN), 13, "var(--sun)", 2, true) : ""; }
   stdTime(ms);
   $("dig").innerHTML = `<div class="k">${t("digL")}</div><div class="k">HN : MN : SN : SS</div><div class="v">${p2(r.hn)}:${p2(r.mn)}:${p2(r.sn)}<span class="z">:${p2(r.ss)}</span></div><div class="z">${r.mod === "F" ? t("modeF") + " " + (r.fus >= 0 ? "+" : "−") + p2(Math.abs(r.fus)) : t("modeL")}</div>`;
   return sub;
@@ -758,7 +776,7 @@ function coord(lat, lon) {
 
 /* ---------- stare și bucla principală ---------- */
 const st = {lon: 26.1, lat: 44.4, mode: "F", fixed: null};
-let lastSec = -1, R = null, lastMinKey = "", lastYearHL = "", eraInfo = null, SUB = null;
+let chipSec = -1, lastSec = -1, R = null, lastMinKey = "", lastYearHL = "", eraInfo = null, SUB = null;
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function codebar(r) {
@@ -803,14 +821,92 @@ function full(now) {
 }
 full.nm = -1;
 
+function chips(id, turn, r) {
+  const sw = (w, c) => `<svg viewBox="0 0 34 14" aria-hidden="true"><line x1="3" y1="7" x2="31" y2="7" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/></svg>`;
+  const row = (svg, k, v, w) => `<div class="rw">${svg}<span><span class="k">${t(k)}</span><br><span class="v">${v}</span></span><span class="w">${w}</span></div>`;
+  const tot = r.hn * 2400 + r.mn * 240 + r.sn * 24 + r.ss, hh = Math.floor(tot / 3600), mm = Math.floor(tot % 3600 / 60), ss = tot % 60;
+  let hv, hw;
+  if (turn === 36) { hv = r.hn; hw = t("rdHr36"); }
+  else if (r.hn >= 1 && r.hn <= 18) { hv = r.hn; hw = t("rdHr18a"); }
+  else { hv = r.hn === 0 ? 36 : r.hn; hw = t("rdHr18b"); }
+  $(id).innerHTML = row(sw(5, "var(--hand)"), "rdH", hv, `${t("rdHw")} · ${hw}`)
+    + row(sw(3, "var(--hand)"), "rdM", r.mn, `${t("rdMw")} · ${t("rdMr")}`)
+    + row(sw(1.4, "var(--sun)"), "rdS", r.sn, `${t("rdSw")} · ${t("rdSr")}`)
+    + row(sw(1.6, "var(--sun)"), "rdSS", p2(r.ss), `${t("rdSSw")} · ${t("rdSSr")}`)
+    + row("<span></span>", "rdC", `${p2(hh)}:${p2(mm)}:${p2(ss)}`, "");
+}
+/* ---------- ceasul de mână (mecanic) ---------- */
+let wMode = 36;
+function buildWatch() {
+  const c = 220, F = "font-family:Georgia,'Times New Roman',serif";
+  let s = `<defs>
+    <linearGradient id="wBz" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f2f4f7"/><stop offset=".45" stop-color="#8d96a3"/><stop offset=".55" stop-color="#e9edf2"/><stop offset="1" stop-color="#5d6672"/></linearGradient>
+    <radialGradient id="wDl" cx=".5" cy=".42" r=".65"><stop offset="0" stop-color="#fbf8ef"/><stop offset="1" stop-color="#e3dccb"/></radialGradient>
+    <linearGradient id="wGl" x1="0" y1="0" x2=".7" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <filter id="wSh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="1.5" dy="2.5" stdDeviation="2" flood-color="#000" flood-opacity=".35"/></filter></defs>
+  <circle cx="${c}" cy="${c}" r="216" fill="url(#wBz)"/><circle cx="${c}" cy="${c}" r="203" fill="#20242b"/><circle cx="${c}" cy="${c}" r="198" fill="url(#wDl)"/>`;
+  // inel minut/secundă: 100 diviziuni, cifre 0–9
+  for (let i = 0; i < 100; i++) s += tick(c, c, 194, i % 10 === 0 ? 182 : i % 5 === 0 ? 186 : 189, i * 3.6, i % 10 === 0 ? 2.4 : i % 5 === 0 ? 1.4 : .8, "#2a2f3a");
+  for (let m = 0; m < 10; m++) s += txt(c, c, 170, m * 36, m, 15, "", `style="${F};font-weight:700;fill:#9b3414"`);
+  s += `<circle cx="${c}" cy="${c}" r="157" fill="none" stroke="#c9bfa5" stroke-width=".8"/>`;
+  s += `<g id="wt-nums"></g>`;
+  s += `<g id="wt-moon"></g><g id="wt-logo"></g><g id="wt-date"></g>`;
+  s += `<g id="wt-h" filter="url(#wSh)"><path d="M-7,18 L-4.5,-104 L0,-116 L4.5,-104 L7,18 Z" transform="translate(${c} ${c})" fill="#1b2230" stroke="#0b0f17" stroke-width=".8"/><path d="M-2.4,2 L-1.6,-96 L0,-104 L1.6,-96 L2.4,2 Z" transform="translate(${c} ${c})" fill="#dfeec0"/></g>`;
+  s += `<g id="wt-m" filter="url(#wSh)"><path d="M-5.5,22 L-3.2,-150 L0,-162 L3.2,-150 L5.5,22 Z" transform="translate(${c} ${c})" fill="#1b2230" stroke="#0b0f17" stroke-width=".8"/><path d="M-1.8,2 L-1.1,-142 L0,-150 L1.1,-142 L1.8,2 Z" transform="translate(${c} ${c})" fill="#dfeec0"/></g>`;
+  s += `<g id="wt-s" filter="url(#wSh)"><g transform="translate(${c} ${c})"><line x1="0" y1="46" x2="0" y2="-176" stroke="#d9531e" stroke-width="1.6" stroke-linecap="round"/><circle cx="0" cy="34" r="7" fill="none" stroke="#d9531e" stroke-width="2.4"/><circle cx="0" cy="-140" r="4.5" fill="#d9531e"/></g></g>`;
+  s += `<circle cx="${c}" cy="${c}" r="8" fill="#1b2230" stroke="#0b0f17"/><circle cx="${c}" cy="${c}" r="3.2" fill="#d9531e"/>`;
+  s += `<path d="M${c} 22 A198 198 0 0 0 40 150 A190 190 0 0 1 ${c} 22 Z" fill="url(#wGl)"/>`;
+  $("wt").innerHTML = s; $("wt").dataset.mode = "";
+}
+function watchNums(half) {
+  const c = 220, F = "font-family:Georgia,'Times New Roman',serif", n = wMode, per = 360 / n;
+  let s = "";
+  if (n === 18) s += `<circle cx="${c}" cy="${c}" r="${half === 1 ? 126 : 98}" fill="none" stroke="#d9531e" stroke-opacity=".16" stroke-width="${half === 1 ? 30 : 24}"/>`;
+  for (let i = 0; i < n; i++) {
+    const a = i * per, big = n === 36 ? i % 3 === 0 : true;
+    s += tick(c, c, 156, big ? 140 : 146, a, big ? 3.6 : 2.2, "#2a2f3a");
+    if (n === 18) {
+      s += txt(c, c, 126, a, i === 0 ? 18 : i, half === 1 ? 24 : 15, "", `style="${F};font-weight:${half === 1 ? 700 : 500};fill:${half === 1 ? "#1b2230" : "#6b6552"};opacity:${half === 1 ? 1 : .45}"`);
+      s += txt(c, c, 98, a, i === 0 ? 36 : 18 + i, half === 2 ? 20 : 12, "", `style="${F};font-weight:${half === 2 ? 700 : 500};fill:${half === 2 ? "#1b2230" : "#6b6552"};opacity:${half === 2 ? 1 : .45}"`);
+    } else s += txt(c, c, 124, a, i, 15, "", `style="${F};font-weight:${i % 3 ? 500 : 700};fill:#1b2230"`);
+  }
+  $("wt-nums").innerHTML = s; $("wt").dataset.mode = wMode + "|" + (n === 18 ? half : 0);
+}
+function updWatch(tl, r, ms) {
+  const half = r.hn >= 1 && r.hn <= 18 ? 1 : 2;
+  if ($("wt").dataset.mode !== wMode + "|" + (wMode === 18 ? half : 0)) watchNums(half);
+  const per = wMode === 36 ? 86400 : 43200;
+  const tf = a => `rotate(${a.toFixed(3)} 220 220)`;
+  $("wt-h").setAttribute("transform", tf(mod(tl, per) / per * 360));
+  $("wt-m").setAttribute("transform", tf(mod(tl, 2400) / 2400 * 360));
+  $("wt-s").setAttribute("transform", tf(mod(tl, 240) / 240 * 360));
+  const key = r.hn + "|" + r.zn + "|" + r.lc + "|" + wMode + "|" + LANG + "|" + Math.floor(ms / 600000);
+  if (key !== updWatch.key) {
+    updWatch.key = key;
+    const F = "font-family:Georgia,'Times New Roman',serif";
+    $("wt-moon").innerHTML = `<circle cx="220" cy="148" r="22" fill="#0f1b33" stroke="#9a8f74" stroke-width="2"/>` + moon(220, 148, 17, unghiLunar(ms));
+    $("wt-logo").innerHTML = `<text x="220" y="187" font-size="8.5" letter-spacing="1.5" text-anchor="middle" style="${F};fill:#4a4e57">${wMode === 36 ? t("wLogo") : t("wHalf").toUpperCase() + " " + half + " / 2"}</text>`;
+    const wd = r.lc ? t("days")[r.ziSapt] : (r.zn === 1 ? t("yearDay") : t("leapDay"));
+    const l2 = r.lc ? t("winL")(r.lc, r.zn) : t("winY")(364 + r.zn);
+    $("wt-date").innerHTML = `<rect x="162" y="248" width="116" height="36" rx="3" fill="#fbf8ef" stroke="#6b6552" stroke-width="1.6"/>` +
+      `<text x="220" y="259" font-size="8" text-anchor="middle" dominant-baseline="central" style="fill:#14213D">ER ${r.er} · AE ${r.ae}</text>` +
+      `<text x="220" y="269" font-size="8" text-anchor="middle" dominant-baseline="central" style="fill:#14213D">${l2}</text>` +
+      `<text x="220" y="279" font-size="8" text-anchor="middle" dominant-baseline="central" style="fill:#9b3414;font-weight:600">${wd}</text>`;
+  }
+}
+function setW(n) { wMode = n; $("w36").setAttribute("aria-pressed", n === 36); $("w18").setAttribute("aria-pressed", n === 18); updWatch.key = ""; }
+$("w36").onclick = () => setW(36); $("w18").onclick = () => setW(18);
+
 function frame() {
   const now = st.fixed != null ? st.fixed : Date.now();
   const sec = Math.floor(now / 1000);
   if (sec !== lastSec || R == null) { lastSec = sec; full(now); }
+  if (R && chipSec !== sec) { chipSec = sec; chips("r36c", 36, R); chips("r18c", 18, R);
+    const tot = R.hn * 2400 + R.mn * 240 + R.sn * 24 + R.ss; $("wrd").innerHTML = `<b>${t("rdH")} ${R.hn} · ${t("rdM")} ${R.mn} · ${t("rdS")} ${R.sn}</b> · ${t("rdC")} ${p2(Math.floor(tot / 3600))}:${p2(Math.floor(tot % 3600 / 60))}:${p2(tot % 60)}`; }
   const r = R, nowS = reduce ? sec : now / 1000;
   const tl = mod(nowS + r.off, 86400);
   updHour($("d36"), 36, tl, r); updHour($("d18"), 18, tl, r);
-  updYear(r, tl); updEra(r, tl);
+  updWatch(tl, r, now); updYear(r, tl); updEra(r, tl);
   SUB = updGlobe(reduce ? sec * 1000 : now, r);
   const a = tl / 240;
   $("r36").innerHTML = `<b>${p2(r.hn)} h ${p2(r.mn)} min ${p2(r.sn)} s ${p2(r.ss)} SS</b> · ${deg3(a)}`;
@@ -823,6 +919,8 @@ function frame() {
 }
 
 /* ---------- limbă și comenzi ---------- */
+function rdLabel() { document.querySelectorAll(".rdbtn").forEach(b => { b.textContent = t(showRd ? "rdBtnOff" : "rdBtnOn"); b.setAttribute("aria-pressed", showRd); }); }
+document.querySelectorAll(".rdbtn").forEach(b => b.onclick = () => { showRd = !showRd; rdLabel(); });
 function applyLang() {
   document.documentElement.lang = LANG;
   document.querySelectorAll("[data-i18n]").forEach(e => { const v = t(e.dataset.i18n); if (typeof v === "string") e.innerHTML = v; });
@@ -831,7 +929,7 @@ function applyLang() {
   const sel = $("preset"), cur = sel.value;
   sel.innerHTML = t("cities").map((c, i) => `<option value="${i}">${c}</option>`).join("") + `<option value="custom">${t("custom")}</option>`;
   sel.value = cur || "0";
-  liveUi(); lastSec = -1; lastMinKey = ""; full.nm = -1;
+  rdLabel(); chipSec = -1; liveUi(); lastSec = -1; lastMinKey = ""; full.nm = -1;
 }
 function setMode(m) { st.mode = m; $("mF").setAttribute("aria-pressed", m === "F"); $("mL").setAttribute("aria-pressed", m === "L"); lastSec = -1; lastMinKey = ""; full.nm = -1; }
 $("mF").onclick = () => setMode("F"); $("mL").onclick = () => setMode("L");
@@ -854,7 +952,7 @@ function liveUi() { $("live").classList.toggle("fix", st.fixed != null); $("live
 $("when").addEventListener("input", e => { const v = Date.parse(e.target.value + (e.target.value.length === 16 ? ":00" : "") + "Z"); if (isFinite(v)) { st.fixed = v; lastSec = -1; full.nm = -1; lastMinKey = ""; liveUi(); } });
 $("now").onclick = () => { st.fixed = null; $("when").value = ""; lastSec = -1; full.nm = -1; lastMinKey = ""; liveUi(); };
 
-buildHour($("d36"), 36); buildHour($("d18"), 18); buildGlobe();
+buildWatch(); buildHour($("d36"), 36); buildHour($("d18"), 18); buildGlobe();
 $("preset").innerHTML = "";
 applyLang(); $("preset").value = "0";
 requestAnimationFrame(frame);

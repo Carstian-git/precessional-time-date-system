@@ -20,8 +20,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../assets/fonts.css?v=57">
-<link rel="stylesheet" href="../assets/site.css?v=57">
+<link rel="stylesheet" href="../assets/fonts.css?v=62">
+<link rel="stylesheet" href="../assets/site.css?v=62">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Temps précessionnel humain · Calendrier précessionnel humain", "url": "https://carstian-git.github.io/precessional-time-date-system/fr/", "inLanguage": "fr", "description": "Un jour de 36 heures comme un cercle de 360°, une année qui commence au solstice, 13 mois de 28 jours et 12 ères selon la précession des équinoxes. Horloge en temps réel, convertisseur et calendrier imprimable."}</script>
 </head>
 <body>
@@ -36,6 +36,12 @@
 
 <p class="lead">Un jour de 36 heures où chaque heure vaut 10°, pour faire un cercle complet de 360°. Une année qui commence au solstice de décembre. 13 mois de 28 jours. 12 ères qui suivent la précession des équinoxes. Le tout calculé à partir des mouvements réels du Soleil, de la Lune et de l'axe de la Terre, sans aucune tradition religieuse.</p>
 <p class="cta"><a class="btn pri" href="aplicatie/">Ouvrir l'horloge en temps réel</a> <a class="btn" href="aplicatie/#zodiac">Quel est votre signe ?</a> <a class="btn" href="sistem/">Comment ça marche</a> <a class="btn" href="precesia/">Qu'est-ce que la précession</a></p>
+<section class="hclocks"><h2>Votre heure, sur deux montres</h2><p class="hcp">Le même instant, lu sur deux cadrans : la montre classique de 12 heures et la montre de 36 heures, dans le fuseau <b id="hc-fus"></b>, estimé d’après le fuseau horaire de votre appareil. Vous choisissez le lieu exact dans <a href="aplicatie/">Outils</a>.</p>
+<div class="hcpair">
+ <figure><svg id="hc-classic" viewBox="0 0 440 440" role="img" aria-label="La montre classique"></svg><figcaption><h3>La montre classique</h3><div class="hcrd" id="hc-classic-rd"></div><span>heures : minutes : secondes</span></figcaption></figure>
+ <figure><svg id="hc-tpu" viewBox="0 0 440 440" role="img" aria-label="La montre de 36 heures (TPH)"></svg><figcaption><h3>La montre de 36 heures (TPH)</h3><div class="hcrd" id="hc-tpu-rd"></div><span>heures nouvelles : minutes nouvelles : secondes nouvelles</span></figcaption></figure>
+</div><p class="hcn">Sur la montre de 36 heures, midi solaire est à l’heure 18 et l’aiguille courte ne fait qu’un tour par jour.</p></section>
+<script type="application/json" id="hc-data">{"lang": "fr", "half": "Moitié", "lgC": "CLASSIQUE · 12 h", "lgT": "TPH · 36 h", "winL": "mois {m} · jour {d}", "winY": "jour {n} de l'année", "yearDay": "Jour de l'année", "leapDay": "Jour bissextile"}</script>
 <div class="cards">
  <article><h2>L'horloge de 36 heures</h2><p>L'heure vaut 10°, la minute 1°, la seconde 0,1°. Midi solaire est à l'heure 18, minuit à l'heure 0. Une sous-seconde est exactement une seconde standard, la conversion est donc sans arrondi.</p><a href="sistem/#ceas">Détails</a></article>
  <article><h2>L'année de 13 mois</h2><p>L'année commence au solstice de décembre et compte 13 mois de 28 jours, soit 52 semaines entières, plus un ou deux jours hors semaine.</p><a href="sistem/#an">Détails</a></article>
@@ -54,6 +60,7 @@
 </section>
 
 </main>
+<script src="../assets/ceasuri.js?v=62" defer></script>
 <footer class="sitefoot">
 <p><b>Temps précessionnel humain · Calendrier précessionnel humain</b></p>
 <p>Un système personnel de mesure du temps, indépendant des dogmes : l'heure comme angle, l'année ancrée au solstice, les ères selon la précession. Il ne remplace ni l'heure civile ni les normes officielles.</p>
