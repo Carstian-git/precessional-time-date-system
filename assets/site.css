@@ -55,6 +55,7 @@ figure{margin:0;display:flex;flex-direction:column;gap:10px;min-width:0}
 figcaption{display:flex;flex-direction:column;gap:2px}
 figcaption h2{font:400 1.7rem/1.1 var(--f-display);margin:0}
 figcaption p{margin:0;color:var(--mute);font-size:13px}
+figcaption ul.rd{margin:6px 0 0;padding-left:18px;color:var(--mute);font-size:12.5px;line-height:1.45;text-align:left}figcaption ul.rd li{margin:3px 0}
 svg{display:block;width:100%;height:auto;max-width:560px;margin-inline:auto}
 svg text{font-family:var(--f-mono);fill:var(--ink)}
 svg .mute{fill:var(--mute)}

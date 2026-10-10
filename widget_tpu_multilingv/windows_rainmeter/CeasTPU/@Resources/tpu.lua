@@ -16,7 +16,7 @@ local function anpz(z)
 end
 local function p2(n) return string.format("%02d", n) end
 local CX, CY, R = 110, 110, 96
-local function pt(a, r) local x = math.rad(a); return CX + math.sin(x)*r, CY - math.cos(x)*r end
+local function pt(a, r) local x = math.rad(a); return string.format('%.2f', CX + math.sin(x)*r), string.format('%.2f', CY - math.cos(x)*r) end
 
 function Initialize()
   local lon = tonumber(SKIN:GetVariable('Longitudine', '26.1')) or 26.1
@@ -49,5 +49,12 @@ function Update()
   SKIN:Bang('!SetOption', 'AcOra', 'Shape', 'Line '..CX..','..CY..','..x..','..y..' | StrokeWidth 5 | Stroke Color 255,138,107 | StrokeEndCap Round')
   x, y = pt((mn*240 + sn*24 + ss)/2400*360, 86)
   SKIN:Bang('!SetOption', 'AcMin', 'Shape', 'Line '..CX..','..CY..','..x..','..y..' | StrokeWidth 2 | Stroke Color 238,240,245 | StrokeEndCap Round')
+  -- secundarul portocaliu: un tur pe minut nou (240 s)
+  x, y = pt((sn*24 + ss)/240*360, 90)
+  SKIN:Bang('!SetOption', 'AcSec', 'Shape', 'Line '..CX..','..CY..','..x..','..y..' | StrokeWidth 1 | Stroke Color 255,138,107 | StrokeEndCap Round')
+  -- Rainmeter nu redesenează singur după !SetOption: actualizăm explicit contoarele
+  SKIN:Bang('!UpdateMeter', 'Ora'); SKIN:Bang('!UpdateMeter', 'Data')
+  SKIN:Bang('!UpdateMeter', 'AcOra'); SKIN:Bang('!UpdateMeter', 'AcMin'); SKIN:Bang('!UpdateMeter', 'AcSec')
+  SKIN:Bang('!Redraw')
   return hn
 end
