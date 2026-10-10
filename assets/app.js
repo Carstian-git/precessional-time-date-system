@@ -312,7 +312,7 @@ ro: {
  err:{era:"ER trebuie să fie între 1 și 12.",ae:(e,n)=>`AE trebuie să fie între 1 și ${n} pentru ER ${e}.`,time:"Valori întregi: HN 0–35, MN 0–9, SN 0–9, SS 0–23.",lc:"LC 1–13 și ZN 1–28; pentru LC 00, ZN este 01 (Ziua anului) sau 02 (Ziua bisectă).",leap:"Acest an nu este bisect și nu are Ziua bisectă.",range:"Zilele exacte sunt acceptate doar pentru anii 1–9999 e.n.",code:"Cod nerecunoscut. Exemplu: 12-1734-4-58.4-25-11-09 21:0:0:0 F+03",date:"Alege o dată validă."},
  calH:"Calendarul anului", calP:"Alege orice an. Anul începe la solstițiul din decembrie și are 13 luni de câte 28 de zile, de luni până duminică. Fazele Lunii și fenomenele Soarelui sunt cele reale, după zona aleasă sus. Pentru imprimare, folosește funcția de imprimare a browserului pe această pagină: se tipărește doar calendarul, pe o pagină A4 orizontală.",
  calYear:"Anul-etichetă", calPrev:"‹ Anterior", calNext:"Următorul ›", calToday:"Anul curent", calPrint:"Tipărește",
- calYearLine:(a,e,s,f,b)=>`AN ${a} · ER ${e[0]} · AE ${e[1]} · ${s} – ${f} · ${b?"an bisect (366 de zile)":"an obișnuit (365 de zile)"}`,
+ calYearLine:(a,e,s,f,b,y0,y1)=>`AN ${e[1]} · ER ${e[0]} | anul-etichetă ${a} · echivalent SI: ${y0}–${y1} · ${s} – ${f} · ${b?"an bisect (366 de zile)":"an obișnuit (365 de zile)"}`,
  calLegend:"● lună nouă · ◐ primul pătrar · ○ lună plină · ◑ ultimul pătrar · ☀ solstițiu sau echinocțiu. Cifrele mici sunt zilele gregoriene. Zilele din afara lunilor nu fac parte din săptămână.",
  celH: "Ce semn zodiacal ești?", celP: "Alege data nașterii (sau orice altă dată), în format SI sau uman. Răspunsul are două părți: semnul din zodiacul tradițional și constelația prin care trecea de fapt Soarele în ziua aceea. Dedesubt sunt cele două cadrane.",
  celDt: "Data (format SI, UTC)", celCode: "Data în format uman (cod complet)",
@@ -376,7 +376,7 @@ en: {
  err:{era:"ER must be between 1 and 12.",ae:(e,n)=>`AE must be between 1 and ${n} for ER ${e}.`,time:"Whole numbers: HN 0–35, MN 0–9, SN 0–9, SS 0–23.",lc:"LC 1–13 and ZN 1–28; for LC 00, ZN is 01 (Year Day) or 02 (Leap Day).",leap:"This year is not a leap year and has no Leap Day.",range:"Exact days are accepted only for years 1–9999 CE.",code:"Unrecognised code. Example: 12-1734-4-58.4-25-11-09 21:0:0:0 F+03",date:"Pick a valid date."},
  calH:"Calendar of the year", calP:"Pick any year. The year starts at the December solstice and has 13 months of 28 days, Monday to Sunday. Moon phases and Sun events are the real ones, for the zone chosen above. To print, use your browser's print function on this page: only the calendar is printed, on one landscape A4 page.",
  calYear:"Label year", calPrev:"‹ Previous", calNext:"Next ›", calToday:"Current year", calPrint:"Print",
- calYearLine:(a,e,s,f,b)=>`YEAR ${a} · ER ${e[0]} · AE ${e[1]} · ${s} – ${f} · ${b?"leap year (366 days)":"common year (365 days)"}`,
+ calYearLine:(a,e,s,f,b,y0,y1)=>`YEAR ${e[1]} · ER ${e[0]} | label year ${a} · SI equivalent: ${y0}–${y1} · ${s} – ${f} · ${b?"leap year (366 days)":"common year (365 days)"}`,
  calLegend:"● new moon · ◐ first quarter · ○ full moon · ◑ last quarter · ☀ solstice or equinox. Small numbers are Gregorian days. Days outside the months are not part of the week.",
  celH: "What is your zodiac sign?", celP: "Pick your birth date (or any other date), in SI or human format. The answer has two parts: your sign in the traditional zodiac and the constellation the Sun was actually crossing that day. The two dials are below.",
  celDt: "Date (SI format, UTC)", celCode: "Date in human format (full code)",
@@ -440,7 +440,7 @@ fr: {
  err:{era:"ER doit être entre 1 et 12.",ae:(e,n)=>`AE doit être entre 1 et ${n} pour ER ${e}.`,time:"Nombres entiers : HN 0–35, MN 0–9, SN 0–9, SS 0–23.",lc:"LC 1–13 et ZN 1–28 ; pour LC 00, ZN vaut 01 (Jour de l'année) ou 02 (Jour bissextile).",leap:"Cette année n'est pas bissextile et n'a pas de Jour bissextile.",range:"Les jours exacts ne sont acceptés que pour les années 1–9999 apr. J.-C.",code:"Code non reconnu. Exemple : 12-1734-4-58.4-25-11-09 21:0:0:0 F+03",date:"Choisissez une date valide."},
  calH:"Calendrier de l'année", calP:"Choisissez n'importe quelle année. L'année commence au solstice de décembre et compte 13 mois de 28 jours, du lundi au dimanche. Les phases de la Lune et les événements du Soleil sont réels, pour le fuseau choisi plus haut. Pour imprimer, utilisez la fonction d'impression du navigateur sur cette page : seul le calendrier est imprimé, sur une page A4 paysage.",
  calYear:"Année-étiquette", calPrev:"‹ Précédente", calNext:"Suivante ›", calToday:"Année en cours", calPrint:"Imprimer",
- calYearLine:(a,e,s,f,b)=>`ANNÉE ${a} · ER ${e[0]} · AE ${e[1]} · ${s} – ${f} · ${b?"année bissextile (366 jours)":"année commune (365 jours)"}`,
+ calYearLine:(a,e,s,f,b,y0,y1)=>`ANNÉE ${e[1]} · ER ${e[0]} | année-étiquette ${a} · équivalent SI : ${y0}–${y1} · ${s} – ${f} · ${b?"année bissextile (366 jours)":"année commune (365 jours)"}`,
  calLegend:"● nouvelle lune · ◐ premier quartier · ○ pleine lune · ◑ dernier quartier · ☀ solstice ou équinoxe. Les petits nombres sont les jours grégoriens. Les jours hors des mois ne font pas partie de la semaine.",
  celH: "Quel est votre signe du zodiaque ?", celP: "Choisissez votre date de naissance (ou toute autre date), au format SI ou humain. La réponse comporte deux parties : votre signe dans le zodiaque traditionnel et la constellation que le Soleil traversait réellement ce jour-là. Les deux cadrans sont en dessous.",
  celDt: "Date (format SI, UTC)", celCode: "Date au format humain (code complet)",
@@ -1112,7 +1112,8 @@ function buildCalendar() {
   }
   const todayDay = Math.floor((Date.now() + off) / DAY), fmtD = d => t("gdate")(...gparts(d));
   const [er, ae] = eraAeDinK(k);
-  $("cal-head").innerHTML = `<b>${t("calYearLine")(label, [er, ae], fmtD(s0), fmtD(s0 + L - 1), esteBisect(k)).split(" · ")[0]}</b><span>${t("calYearLine")(label, [er, ae], fmtD(s0), fmtD(s0 + L - 1), esteBisect(k)).split(" · ").slice(1).join(" · ")} · ${t("cs").length ? zoneTxt() : ""}</span>`;
+  const yl = t("calYearLine")(label, [er, ae], fmtD(s0), fmtD(s0 + L - 1), esteBisect(k), gparts(s0)[2], gparts(s0 + L - 1)[2]).split(" | ");
+  $("cal-head").innerHTML = `<b>${yl[0]}</b><span>${yl[1]} · ${t("cs").length ? zoneTxt() : ""}</span>`;
   const cell = n => {
     const day = s0 + n - 1, [d, m] = gparts(day), mk = (marks[n] || []).map(([sy, sol]) => `<em class="${sol ? "sun" : ""}">${sy}</em>`).join("");
     return `<td class="${day === todayDay ? "today" : ""}"><b>${n <= 364 ? ((n - 1) % 28 + 1) : n - 364}</b><i>${d === 1 ? d + " " + GMON[LANG][m - 1] : d}</i>${mk}</td>`;
