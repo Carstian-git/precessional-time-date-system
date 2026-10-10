@@ -59,22 +59,7 @@
 <footer class="sitefoot">
 <p><b>Temps précessionnel humain · Calendrier précessionnel humain</b></p>
 <p>Un système personnel de mesure du temps, indépendant des dogmes : l'heure comme angle, l'année ancrée au solstice, les ères selon la précession. Il ne remplace ni l'heure civile ni les normes officielles.</p>
-<p>Mis à jour: <span id="upd-date" data-l="fr">10 octobre 2026 (système TPH : ER 12 · AE 1734 · mois 11 · jour 14)</span></p>
-<script>(function(){var el=document.getElementById("upd-date");if(!el)return;var L=el.getAttribute("data-l");
-var DAY=864e5,EP=Date.UTC(2011,11,22)/DAY,C=25772,LIM=[];for(var j=0;j<13;j++)LIM.push(Math.floor(j*C/12));
-var AM=365+.25-1/128,fd=Math.floor,md=function(a,n){return((a%n)+n)%n};
-function ia(k){return EP+365*(k-1)+fd((k-1)/4)-fd((k-1)/128)}
-function tpu(ms){var zi=fd(ms/DAY),k=fd((zi-EP)/AM)+1;while(zi<ia(k))k--;while(zi>=ia(k+1))k++;
-var n=zi-ia(k)+1,p=md(k-2441+2011,C),e=0;for(var i=0;i<12;i++)if(LIM[i]<=p)e=i;var er=e+1,ae=p-LIM[e]+1;
-var lc=n<=364?fd((n-1)/28)+1:0,zn=n<=364?(n-1)%28+1:n-364;
-var T={ro:["luna","ziua","Ziua anului","sistem TPU"],en:["month","day","Year Day","HPT system"],fr:["mois","jour","Jour de l'an","système TPH"]}[L];
-return T[3]+(L==="fr"?" : ":": ")+"ER "+er+" · AE "+ae+(lc?" · "+T[0]+" "+lc+" · "+T[1]+" "+zn:" · "+T[2])}
-var M={ro:["ianuarie","februarie","martie","aprilie","mai","iunie","iulie","august","septembrie","octombrie","noiembrie","decembrie"],
-en:["January","February","March","April","May","June","July","August","September","October","November","December"],
-fr:["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"]}[L];
-fetch("https://api.github.com/repos/"+"carstian-git/precessional-time-date-system"+"/commits?per_page=1").then(function(r){return r.json()}).then(function(a){
-var d=new Date(a[0].commit.committer.date);if(isNaN(d))return;
-el.textContent=d.getUTCDate()+" "+M[d.getUTCMonth()]+" "+d.getUTCFullYear()+" ("+tpu(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate(),12))+")"}).catch(function(){})})();</script>
+<p>Mis à jour: 10 octobre 2026 (système TPH : ER 12 · AE 1734 · mois 11 · jour 14)</p>
 <p class="license">Textes : <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr" rel="license">CC BY-SA 4.0</a> · Code : <a href="https://www.gnu.org/licenses/gpl-3.0.html" rel="license">GNU GPLv3</a></p>
 </footer>
 </body>
