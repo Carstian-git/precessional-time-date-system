@@ -72,7 +72,7 @@
 <footer class="sitefoot">
 <p><b>Timpul precesional uman · Calendarul precesional uman</b></p>
 <p>Un sistem personal de măsurare a timpului, independent de dogme: ora ca unghi, anul ancorat în solstițiu, erele după precesie. Nu înlocuiește timpul civil sau standardele oficiale.</p>
-<p>Actualizat: <span id="upd-date" data-l="ro">ER 12 · AE 1734 · luna 11 · ziua 14 · 19:08:04 F+00 (10 octombrie 2026, 13:13 UTC)</span></p>
+<p>Actualizat: <span id="upd-date" data-l="ro">ER 12 · AE 1734 · LC 11 · ZN 14 · 20:03:01 F+00 (10 octombrie 2026, 13:32 UTC)</span></p>
 <script>(function(){var el=document.getElementById("upd-date");if(!el)return;var L=el.getAttribute("data-l");
 var DAY=864e5,EP=Date.UTC(2011,11,22)/DAY,C=25772,LIM=[];for(var j=0;j<13;j++)LIM.push(Math.floor(j*C/12));
 var AM=365+.25-1/128,fd=Math.floor,md=function(a,n){return((a%n)+n)%n};
@@ -80,7 +80,7 @@ function ia(k){return EP+365*(k-1)+fd((k-1)/4)-fd((k-1)/128)}
 function tpu(ms){var zi=fd(ms/DAY),k=fd((zi-EP)/AM)+1;while(zi<ia(k))k--;while(zi>=ia(k+1))k++;
 var n=zi-ia(k)+1,p=md(k-2441+2011,C),e=0;for(var i=0;i<12;i++)if(LIM[i]<=p)e=i;var er=e+1,ae=p-LIM[e]+1;
 var lc=n<=364?fd((n-1)/28)+1:0,zn=n<=364?(n-1)%28+1:n-364;
-var T={ro:["luna","ziua","Ziua anului","sistem TPU"],en:["month","day","Year Day","HPT system"],fr:["mois","jour","Jour de l'an","système TPH"]}[L];
+var T={ro:["LC","ZN","Ziua anului"],en:["LC","ZN","Year Day"],fr:["LC","ZN","Jour de l'an"]}[L];
 return "ER "+er+" · AE "+ae+(lc?" · "+T[0]+" "+lc+" · "+T[1]+" "+zn:" · "+T[2])}
 var M={ro:["ianuarie","februarie","martie","aprilie","mai","iunie","iulie","august","septembrie","octombrie","noiembrie","decembrie"],
 en:["January","February","March","April","May","June","July","August","September","October","November","December"],
