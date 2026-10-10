@@ -529,7 +529,7 @@ function rdMarks(turn, r) {
 function updHour(svg, turn, t, r) {
   const id = svg.id;
   $(id + "-rd").innerHTML = showRd ? rdMarks(turn, r) : "";
-  const per = 43200 * turn / 36;      // secunde standard pe tur al acului orar
+  const per = 2400 * turn;      // secunde standard pe tur al acului orar: 36 h noi = 86400 s, 18 h noi = 43200 s
   rot(id + "-h", mod(t, per) / per * 360);
   rot(id + "-m", mod(t, 2400) / 2400 * 360);
   rot(id + "-s", mod(t, 240) / 240 * 360);

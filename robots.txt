@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://carstian-git.github.io/precessional-time-date-system/sitemap.xml
+Sitemap: https://DOMENIUL-TAU.ro/sitemap.xml
