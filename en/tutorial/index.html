@@ -5,36 +5,36 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Step-by-step tutorial: how to read and compute a date in the precessional system</title>
 <meta name="description" content="One worked example from start to finish (5 October 2026, 12:00 UTC, Bucharest): the 36-hour clock, day of year, 28-day month, solar arc, era and the full code.">
-<link rel="canonical" href="https://DOMENIUL-TAU.ro/en/tutorial/">
-<link rel="alternate" hreflang="ro" href="https://DOMENIUL-TAU.ro/ro/tutorial/">
-<link rel="alternate" hreflang="en" href="https://DOMENIUL-TAU.ro/en/tutorial/">
-<link rel="alternate" hreflang="fr" href="https://DOMENIUL-TAU.ro/fr/tutorial/">
-<link rel="alternate" hreflang="x-default" href="https://DOMENIUL-TAU.ro/">
+<link rel="canonical" href="https://carstian-git.github.io/precessional-time-date-system/en/tutorial/">
+<link rel="alternate" hreflang="ro" href="https://carstian-git.github.io/precessional-time-date-system/ro/tutorial/">
+<link rel="alternate" hreflang="en" href="https://carstian-git.github.io/precessional-time-date-system/en/tutorial/">
+<link rel="alternate" hreflang="fr" href="https://carstian-git.github.io/precessional-time-date-system/fr/tutorial/">
+<link rel="alternate" hreflang="x-default" href="https://carstian-git.github.io/precessional-time-date-system/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Human precessional time · Human precessional calendar">
 <meta property="og:title" content="Step-by-step tutorial: how to read and compute a date in the precessional system">
 <meta property="og:description" content="One worked example from start to finish (5 October 2026, 12:00 UTC, Bucharest): the 36-hour clock, day of year, 28-day month, solar arc, era and the full code.">
-<meta property="og:url" content="https://DOMENIUL-TAU.ro/en/tutorial/">
+<meta property="og:url" content="https://carstian-git.github.io/precessional-time-date-system/en/tutorial/">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://DOMENIUL-TAU.ro/assets/og.png">
+<meta property="og:image" content="https://carstian-git.github.io/precessional-time-date-system/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../../assets/fonts.css?v=86">
-<link rel="stylesheet" href="../../assets/site.css?v=86">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Human precessional time · Human precessional calendar", "url": "https://DOMENIUL-TAU.ro/en/", "inLanguage": "en", "description": "One worked example from start to finish (5 October 2026, 12:00 UTC, Bucharest): the 36-hour clock, day of year, 28-day month, solar arc, era and the full code."}</script>
+<link rel="stylesheet" href="../../assets/fonts.css?v=85">
+<link rel="stylesheet" href="../../assets/site.css?v=85">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Human precessional time · Human precessional calendar", "url": "https://carstian-git.github.io/precessional-time-date-system/en/", "inLanguage": "en", "description": "One worked example from start to finish (5 October 2026, 12:00 UTC, Bucharest): the 36-hour clock, day of year, 28-day month, solar arc, era and the full code."}</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="sitehead">
-<a class="brand" href="../">Human precessional time</a>
-<nav class="sitenav" aria-label="Main menu"><a href="../">Home</a><a href="../sistem/">The HPT system</a><a href="./" aria-current="page">Tutorial</a><a href="../precesia/">Precession</a><a href="../soare-luna/">Sun and Moon</a><a href="../eclipse/">Eclipses</a><a href="../anotimpuri/">Seasons</a><a href="../ziua/">Sunrise and sunset</a><a href="../orientare/">Direction and position</a><a href="../planete/">Planets and zodiac</a><a href="../astrologie/">Astrology in brief</a><a href="../aplicatie/">Tools</a><a href="../despre/">About</a></nav>
-<div class="langsw" role="group" aria-label="Language"><a href="../../ro/tutorial/" hreflang="ro" lang="ro">RO</a><a href="../../en/tutorial/" hreflang="en" lang="en" aria-current="true">EN</a><a href="../../fr/tutorial/" hreflang="fr" lang="fr">FR</a></div>
+<a class="brand" href="../index.html">Human precessional time</a>
+<nav class="sitenav" aria-label="Main menu"><a href="../index.html">Home</a><a href="../sistem/index.html">The HPT system</a><a href="./index.html" aria-current="page">Tutorial</a><a href="../precesia/index.html">Precession</a><a href="../soare-luna/index.html">Sun and Moon</a><a href="../eclipse/index.html">Eclipses</a><a href="../anotimpuri/index.html">Seasons</a><a href="../ziua/index.html">Sunrise and sunset</a><a href="../orientare/index.html">Direction and position</a><a href="../planete/index.html">Planets and zodiac</a><a href="../astrologie/index.html">Astrology in brief</a><a href="../aplicatie/index.html">Tools</a><a href="../despre/index.html">About</a></nav>
+<div class="langsw" role="group" aria-label="Language"><a href="../../ro/tutorial/index.html" hreflang="ro" lang="ro">RO</a><a href="../../en/tutorial/index.html" hreflang="en" lang="en" aria-current="true">EN</a><a href="../../fr/tutorial/index.html" hreflang="fr" lang="fr">FR</a></div>
 </header>
 <main id="main" class="wrap">
 <h1 class="page">Step-by-step tutorial</h1>
 
-<p class="lead">One example, followed from start to finish: <b>5 October 2026, 12:00 UTC, in Bucharest</b> (26.1° east, zone +3). At the end we get the code <code>12-1734-4-58.4-25-11-09 21:00:00:00 F+03</code>. Every step can be checked in the <a href="../aplicatie/">tools</a> or with the downloadable scripts.</p>
+<p class="lead">One example, followed from start to finish: <b>5 October 2026, 12:00 UTC, in Bucharest</b> (26.1° east, zone +3). At the end we get the code <code>12-1734-4-58.4-25-11-09 21:00:00:00 F+03</code>. Every step can be checked in the <a href="../aplicatie/index.html">tools</a> or with the downloadable scripts.</p>
 <nav class="toc" aria-label="Steps"><a href="#p1">1. Time</a><a href="#p2">2. Zone</a><a href="#p3">3. Day of year</a><a href="#p4">4. Month</a><a href="#p5">5. Solar arc</a><a href="#p6">6. Lunar day</a><a href="#p7">7. Era</a><a href="#p8">8. The code</a><a href="#bisect">Leap year</a><a href="#ruleaza">Run it yourself</a></nav>
 
 <section class="prose" id="p1">
@@ -111,19 +111,19 @@
 
 <section class="prose" id="ruleaza">
  <h2>Run it yourself</h2>
- <p>The scripts can be downloaded from the <a href="../despre/">About</a> page and need only Python. The examples above are reproduced like this:</p>
+ <p>The scripts can be downloaded from the <a href="../despre/index.html">About</a> page and need only Python. The examples above are reproduced like this:</p>
  <pre>python sistem_timp.py g2t 2026-10-05T12:00:00 26.1 F
 python sistem_timp.py t2g "12-1734-4-58.4-25-11-09 21:00:00:00 F+03"
 python sistem_timp.py istoric 785BCE
 python sistem_timp.py evenimente 2026</pre>
- <p>The first command gives the code above, the second turns it back into the UTC date, the third gives the era and year for 785 BCE, and the fourth lists the 2026 solstices, equinoxes and Moon phases. Without Python, the same operations can be done in the <a href="../aplicatie/">converter</a>. For precession, see also the <a href="../precesia/">visual tutorial</a>.</p>
+ <p>The first command gives the code above, the second turns it back into the UTC date, the third gives the era and year for 785 BCE, and the fourth lists the 2026 solstices, equinoxes and Moon phases. Without Python, the same operations can be done in the <a href="../aplicatie/index.html">converter</a>. For precession, see also the <a href="../precesia/index.html">visual tutorial</a>.</p>
 </section>
 
 </main>
 <footer class="sitefoot">
 <p><b>Human precessional time · Human precessional calendar</b></p>
 <p>A personal, dogma-independent way of measuring time: the hour as an angle, the year anchored to the solstice, eras from precession. It does not replace civil time or official standards.</p>
-<p>Updated: <span id="upd-date" data-l="en">ER 12 · AE 1734 · LC 11 · ZN 14 · 20:09:01 F+00 (10 October 2026, 13:56 UTC)</span></p>
+<p>Updated: <span id="upd-date" data-l="en">ER 12 · AE 1734 · LC 11 · ZN 20 · 11:01:00 F+00 (16 October 2026, 07:24 UTC)</span></p>
 <script>(function(){var el=document.getElementById("upd-date");if(!el)return;var L=el.getAttribute("data-l");
 var DAY=864e5,EP=Date.UTC(2011,11,22)/DAY,C=25772,LIM=[];for(var j=0;j<13;j++)LIM.push(Math.floor(j*C/12));
 var AM=365+.25-1/128,fd=Math.floor,md=function(a,n){return((a%n)+n)%n};
@@ -141,6 +141,9 @@ var d=new Date(a[0].commit.committer.date);if(isNaN(d))return;
 var s=d.getUTCHours()*3600+d.getUTCMinutes()*60+d.getUTCSeconds(),p=function(n){return(n<10?"0":"")+n},hn=fd(s/2400),mn=fd(s%2400/240),sn=fd(s%240/24);
 el.textContent=tpu(d.getTime())+" · "+p(hn)+":"+p(mn)+":"+p(sn)+" F+00 ("+d.getUTCDate()+" "+M[d.getUTCMonth()]+" "+d.getUTCFullYear()+", "+p(d.getUTCHours())+":"+p(d.getUTCMinutes())+" UTC)"}).catch(function(){})})();</script>
 <p class="license">Texts: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" rel="license">CC BY-SA 4.0</a> · Code: <a href="https://www.gnu.org/licenses/gpl-3.0.html" rel="license">GNU GPLv3</a></p>
+<p class="visitors">Visitors: <span id="gc-total">·</span></p>
+<script data-goatcounter="https://carstian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>(function(){var el=document.getElementById("gc-total");function g(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}setTimeout(function(){g("https://carstian.goatcounter.com/counter/TOTAL.json").then(function(d){el.textContent=d.count_unique||d.count}).catch(function(){el.textContent="—"})},1500)})();</script>
 </footer>
 </body>
 </html>
