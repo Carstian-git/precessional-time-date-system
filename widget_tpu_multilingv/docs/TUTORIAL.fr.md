@@ -6,7 +6,7 @@ Tous les widgets affichent la même chose : le **cadran de 36 heures nouvelles**
 
 **Position.** Le nouveau fuseau se calcule à partir de la longitude (degrés est, négatif à l'ouest). La valeur par défaut, `26.1`, est Bucarest. Chaque widget n'a qu'une valeur à modifier (`LON` ou `Longitude`), indiquée ci-dessous.
 
-**Précision.** L'heure et la date sont des calculs exacts (mêmes formules que le site, vérifiées automatiquement sur des dizaines de milliers d'instants). Les widgets n'affichent pas la phase de la Lune ni le jour lunaire (ils demandent le calcul astronomique complet ; vous les trouverez sur le site).
+**Précision.** L'heure et la date sont des calculs exacts (mêmes formules que le site, vérifiées automatiquement sur des dizaines de milliers d'instants). Les widgets n'affichent pas la phase de la Lune ni le jour lunaire (ils demandent le calcul astronomique complet ; vous les trouverez sur le site). Exception : les skins Rainmeter montre et Terre affichent aussi la phase de la Lune.
 
 | Plateforme | Dossier | Compilation ? |
 |---|---|---|
@@ -15,6 +15,7 @@ Tous les widgets affichent la même chose : le **cadran de 36 heures nouvelles**
 | Windows (widget de bureau) | `windows_rainmeter/` | non |
 | macOS (widget de bureau) | `macos_ubersicht/` | non |
 | iPhone / iPad | `ios_scriptable/` | non (application Scriptable) |
+| Linux (petite fenêtre, démarrage auto) | `linux/` + `python/` | non |
 | Android | `android/` | **oui** (Android Studio) |
 
 ---
@@ -46,11 +47,29 @@ Sous Linux, si Tkinter manque : `sudo apt install python3-tk`.
 
 ## 3. Windows – Rainmeter
 
+Le paquet contient quatre skins : l'horloge avec la date, les montres de 36 h et de 18 h et l'Horloge de la Terre. Sous chaque cadran figurent l'heure TPH avec le fuseau, l'heure locale en SI avec son décalage par rapport à UTC, la date du calendrier précessionnel humain, ER, AE et la date locale.
+
 1. Installez Rainmeter (rainmeter.net).
-2. Copiez le dossier `windows_rainmeter/CeasTPU` dans `Documents\Rainmeter\Skins\`.
-3. Clic droit sur l'icône Rainmeter de la zone de notification → « Refresh all ».
-4. Dans la fenêtre Rainmeter : `CeasTPU` → `CeasTPU.ini` → « Load ».
-5. Longitude et langue : modifiez dans `CeasTPU.ini` les lignes `Longitudine=26.1` et `Limba=ro` (ou via « Edit skin » de Rainmeter), puis « Refresh skin ».
+2. Si vous avez une ancienne version, supprimez le dossier `Documents\Rainmeter\Skins\CeasuriTPU` (et tout ancien dossier `CeasTPU`).
+3. Copiez le dossier `windows_rainmeter/CeasuriTPU` dans `Documents\Rainmeter\Skins\` (directement là, pas dans `illustro`).
+4. Clic droit sur l'icône Rainmeter de la zone de notification → « Refresh all ».
+5. Dans la fenêtre Rainmeter, chargez (Load) l'un de : `CeasuriTPU\Ceas\Ceas.ini`, `Mana36\Mana36.ini`, `Mana18\Mana18.ini`, `Pamant\Pamant.ini`.
+6. Réglages, dans `[Variables]` de chaque `.ini` (puis « Refresh skin ») : `Longitudine=auto` (d'après le fuseau Windows ; ou un nombre, degrés est), `Limba=auto` (suit la langue de Windows : roumain, anglais ou français ; ou `ro`, `en`, `fr`), `Diacritice=0` (sans diacritiques, par défaut ; mettez 1 si vous en voulez). `Pamant.ini` a aussi `Latitudine` (44.4 par défaut, mettez la vôtre) et `Marime`.
+
+Détails dans `windows_rainmeter/CeasuriTPU/CITESTE.txt` (en roumain). Les skins ont été vérifiés numériquement par rapport au site, mais le dessin n'a pas encore été essayé directement dans Rainmeter.
+
+
+**Comment lire l'Horloge de la Terre** (pareil dans le skin Rainmeter et sur le site) :
+
+- La carte est vue de dessus le pôle Nord (au centre). Le fuseau 0 est en bas, l'est à droite.
+- **L'aiguille bleu clair, avec contour,** indique votre fuseau. Votre heure est le nombre de la case qu'elle désigne.
+- **Le Soleil jaune à rayons**, sur l'anneau, montre le fuseau où il est midi maintenant (heure 18). Le Soleil va vers l'ouest.
+- **Le petit cercle orange avec un point** est le point subsolaire : là où le Soleil est au zénith. Il se déplace vers l'ouest chaque jour et entre les deux tropiques selon les saisons.
+- **Le méridien pointillé** part de là vers le centre : tous les fuseaux de la ligne ont midi solaire en ce moment.
+- **Le parallèle pointillé** est le cercle autour du Pôle passant par le même point. Il s'agrandit ou se réduit avec les saisons et montre la distance du Soleil au pôle.
+- La partie sombre de la carte est la nuit ; la ligne jour-nuit est à 90° du point subsolaire.
+- Sur la montre 18 h, les chiffres de la demi-journée qui n'est pas en cours restent lisibles (brun foncé), et ceux de la moitié en cours sont bleu marine et en gras.
+
 
 ## 4. macOS – Übersicht
 
@@ -81,6 +100,23 @@ Limite : Android peut retarder les mises à jour en mode économie de batterie ;
 
 > **État :** le code Android n'a pas été compilé dans l'environnement où il a été écrit (pas de SDK Android). La logique de calcul est la même que dans les autres widgets, qui ont été vérifiés, mais de petits ajustements de versions Gradle/AGP peuvent être nécessaires à la première compilation. En cas d'erreur, envoyez-la et nous la corrigerons.
 
+## 7. Linux
+
+Deux options, sans compilation.
+
+**Petite fenêtre (Python).** Fonctionne sur tout bureau (GNOME, KDE, Xfce, etc.) sous X11 ; sous Wayland, la fenêtre peut ne pas rester au-dessus des autres.
+
+1. Installez Python 3 avec Tkinter : `sudo apt install python3-tk` (Debian/Ubuntu), `sudo dnf install python3-tkinter` (Fedora) ou `sudo pacman -S tk` (Arch).
+2. Lancez : `python3 python/ceas_tpu.py 26.1 fr` (longitude, puis langue `ro`, `en` ou `fr`). Clic gauche et glisser = déplacer ; clic droit = fermer.
+3. Démarrage automatique à la connexion : `sh linux/instaleaza.sh 26.1 fr`. Le script place un fichier dans `~/.config/autostart/`. Pour le retirer, supprimez `~/.config/autostart/ceas-tpu.desktop`.
+
+**Application web (PWA).** Ouvrez l'adresse de la PWA dans Chromium, Chrome ou Edge et choisissez « Installer » ; elle apparaît comme application dans le menu.
+
+
+## Horloges HTML (tout système)
+
+Le dossier `ceasuri_web/` contient les mêmes horloges (Horloge de la Terre, montres 36 h et 18 h) sous forme de pages HTML, avec le vrai code du site. Sous Windows, double-clic sur un fichier `.bat` ; sur tout autre système, ouvrez `pamant_fr.html`, `mana36_fr.html` ou `mana18_fr.html` (`ro`/`en` pour roumain/anglais) dans un navigateur. Lieu : ajoutez `?lon=26.1&lat=44.4` à l'adresse. Le dossier `assets/` doit rester à côté des pages. Détails dans `ceasuri_web/CITESTE.txt` (en roumain).
+
 ---
 
 ## Publication sur GitHub
@@ -94,4 +130,4 @@ Les widgets sont du code ; ils peuvent donc se trouver dans le même dépôt que
 
 ## Mise à jour
 
-Le noyau de calcul est dans `tpu_mini.js` (JavaScript, avec les textes RO/EN/FR) et dans les portages `python/ceas_tpu.py`, `windows_rainmeter/CeasTPU/@Resources/tpu.lua` et `android/.../TpuWidget.kt`. Si une règle du système change, il faut modifier chacun d'eux. La référence complète est `core.js` / `sistem_timp.py` du site.
+Le noyau de calcul est dans `tpu_mini.js` (JavaScript, avec les textes RO/EN/FR) et dans les portages `python/ceas_tpu.py`, `windows_rainmeter/CeasuriTPU/@Resources/tpu.lua` et `android/.../TpuWidget.kt`. Si une règle du système change, il faut modifier chacun d'eux. La référence complète est `core.js` / `sistem_timp.py` du site.

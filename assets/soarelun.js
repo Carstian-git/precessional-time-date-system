@@ -513,7 +513,10 @@ function renderGlobe(ms) {
   }
   $("se-shadow").innerHTML = sh;
   const [sx, sy] = gproj(sub.lat, sub.lon), [mx, my] = gproj(Math.max(GLAT0, lu.lat), lu.lon);
-  $("se-sub").innerHTML = `<circle cx="${f1(sx)}" cy="${f1(sy)}" r="5.5" fill="none" stroke="var(--sun)" stroke-width="1.6"/><circle cx="${f1(sx)}" cy="${f1(sy)}" r="1.6" fill="var(--sun)"/>` +
+  const [mex, mey] = gproj(GLAT0, sub.lon), prr = Math.min(GR, GR * (90 - sub.lat) / (90 - GLAT0));
+  $("se-sub").innerHTML = `<line x1="${GC}" y1="${GC}" x2="${f1(mex)}" y2="${f1(mey)}" stroke="var(--sun)" stroke-width="2.3" stroke-opacity=".9" stroke-linecap="round" stroke-dasharray="0.1 5.5"/>` +
+    `<circle cx="${GC}" cy="${GC}" r="${prr.toFixed(1)}" fill="none" stroke="var(--sun)" stroke-width="2" stroke-opacity=".8" stroke-linecap="round" stroke-dasharray="0.1 5.5"/>` +
+    `<circle cx="${f1(sx)}" cy="${f1(sy)}" r="5.5" fill="none" stroke="var(--sun)" stroke-width="1.6"/><circle cx="${f1(sx)}" cy="${f1(sy)}" r="1.6" fill="var(--sun)"/>` +
     `<circle cx="${f1(mx)}" cy="${f1(my)}" r="11" fill="var(--face)" fill-opacity=".55"/>` + faseIcon(u, mx, my, 8).replace(/<circle cx="[\d.]+" cy="[\d.]+" r="8"/, `<circle cx="${f1(mx)}" cy="${f1(my)}" r="8"`);
   const ah = tu / 240 + 180, am = mod(tu, 2400) / 2400 * 360;
   let rays = ""; for (let i = 0; i < 8; i++) rays += `<line x1="${f1(9 * Math.sin(i * Math.PI / 4))}" y1="${f1(-9 * Math.cos(i * Math.PI / 4))}" x2="${f1(13 * Math.sin(i * Math.PI / 4))}" y2="${f1(-13 * Math.cos(i * Math.PI / 4))}" stroke="var(--sun)" stroke-width="1.6" stroke-linecap="round"/>`;

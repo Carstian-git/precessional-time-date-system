@@ -1,0 +1,19 @@
+CEASURI TPU - WIDGETURI v5 (Ceasul Pamantului, ceas de mana 36 h, ceas de mana 18 h)
+
+Folosesti codul real al site-ului (ultima versiune), fara internet.
+
+WINDOWS
+1. Dezarhiveaza intregul folder (nu rula din interiorul zip-ului).
+2. Dublu-clic pe una dintre:
+   Ceasul_Pamantului.bat | Ceas_de_mana_36h.bat | Ceas_de_mana_18h.bat
+   Se deschide o fereastra mica (Edge, fara bara de adrese). Trage-o unde vrei si lasa-o
+   deschisa; o poti face "mereu deasupra" cu PowerToys (Win+Ctrl+T).
+3. Locatia si limba: deschide .bat cu Notepad si schimba LIMBA / LON / LAT.
+
+ORICE SISTEM (Mac, Linux, telefon)
+Deschide direct in browser: pamant_ro.html, mana36_ro.html, mana18_ro.html
+(en / fr pentru engleza / franceza). Locatia: adauga la adresa ?lon=26.1&lat=44.4
+Exemplu: mana36_ro.html?lon=23.6&lat=46.77
+Tema: adauga &tema=dark sau &tema=light.
+
+Fisierul assets/ trebuie sa ramana langa paginile .html.

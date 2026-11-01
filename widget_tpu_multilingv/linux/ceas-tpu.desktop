@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Ceas TPU
+Comment=Ceasul de 36 de ore noi / 36-new-hour clock
+Exec=python3 /CALE/CATRE/widgeturi/python/ceas_tpu.py 26.1 ro
+Terminal=false
+X-GNOME-Autostart-enabled=true

@@ -11,6 +11,8 @@
 | `windows_rainmeter/` | Rainmeter skin |
 | `macos_ubersicht/` | Übersicht widget |
 | `ios_scriptable/` | Scriptable script (iPhone/iPad) |
+| `linux/` | autostart (Linux) · pornire automată · démarrage auto |
+| `ceasuri_web/` | HTML clocks (Earth, watches) · ceasuri HTML · horloges HTML |
 | `android/` | Android Studio project (must be built · se compilează · à compiler) |
 | `tpu_mini.js` | shared calculation core · nucleu de calcul · noyau de calcul |
 

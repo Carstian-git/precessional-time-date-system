@@ -1,0 +1,51 @@
+CEASURI TPU PENTRU RAINMETER - v15
+(Ceas + ceas de mana 36 h + ceas de mana 18 h + Ceasul Pamantului)
+
+INSTALARE
+1. Daca ai instalat o versiune veche, sterge folderul  Documente\Rainmeter\Skins\CeasuriTPU  (si orice folder vechi cu ceasul TPU).
+2. Dezarhiveaza arhiva. Rezulta folderul "CeasuriTPU".
+3. Copiaza folderul intreg "CeasuriTPU" in:  Documente\Rainmeter\Skins\
+   (direct acolo, NU in Skins\illustro). Rezultat:
+   Documente\Rainmeter\Skins\CeasuriTPU\@Resources\pamant_baza.png
+   Documente\Rainmeter\Skins\CeasuriTPU\Pamant\Pamant.ini   etc.
+4. Rainmeter -> Manage -> "Refresh all". In lista apar patru skinuri:
+   CeasuriTPU\Ceas\Ceas.ini        ceasul cu data
+   CeasuriTPU\Mana36\Mana36.ini    ceas de mana 36 h
+   CeasuriTPU\Mana18\Mana18.ini    ceas de mana 18 h
+   CeasuriTPU\Pamant\Pamant.ini    Ceasul Pamantului (harta, noaptea, Soarele si Luna)
+   Selecteaza fisierul si apasa Load. Daca nu vezi folderul CeasuriTPU, ai copiat in alt loc.
+
+CE ARATA SUB FIECARE CADRAN (la toate patru)
+   1. ora TPU (HN:MN:SN:SS) si fusul tau (de ex. F-06)
+   2. ora locala in SI, cu decalajul fata de UTC (de ex. SI 13:55:22 (UTC-4)): ceasul calculator al Windows
+   3. ziua, luna si ziua lunii in calendarul precesional uman
+   4. ER, AE si data locala in SI
+
+SETARI (in fiecare .ini, sectiunea [Variables]; salveaza si Refresh skin)
+   Longitudine=auto   inseamna: din fusul orar al Windows (fusul standard x 15 grade). Pentru alt loc scrie
+                      un numar (grade est, negativ la vest), de ex. 26.1 pentru Bucuresti, -74.0 pentru New York.
+   Limba=auto         auto / ro / en / fr. "auto" urmeaza limba din setarile regionale Windows
+                      (citita din registru: Control Panel\International, LocaleName). Romana -> romana,
+                      franceza -> franceza, orice altceva -> engleza. Pentru a forta o limba scrie ro, en sau fr.
+                      Se traduc zilele saptamanii, "Luna / ziua", "Faza lunara" si formatul datei locale
+                      (ro 22.10.2026, en 2026-10-22, fr 22/10/2026).
+   Diacritice=0       texte fara diacritice (implicit, sigur). Pune 1 doar daca vrei diacritice si le vezi corect
+   La Pamant.ini in plus:
+   Latitudine=44.4    latitudinea ta (grade nord, negativ la sud): pune punctul locului tau pe harta
+   Marime=360         latura discului in pixeli
+
+CEASUL PAMANTULUI: CUM SE CITESTE
+   Ca pe site: vazut de deasupra Polului Nord (in centru). Fusul 0 e jos, + spre dreapta (est).
+   Acul albastru deschis (ora solara medie) arata fusul tau; acul alb este minutarul, cel portocaliu secundarul.
+   Soarele galben de pe inel arata fusul unde este acum amiaza (ora 18, scrisa cu auriu).
+   Cercul portocaliu = locul unde Soarele e la zenit, iar linia punctata portocalie care porneste din el spre centru este meridianul Soarelui (acolo e prinz solar); cercul punctat din jurul polului, care trece prin acelasi punct, este paralela lui (se mareste sau se micsoreaza dupa anotimp); luna mica = locul de sub Luna, cu faza ei reala.
+   Partea intunecata a hartii este noaptea. Chenarul portocaliu este fusul tau.
+   Diferente fata de varianta de pe site: nu apare umbra Lunii la eclipsele de Soare si nu se poate alege alt loc din meniu
+   (locul se schimba din Longitudine / Latitudine).
+
+DACA NU MERGE
+   Daca pe cadran apare "ERR ..." (in locul orei), scrie-mi textul exact: arata ce nu merge.
+   Daca raman doar "- -" : Rainmeter -> About -> fila Log si trimite-mi liniile rosii/cu "Error" despre TPU / tpu.lua.
+   Dupa orice schimbare in fisiere: Rainmeter -> Refresh all. Asigura-te ca skinurile active sunt din CeasuriTPU (nu cele vechi, CeasTPU).
+   Rainmeter -> About -> fila Log: trimite-mi textul. Calculele au fost verificate pe Lua, cu aceleasi rezultate ca site-ul;
+   desenul a fost verificat pe o simulare, nu direct in Rainmeter.

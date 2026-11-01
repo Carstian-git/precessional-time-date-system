@@ -6,7 +6,7 @@ All widgets show the same thing: the **36-new-hour dial** (10° per hour, 0 at t
 
 **Location.** The new time zone is computed from your longitude (degrees east, negative in the west). The default, `26.1`, is Bucharest. Each widget has a single value to change (`LON` or `Longitude`), shown below.
 
-**Accuracy.** Time and date are exact calculations (the same formulas as the website, checked automatically on tens of thousands of moments). The widgets do not show the Moon phase or the lunar day (these need the full astronomical calculation; you will find them on the website).
+**Accuracy.** Time and date are exact calculations (the same formulas as the website, checked automatically on tens of thousands of moments). The widgets do not show the Moon phase or the lunar day (these need the full astronomical calculation; you will find them on the website). Exception: the Rainmeter wristwatch and Earth skins also show the Moon phase.
 
 | Platform | Folder | Needs building? |
 |---|---|---|
@@ -15,6 +15,7 @@ All widgets show the same thing: the **36-new-hour dial** (10° per hour, 0 at t
 | Windows (desktop widget) | `windows_rainmeter/` | no |
 | macOS (desktop widget) | `macos_ubersicht/` | no |
 | iPhone / iPad | `ios_scriptable/` | no (Scriptable app) |
+| Linux (small window, autostart) | `linux/` + `python/` | no |
 | Android | `android/` | **yes** (Android Studio) |
 
 ---
@@ -46,11 +47,29 @@ On Linux, if Tkinter is missing: `sudo apt install python3-tk`.
 
 ## 3. Windows – Rainmeter
 
+The package contains four skins: the clock with date, the 36 h and 18 h wristwatches, and the Earth Clock. Under each dial you see the HPT time with the zone, the local SI time with its UTC offset, the date in the human precessional calendar, ER, AE and the local date.
+
 1. Install Rainmeter (rainmeter.net).
-2. Copy the folder `windows_rainmeter/CeasTPU` into `Documents\Rainmeter\Skins\`.
-3. Right-click the Rainmeter icon in the system tray → “Refresh all”.
-4. In the Rainmeter window: `CeasTPU` → `CeasTPU.ini` → “Load”.
-5. Longitude and language: edit the lines `Longitudine=26.1` and `Limba=ro` in `CeasTPU.ini` (or use Rainmeter’s “Edit skin”), then “Refresh skin”.
+2. If you have an older version, delete the folder `Documents\Rainmeter\Skins\CeasuriTPU` (and any old `CeasTPU` folder).
+3. Copy the folder `windows_rainmeter/CeasuriTPU` into `Documents\Rainmeter\Skins\` (directly there, not into `illustro`).
+4. Right-click the Rainmeter icon in the system tray → “Refresh all”.
+5. In the Rainmeter window, Load any of: `CeasuriTPU\Ceas\Ceas.ini`, `Mana36\Mana36.ini`, `Mana18\Mana18.ini`, `Pamant\Pamant.ini`.
+6. Settings, in `[Variables]` of each `.ini` (then “Refresh skin”): `Longitudine=auto` (from the Windows time zone; or a number, degrees east), `Limba=auto` (follows the Windows language: Romanian, English or French; or `ro`, `en`, `fr`), `Diacritice=0` (no diacritics, default; set 1 if you want them). `Pamant.ini` also has `Latitudine` (default 44.4, set your own) and `Marime`.
+
+Details in `windows_rainmeter/CeasuriTPU/CITESTE.txt` (Romanian). The skins were checked numerically against the website, but the drawing has not yet been tried directly in Rainmeter.
+
+
+**How to read the Earth Clock** (the same in the Rainmeter skin and on the website):
+
+- The map is seen from above the North Pole (at the centre). Zone 0 is at the bottom, east to the right.
+- **The light-blue hand, outlined,** points to your zone. Your hour is the number in the box it points at.
+- **The yellow Sun with rays**, on the ring, shows the zone where it is noon now (hour 18). The Sun moves west.
+- **The small orange circle with a dot** is the subsolar point: where the Sun is at the zenith. It moves west every day and between the two tropics with the seasons.
+- **The dotted meridian** runs from it to the centre: every zone on the line has solar noon right now.
+- **The dotted parallel** is the circle around the Pole through the same point. It grows or shrinks with the seasons and shows how far the Sun is from the pole.
+- The dark part of the map is night; the day-night line stands 90° from the subsolar point.
+- On the 18 h wristwatch, the numbers of the half-day that is not current stay readable (dark brown), and those of the current half are navy and bold.
+
 
 ## 4. macOS – Übersicht
 
@@ -81,6 +100,23 @@ Limit: Android may delay updates in battery-saver mode; the widget refreshes abo
 
 > **Status:** the Android code was not compiled in the environment where it was written (no Android SDK there). The calculation logic is the same as in the other widgets, which were checked, but small Gradle/AGP version adjustments may be needed on the first build. If you get an error, send it and we will fix it.
 
+## 7. Linux
+
+Two options, neither needs compiling.
+
+**Small window (Python).** Works on any desktop (GNOME, KDE, Xfce, etc.) under X11; under Wayland the window may not stay on top of the others.
+
+1. Install Python 3 with Tkinter: `sudo apt install python3-tk` (Debian/Ubuntu), `sudo dnf install python3-tkinter` (Fedora) or `sudo pacman -S tk` (Arch).
+2. Run: `python3 python/ceas_tpu.py 26.1 en` (longitude, then language `ro`, `en` or `fr`). Left-click and drag = move; right-click = close.
+3. Autostart at login: `sh linux/instaleaza.sh 26.1 en`. The script puts a file in `~/.config/autostart/`. To remove it, delete `~/.config/autostart/ceas-tpu.desktop`.
+
+**Web app (PWA).** Open the PWA address in Chromium, Chrome or Edge and choose “Install”; it appears as an app in the menu.
+
+
+## HTML clocks (any system)
+
+The folder `ceasuri_web/` holds the same clocks (Earth Clock, 36 h and 18 h wristwatches) as HTML pages, with the website's real code. On Windows, double-click a `.bat` file; on any other system open `pamant_en.html`, `mana36_en.html` or `mana18_en.html` (`ro`/`fr` for Romanian/French) in a browser. Location: add `?lon=26.1&lat=44.4` to the address. The `assets/` folder must stay next to the pages. Details in `ceasuri_web/CITESTE.txt` (Romanian).
+
 ---
 
 ## Publishing on GitHub
@@ -94,4 +130,4 @@ The widgets are code, so they can live in the same repository as the website or 
 
 ## Updating
 
-The calculation core is in `tpu_mini.js` (JavaScript, with the RO/EN/FR texts) and in the ports `python/ceas_tpu.py`, `windows_rainmeter/CeasTPU/@Resources/tpu.lua` and `android/.../TpuWidget.kt`. If a rule of the system changes, all of them must be changed. The full reference is `core.js` / `sistem_timp.py` from the website.
+The calculation core is in `tpu_mini.js` (JavaScript, with the RO/EN/FR texts) and in the ports `python/ceas_tpu.py`, `windows_rainmeter/CeasuriTPU/@Resources/tpu.lua` and `android/.../TpuWidget.kt`. If a rule of the system changes, all of them must be changed. The full reference is `core.js` / `sistem_timp.py` from the website.

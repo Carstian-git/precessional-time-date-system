@@ -306,12 +306,12 @@ function face(svg, n) {
 }
 let curHalf = 0;
 function nums(svg, half) {
-  const on = (h, big, small) => h === half ? `font-size:${big}px;font-weight:700;fill:#1b2230` : `font-size:${small}px;font-weight:500;fill:#6b6552;opacity:.45`;
+  const on = (h, big, small) => h === half ? `font-size:${big}px;font-weight:700;fill:#1b2230` : `font-size:${small}px;font-weight:600;fill:#54482f`;
   let s = `<circle cx="${c}" cy="${c}" r="${half === 1 ? 126 : 98}" fill="none" stroke="#d9531e" stroke-opacity=".16" stroke-width="${half === 1 ? 30 : 24}"/>`;
   for (let i = 0; i < 18; i++) {
     const a = i * 20;
-    s += txt(c, c, 126, a, i === 0 ? 18 : i, 24, "", `style="${F};${on(1, 24, 15).replace(/font-size:\d+px;?/, "")}" font-size="${half === 1 ? 24 : 15}"`);
-    s += txt(c, c, 98, a, i === 0 ? 36 : 18 + i, 12, "", `style="${F};${on(2, 20, 12).replace(/font-size:\d+px;?/, "")}" font-size="${half === 2 ? 20 : 12}"`);
+    s += txt(c, c, 126, a, i === 0 ? 18 : i, 24, "", `style="${F};${on(1, 24, 15).replace(/font-size:\d+px;?/, "")}" font-size="${half === 1 ? 24 : 18}"`);
+    s += txt(c, c, 98, a, i === 0 ? 36 : 18 + i, 12, "", `style="${F};${on(2, 20, 12).replace(/font-size:\d+px;?/, "")}" font-size="${half === 2 ? 20 : 15}"`);
   }
   $(svg.id + "-nm").innerHTML = s;
 }
