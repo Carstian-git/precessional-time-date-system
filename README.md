@@ -17,6 +17,9 @@ A static, trilingual (RO / EN / FR) website about the **Human Precessional Time 
 - **Widgets** (`widget_tpu_multilingv/`): the clock and calendar for desktop and phone (web app / PWA, Python window, Rainmeter, Übersicht, Scriptable for iOS, Linux autostart, HTML clocks, an Android project that must be compiled). See the README inside that folder.
 - **Impressions page:** comments through GitHub Discussions (Giscus, GitHub account required) or, without any account, through a one-field Google Form.
 
+### Share your impression
+Write a comment or send a message without any account on the Impressions page: **[https://carstian-git.github.io/precessional-time-date-system/en/impresii/](https://carstian-git.github.io/precessional-time-date-system/en/impresii/)**
+
 ### Privacy
 No cookies. Visits and downloads are counted anonymously with GoatCounter. Comments are hosted by GitHub; the alternative form is hosted by Google Forms (name optional, no e-mail requested).
 
@@ -41,6 +44,9 @@ Site static, trilingv (RO / EN / FR), despre **Timpul precesional uman (TPU)** �
 - **Widgeturi** (`widget_tpu_multilingv/`): ceasul și calendarul pentru calculator și telefon (aplicație web / PWA, fereastră Python, Rainmeter, Übersicht, Scriptable pentru iOS, pornire automată Linux, ceasuri HTML, un proiect Android care trebuie compilat). Vezi README-ul din acel folder.
 - **Pagina Impresii:** comentarii prin GitHub Discussions (Giscus, cu cont GitHub) sau, fără niciun cont, printr-un formular Google cu un singur câmp.
 
+### Spune-ne impresia ta
+Scrie un comentariu sau trimite un mesaj, fără cont, pe pagina Impresii: **[https://carstian-git.github.io/precessional-time-date-system/ro/impresii/](https://carstian-git.github.io/precessional-time-date-system/ro/impresii/)**
+
 ### Confidențialitate
 Fără cookie-uri. Vizitele și descărcările sunt numărate anonim cu GoatCounter. Comentariile sunt găzduite de GitHub; formularul alternativ este găzduit de Google Forms (nume opțional, fără e-mail).
 
@@ -64,6 +70,9 @@ Site statique trilingue (RO / EN / FR) consacré au **Temps précessionnel humai
 - **Téléchargements** (`files/`) : scripts Python (`sistem_timp.py`, `conversie_timp.py`, `calendar_13_luni.py`), un classeur Excel (`timp_36_ore_rotatie.xlsx`) et le manuel d'utilisation en roumain, anglais et français (`.md` et `.docx`).
 - **Widgets** (`widget_tpu_multilingv/`) : l'horloge et le calendrier pour ordinateur et téléphone (application web / PWA, fenêtre Python, Rainmeter, Übersicht, Scriptable pour iOS, démarrage automatique Linux, horloges HTML, un projet Android à compiler). Voir le README de ce dossier.
 - **Page Impressions :** commentaires via GitHub Discussions (Giscus, compte GitHub requis) ou, sans aucun compte, via un formulaire Google à un seul champ.
+
+### Partagez votre impression
+Écrivez un commentaire ou envoyez un message, sans compte, sur la page Impressions : **[https://carstian-git.github.io/precessional-time-date-system/fr/impresii/](https://carstian-git.github.io/precessional-time-date-system/fr/impresii/)**
 
 ### Confidentialité
 Pas de cookies. Les visites et les téléchargements sont comptés anonymement avec GoatCounter. Les commentaires sont hébergés par GitHub ; le formulaire alternatif est hébergé par Google Forms (nom facultatif, aucune adresse e-mail demandée).
