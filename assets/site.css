@@ -229,6 +229,10 @@ h1.home{font-size:clamp(2.3rem,6.5vw,4.4rem)}
 .prose h2{font:400 2rem/1.1 var(--f-display);margin:0;text-wrap:balance}
 .prose h3{font:400 1.4rem/1.1 var(--f-display);margin:8px 0 0}
 .prose p,.prose ul,.prose ol{margin:0}
+.voices-list{display:flex;flex-direction:column;gap:16px}
+.voices-list blockquote{margin:0;padding:4px 0 4px 16px;border-left:3px solid var(--sun)}
+.voices-list blockquote p{white-space:pre-wrap}
+.voices-list blockquote footer{opacity:.7;font-size:.9em;margin-top:4px}
 .prose ul{padding-left:1.2em;display:flex;flex-direction:column;gap:8px}
 .prose .note{font-size:13px;color:var(--mute)}
 .prose.wide{max-width:none}
