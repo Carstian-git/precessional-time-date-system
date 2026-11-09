@@ -28,7 +28,7 @@
 <a class="skip" href="#main">Salt la conținut</a>
 <header class="sitehead">
 <a class="brand" href="../index.html">Timpul precesional uman</a>
-<nav class="sitenav" aria-label="Meniu principal"><a href="../index.html">Acasă</a><a href="../sistem/index.html">Sistemul TPU</a><a href="../tutorial/index.html">Tutorial</a><a href="../precesia/index.html">Precesia</a><a href="./index.html" aria-current="page">Soarele și Luna</a><a href="../eclipse/index.html">Eclipse</a><a href="../anotimpuri/index.html">Anotimpuri</a><a href="../zilele-si-lunile/index.html">Zilele și lunile</a><a href="../ziua/index.html">Răsărit și apus</a><a href="../orientare/index.html">Orientare și poziție</a><a href="../planete/index.html">Planetele și Zodiacul</a><a href="../astrologie/index.html">Astrologia pe scurt</a><a href="../aplicatie/index.html">Instrumente</a><a href="../despre/index.html">Despre</a></nav>
+<nav class="sitenav" aria-label="Meniu principal"><a href="../index.html">Acasă</a><a href="../sistem/index.html">Sistemul TPU</a><a href="../tutorial/index.html">Tutorial</a><a href="../precesia/index.html">Precesia</a><a href="./index.html" aria-current="page">Soarele și Luna</a><a href="../eclipse/index.html">Eclipse</a><a href="../anotimpuri/index.html">Anotimpuri</a><a href="../zilele-si-lunile/index.html">Zilele și lunile</a><a href="../ziua/index.html">Răsărit și apus</a><a href="../orientare/index.html">Orientare și poziție</a><a href="../planete/index.html">Planetele și Zodiacul</a><a href="../astrologie/index.html">Astrologia pe scurt</a><a href="../aplicatie/index.html">Instrumente</a><a href="../impresii/index.html">Impresii</a><a href="../despre/index.html">Despre</a></nav>
 <div class="langsw" role="group" aria-label="Limba"><a href="../../ro/soare-luna/index.html" hreflang="ro" lang="ro" aria-current="true">RO</a><a href="../../en/soare-luna/index.html" hreflang="en" lang="en">EN</a><a href="../../fr/soare-luna/index.html" hreflang="fr" lang="fr">FR</a></div>
 </header>
 <main id="main" class="wrap sl-wrap">
@@ -80,7 +80,7 @@
 <footer class="sitefoot">
 <p><b>Timpul precesional uman · Calendarul precesional uman</b></p>
 <p>Un sistem personal de măsurare a timpului, independent de dogme: ora ca unghi, anul ancorat în solstițiu, erele după precesie. Nu înlocuiește timpul civil sau standardele oficiale.</p>
-<p>Actualizat: <span id="upd-date" data-l="ro">ER 12 · AE 1734 · LC 12 · ZN 8 · 26:03:07 F+00 (1 noiembrie 2026, 17:35 UTC)</span></p>
+<p>Actualizat: <span id="upd-date" data-l="ro">ER 12 · AE 1734 · LC 12 · ZN 16 · 25:07:01 F+00 (9 noiembrie 2026, 17:08 UTC)</span></p>
 <script>(function(){var el=document.getElementById("upd-date");if(!el)return;var L=el.getAttribute("data-l");
 var DAY=864e5,EP=Date.UTC(2011,11,22)/DAY,C=25772,LIM=[];for(var j=0;j<13;j++)LIM.push(Math.floor(j*C/12));
 var AM=365+.25-1/128,fd=Math.floor,md=function(a,n){return((a%n)+n)%n};
@@ -98,9 +98,9 @@ var d=new Date(a[0].commit.committer.date);if(isNaN(d))return;
 var s=d.getUTCHours()*3600+d.getUTCMinutes()*60+d.getUTCSeconds(),p=function(n){return(n<10?"0":"")+n},hn=fd(s/2400),mn=fd(s%2400/240),sn=fd(s%240/24);
 el.textContent=tpu(d.getTime())+" · "+p(hn)+":"+p(mn)+":"+p(sn)+" F+00 ("+d.getUTCDate()+" "+M[d.getUTCMonth()]+" "+d.getUTCFullYear()+", "+p(d.getUTCHours())+":"+p(d.getUTCMinutes())+" UTC)"}).catch(function(){})})();</script>
 <p class="license">Texte: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ro" rel="license">CC BY-SA 4.0</a> · Cod: <a href="https://www.gnu.org/licenses/gpl-3.0.html" rel="license">GNU GPLv3</a></p>
-<p class="visitors">Vizitatori: <span id="gc-total">·</span></p>
+<p class="visitors">Vizitatori: <span id="gc-total">·</span> · Descărcări: <span id="gc-dl">·</span></p>
 <script data-goatcounter="https://carstian.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
-<script>(function(){var el=document.getElementById("gc-total");function g(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}setTimeout(function(){g("https://carstian.goatcounter.com/counter/TOTAL.json").then(function(d){el.textContent=d.count_unique||d.count}).catch(function(){el.textContent="—"})},1500)})();</script>
+<script>(function(){var el=document.getElementById('gc-total'),dl=document.getElementById('gc-dl');function g(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href*="/files/"]');if(!a)return;var f=a.getAttribute('href').split('/files/')[1];if(!f||!window.goatcounter||!window.goatcounter.count)return;window.goatcounter.count({path:'descarcare/'+f,title:'Descărcare: '+f,event:true});window.goatcounter.count({path:'descarcare',title:'Descărcări (total)',event:true})});setTimeout(function(){g('https://carstian.goatcounter.com/counter/TOTAL.json').then(function(d){el.textContent=d.count_unique||d.count}).catch(function(){el.textContent='—'});g('https://carstian.goatcounter.com/counter/descarcare.json').then(function(d){dl.textContent=d.count}).catch(function(){dl.textContent='0'})},1500)})();</script>
 </footer>
 </body>
 </html>
