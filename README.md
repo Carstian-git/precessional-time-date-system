@@ -13,7 +13,7 @@ A static, trilingual (RO / EN / FR) website about the **Human Precessional Time 
 ### What you will find
 - **Explanations:** the system, the day, the days and months, precession, seasons, Sun and Moon, eclipses, planets, astrology and zodiac, orientation, a tutorial.
 - **Interactive clock and calendar** (the "app" page): real-time 36-hour clock, calendar, zodiac sign.
-- **Downloads** (`files/`): Python scripts (`sistem_timp.py`, `conversie_timp.py`, `calendar_13_luni.py`), an Excel workbook (`timp_36_ore_rotatie.xlsx`) and the user manual in Romanian, English and French (`.md` and `.docx`).
+- **Downloads** (`files/`): Python scripts (`sistem_timp.py`, `conversie_timp.py`, `calendar_13_luni.py`), an Excel workbook (`timp_36_ore_rotatie.xlsx`) the user manual and the widget installation tutorial in Romanian, English and French (`.md` and `.docx`), and one ready-made `.zip` per widget (Rainmeter, Übersicht, Scriptable, Python/Linux, Android, HTML clocks) plus an archive with everything.
 - **Widgets** (`widget_tpu_multilingv/`): the clock and calendar for desktop and phone (web app / PWA, Python window, Rainmeter, Übersicht, Scriptable for iOS, Linux autostart, HTML clocks, an Android project that must be compiled). See the README inside that folder.
 - **Impressions page:** comments through GitHub Discussions (Giscus, GitHub account required) or, without any account, through a one-field Google Form.
 
@@ -40,7 +40,7 @@ Site static, trilingv (RO / EN / FR), despre **Timpul precesional uman (TPU)** �
 ### Ce găsești aici
 - **Explicații:** sistemul, ziua, zilele și lunile, precesia, anotimpurile, Soarele și Luna, eclipsele, planetele, astrologia și zodiacul, orientarea, un tutorial.
 - **Ceas și calendar interactiv** (pagina „aplicație”): ceasul de 36 de ore în timp real, calendarul, semnul zodiacal.
-- **Descărcări** (`files/`): scripturi Python (`sistem_timp.py`, `conversie_timp.py`, `calendar_13_luni.py`), un registru Excel (`timp_36_ore_rotatie.xlsx`) și manualul de utilizare în română, engleză și franceză (`.md` și `.docx`).
+- **Descărcări** (`files/`): scripturi Python (`sistem_timp.py`, `conversie_timp.py`, `calendar_13_luni.py`), un registru Excel (`timp_36_ore_rotatie.xlsx`) manualul de utilizare și tutorialul de instalare a widgeturilor în română, engleză și franceză (`.md` și `.docx`), plus câte o arhivă `.zip` pentru fiecare widget (Rainmeter, Übersicht, Scriptable, Python/Linux, Android, ceasuri HTML) și una cu toate.
 - **Widgeturi** (`widget_tpu_multilingv/`): ceasul și calendarul pentru calculator și telefon (aplicație web / PWA, fereastră Python, Rainmeter, Übersicht, Scriptable pentru iOS, pornire automată Linux, ceasuri HTML, un proiect Android care trebuie compilat). Vezi README-ul din acel folder.
 - **Pagina Impresii:** comentarii prin GitHub Discussions (Giscus, cu cont GitHub) sau, fără niciun cont, printr-un formular Google cu un singur câmp.
 
@@ -67,7 +67,7 @@ Site statique trilingue (RO / EN / FR) consacré au **Temps précessionnel humai
 ### Ce que vous y trouverez
 - **Explications :** le système, le jour, les jours et les mois, la précession, les saisons, le Soleil et la Lune, les éclipses, les planètes, l'astrologie et le zodiaque, l'orientation, un tutoriel.
 - **Horloge et calendrier interactifs** (page « application ») : horloge de 36 heures en temps réel, calendrier, signe du zodiaque.
-- **Téléchargements** (`files/`) : scripts Python (`sistem_timp.py`, `conversie_timp.py`, `calendar_13_luni.py`), un classeur Excel (`timp_36_ore_rotatie.xlsx`) et le manuel d'utilisation en roumain, anglais et français (`.md` et `.docx`).
+- **Téléchargements** (`files/`) : scripts Python (`sistem_timp.py`, `conversie_timp.py`, `calendar_13_luni.py`), un classeur Excel (`timp_36_ore_rotatie.xlsx`) le manuel d'utilisation et le tutoriel d'installation des widgets en roumain, anglais et français (`.md` et `.docx`), ainsi qu'une archive `.zip` par widget (Rainmeter, Übersicht, Scriptable, Python/Linux, Android, horloges HTML) et une avec tout.
 - **Widgets** (`widget_tpu_multilingv/`) : l'horloge et le calendrier pour ordinateur et téléphone (application web / PWA, fenêtre Python, Rainmeter, Übersicht, Scriptable pour iOS, démarrage automatique Linux, horloges HTML, un projet Android à compiler). Voir le README de ce dossier.
 - **Page Impressions :** commentaires via GitHub Discussions (Giscus, compte GitHub requis) ou, sans aucun compte, via un formulaire Google à un seul champ.
 
